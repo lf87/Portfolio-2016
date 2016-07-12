@@ -11,9 +11,9 @@
 // Components – contains each self-contained component in its own .scss partial
 @import "components/mobile-menu";
 @import "components/logo";
-@import "components/skills";
 // Layout – contains styling for larger layout components; e.g. nav, header, footer, etc.
 @import "layout/header";
 @import "layout/footer";
 @import "layout/main";
+@import "layout/box";
 // Pages – contains page-specific styling, if necessary

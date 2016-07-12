@@ -123,72 +123,190 @@
             $('body').addClass('is-touch-device');
         }
 
-        // Skill Switch - gets list elements and adds to array
-        var array = $('#skills li').map(function() {
-            return $.trim($(this).text());
-        }).get();
-
-        // GSAP Animations
-        var box = $("#skill-switch");
-        var delay = 1.5;
-
-        var tl = new TimelineLite({
-            onComplete: function() {
-                this.restart();
-            }
-        });
-
-        tl.to(box, .75, { text: array[0], delay: delay, ease: Linear.easeNone })
-            .to(box, .5, { text: array[1], delay: delay, ease: Linear.easeNone })
-            .to(box, 1, { text: array[2], delay: delay, ease: Linear.easeNone })
-            .to(box, 1.5, { text: array[3], delay: delay, ease: Linear.easeNone })
-            .to(box, 1, { text: array[4], delay: delay, ease: Linear.easeNone })
-            .to(box, 1, { text: array[5], delay: delay, ease: Linear.easeNone })
-
-        // SVG Skills Morph
-        TweenLite.set('#laptop', {
-            visibility: 'visible'
-        });
-        var tl = new TimelineMax()
-            .staggerFrom('#laptop', 0, {
-                scale: 1,
-                opacity: 1,
-                transformOrigin: "50% 50%"
-            }, 0)
-            .staggerTo(['#laptop'], 0.5, {
-                opacity: 1,
-                fill: "#FFC107",
-                scale: .25,
-                morphSVG: '#css3',
-                delay: .3,
-                shapeIndex: -7
-            }, .25, 'logo')
-            .staggerFrom(['#css-tech'], .25, {
-                opacity: 1,
-                x: '+80',
-                ease: Sine.easeIn
-            }, 0.15, 'logo')
-
-        $('.svg-container').hover(function() {
-            tl.tweenTo('logo')
-        }, function() {
-            tl.play()
-        });
-
-        /* TweenLite.to("#css3", 1, {
-          morphSVG: {
-            shape: "#laptop",
-            shapeIndex: 1
-          }
-        }); */
-        //comment out next line to disable findShapeIndex() UI
-        //findShapeIndex("#css3", "#laptop");
 
     });
 
     // Do stuff on window load - Strict
     $(window).load(function() {
         FastClick.attach(document.body); // Warning can be ignored
+
+        // Store SVG container element as variable
+        var layoutBox = document.querySelectorAll(".layout-box"),
+            xPos = 0,
+            yPos = 0,
+            elOver = true,
+            clicked = false,
+            rect,
+            coords;
+
+        CSSPlugin.useSVGTransformAttr = true;
+
+        function moveMask(valueX, valueY) {
+            [].slice.call(layoutBox).forEach(function(el, i) {
+
+                var svgContainer = el.querySelectorAll('.svg-container');
+                var svgContainerLeft = el.querySelectorAll('.left');
+                var svgContainerBottom = el.querySelectorAll('.bottom');
+                var mask = el.querySelectorAll('.mask');
+                var circle = el.querySelectorAll('.circle');
+
+                // Container 3d push effect 
+                var tlContainer3d = new TimelineMax({
+                    paused: true
+                });
+                tlContainer3d.to(svgContainer, 0.3, {
+                    x: "-=4px",
+                    y: "+=4px"
+                });
+                el.animationContainer3d = tlContainer3d;
+                tlContainer3d.progress(1).progress(0);
+
+                // Container 3d push effect left
+                var tlContainer3dLeft = new TimelineMax({
+                    paused: true
+                });
+                tlContainer3dLeft.to(svgContainerLeft, 0.3, {
+                    width: "6px"
+                });
+                el.animationContainer3dLeft = tlContainer3dLeft;
+                tlContainer3dLeft.progress(1).progress(0);
+
+                // Container 3d push effect bottom
+                var tlContainer3dBottom = new TimelineMax({
+                    paused: true
+                });
+                tlContainer3dBottom.to(svgContainerBottom, 0.3, {
+                    height: "6px",
+                    right: "+=4px"
+                });
+                el.animationContainer3dBottom = tlContainer3dBottom;
+                tlContainer3dBottom.progress(1).progress(0);
+
+                // Mask move animation
+                var tlMove = new TimelineMax({
+                    paused: true
+                });
+                tlMove.to(mask, 0.01, {
+                    ease: Linear.easeNone,
+                    x: valueX + "px",
+                    y: valueY + "px"
+                });
+                el.animationMaskMove = tlMove;
+                tlMove.progress(1).progress(0);
+
+                // Mask click animation
+                var tlClick = new TimelineMax({
+                    paused: true
+                });
+                tlClick.to(circle, 0.4, {
+                    z: 0.1,
+                    rotationZ: 0.01,
+                    ease: Linear.easeNone,
+                    force3D: true,
+                    attr: {
+                        r: 1000
+                    }
+                });
+                el.animationMaskClick = tlClick;
+                tlClick.progress(1).progress(0);
+
+                // Mask leave animation
+                var tlLeave = new TimelineMax({
+                    paused: true
+                });
+                tlLeave.to(circle, 0.2, {
+                    attr: {
+                        r: 500
+                    }
+                });
+                el.animationMaskLeave = tlLeave;
+                tlLeave.progress(1).progress(0);
+
+                // Mask slow leave animation
+                var tlLeaveSlow = new TimelineMax({
+                    paused: true
+                });
+                tlLeaveSlow.to(circle, 1, {
+                    attr: {
+                        r: 500
+                    }
+                });
+                el.animationMaskSlowLeave = tlLeaveSlow;
+                tlLeaveSlow.progress(1).progress(0);
+
+                // Mask mouseover animation
+                var tlOver = new TimelineMax({
+                    paused: true
+                });
+                tlOver.to(circle, 0.15, {
+                    z: 0.1,
+                    rotationZ: 0.01,
+                    ease: Linear.easeNone,
+                    force3D: true,
+                    attr: {
+                        r: 450
+                    }
+                });
+                el.animationMaskOver = tlOver;
+                tlOver.progress(1).progress(0);
+
+            });
+        }
+
+        // Run function so that animation (progress trick) can be cached
+        moveMask();
+
+        function play() {
+            for (var x = 0; x < layoutBox.length; x++) {
+                // Add event listener to mouse over state
+                layoutBox[x].addEventListener("mousemove", function(e) {
+                    if (elOver) {
+                        // Get coordinates of container
+                        rect = this.getBoundingClientRect();
+                        xPos = e.pageX - rect.left;
+                        yPos = e.pageY - rect.top - window.scrollY;
+
+                        // Add coordinates to array and pass in to moveMask function
+                        coords = [xPos, yPos];
+                        moveMask.apply(null, coords);
+                        this.animationMaskMove.play();
+                    }
+                });
+
+                // Add event listener to mouse down
+                layoutBox[x].addEventListener("mousedown", function(e) {
+                    this.animationContainer3d.play();
+                    this.animationContainer3dLeft.play();
+                    this.animationContainer3dBottom.play();
+                    this.animationMaskClick.play();
+                    clicked = true;
+                    elOver = false;
+                });
+
+                // Add event listener to mouse over
+                layoutBox[x].addEventListener("mouseover", function(e) {
+                    if (elOver) {
+                        this.animationMaskOver.play();
+                    }
+                });
+
+                // Add event listener to mouse leave - Slow animation is already clicked
+                layoutBox[x].addEventListener("mouseleave", function(e) {
+                    this.animationContainer3d.reverse();
+                    this.animationContainer3dLeft.reverse();
+                    this.animationContainer3dBottom.reverse();
+                    if (clicked) {
+                        this.animationMaskSlowLeave.play();
+                    } else {
+                        this.animationMaskLeave.play();
+                    }
+                    clicked = false;
+                    elOver = true;
+                });
+
+            }
+        }
+        play();
     });
 
 }());

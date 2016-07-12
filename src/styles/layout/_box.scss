@@ -1,0 +1,82 @@
+$size: 450px;
+
+.boxes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0 10px;
+}
+
+.layout-box {
+    position: relative;
+    width: $size;
+    height: $size;
+    overflow: hidden;
+    margin: 0 10px 10px;
+    .left {
+        overflow: hidden;
+        position: absolute;
+        top: 10px;
+        left: 0;
+        width: 10px;
+        height: $size - 9px;
+        background-color: $primary-color-shade-1;
+        transform: skewY(-45deg);
+        transform-origin: 0 0;
+    }
+    .bottom {
+        overflow: hidden;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: $size - 10px;
+        height: 10px;
+        background-color: $primary-color-shade-2;
+        transform: skewX(-45deg);
+        transform-origin: 0 0;
+    }
+}
+
+.svg-container {
+    background-color: $primary-color-dark;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 10px;
+    overflow: hidden;
+    width: $size - 10px;
+    height: $size - 10px;
+    z-index: 1;
+}
+
+.mask {
+    width: 2000px;
+    height: 2000px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: (0 - ($size * 2.75)) + 15;
+    margin-top: (0 - ($size * 2.75)) + 15;
+    display: block;
+    z-index: 1;
+}
+
+.reveal {
+    width: $size - 10px;
+    height: $size - 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.mask {
+    transform: translate(100px 0);
+}
+
+#log {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    color: #fff;
+}
