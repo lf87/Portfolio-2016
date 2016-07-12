@@ -3,3 +3,5 @@ logs
 ngrok.exe
 maps
 reports
+style.css
+dist
