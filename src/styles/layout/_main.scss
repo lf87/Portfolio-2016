@@ -1,0 +1,21 @@
+.site-main {
+    float: left;
+    width: 100%;
+    text-align: center;
+    @include bp-sm {
+        padding: 0 10px;
+    }
+}
+
+h1 {
+    padding: $gutter;
+    margin: 0;
+}
+
+#skills {
+    @include visually-hidden;
+}
+
+#skill-switch {
+    color: $accent-color;
+}

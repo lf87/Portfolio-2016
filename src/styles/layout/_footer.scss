@@ -1,0 +1,18 @@
+.site-footer {
+    background-color: $primary-color-dark;
+    color: $white;
+    float: left;
+    padding: 1.5em 10px;
+    width: 100%;
+    position: relative;
+    a {
+        color: $white;
+    }
+}
+
+.social-wrapper {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 10px;
+}

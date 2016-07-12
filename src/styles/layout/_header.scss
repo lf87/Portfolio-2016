@@ -1,0 +1,51 @@
+// Site Header
+.site-header {
+    background-color: $primary-color-dark;
+    display: flex;
+    align-items: flex-end;
+    font-weight: 500;
+    position: relative;
+    width: 100%;
+    padding: $gutter;
+    box-shadow: -2px 0 10px 0px rgba(0,0,0,0.5);
+    nav {
+        margin-left: auto;
+        @include bp-md {
+            @include font-size(14px);
+            @include bp-sm {
+                display: none;
+            }
+        }
+        ul {
+            @include font-size(18px);
+            align-items: bottom;
+            display: flex;
+            justify-content: flex-end;
+        }
+        li {
+            padding: 0 $gutter 0 0;
+            &:last-child {
+                padding: 0;
+            }
+        }
+        a {
+            color: $white;
+        }
+    }
+    .active a {
+        //color: active-colour;
+    }
+}
+
+.details {
+    @include font-size(18px);
+    float: left;
+    margin-left: $gutter;
+    span {
+        float: left;
+        clear: both;
+        &:last-child {
+            color: $primary-color-light;
+        }
+    }
+}

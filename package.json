@@ -1,0 +1,45 @@
+{
+    "name": "Portfolio",
+    "version": "1.0.0",
+    "description": "Front end developer portfolio of Luke Fryer",
+    "license": "MIT",
+    "main": "index.html",
+    "author": {
+        "name": "Luke Fryer",
+        "email": "luke.fryer.email@gmail.com",
+        "url": "lcjf.github.io.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://git.homeagency.co.uk/infrastructure/gulp-boilerplate.git"
+    },
+    "devDependencies": {
+        "browser-sync": "^2.12.8",
+        "del": "^2.2.0",
+        "gulp": "^3.9.1",
+        "gulp-autoprefixer": "^3.1.0",
+        "gulp-clean-css": "^2.0.7",
+        "gulp-concat": "^2.6.0",
+        "gulp-ext-replace": "^0.3.0",
+        "gulp-file-include": "^0.13.7",
+        "gulp-fontmin": "^0.7.4",
+        "gulp-html-validator": "0.0.5",
+        "gulp-htmlclean": "^2.7.6",
+        "gulp-imagemin": "^3.0.1",
+        "gulp-jshint": "^2.0.1",
+        "gulp-newer": "^1.1.0",
+        "gulp-notify": "^2.2.0",
+        "gulp-rename": "^1.2.2",
+        "gulp-replace": "^0.5.4",
+        "gulp-sass": "^2.3.1",
+        "gulp-scss-lint": "^0.3.9",
+        "gulp-sourcemaps": "^1.6.0",
+        "gulp-svgmin": "^1.2.2",
+        "gulp-uglify": "^1.5.3",
+        "gulp-util": "^3.0.7",
+        "jshint": "^2.9.2",
+        "jshint-stylish": "^2.2.0",
+        "merge-stream": "^1.0.0",
+        "node-neat": "^1.7.2"
+    }
+}

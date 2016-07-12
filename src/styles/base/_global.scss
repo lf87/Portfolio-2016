@@ -1,0 +1,128 @@
+body {
+    @include font-size(16px);
+    @include font-smoothing;
+    @include roboto(400);
+    background-color: $primary-color;
+    color: $white;
+}
+
+// Copy
+h1,
+h2,
+h3 {
+    @include font-size-heading(50px);
+    display: inline-block;
+    font-weight: 500;
+    margin-bottom: .75em;
+    width: 100%;
+    @include bp-lg {
+        @include font-size-heading(40px);
+    }
+    @include bp-sm {
+        @include font-size-heading(34px);
+    }
+}
+
+h2 {
+    @include font-size-heading(30px);
+    margin-bottom: .25em;
+    @include bp-lg {
+        @include font-size-heading(24px);
+    }
+}
+
+h3 {
+    @include font-size-heading(24px);
+    margin-bottom: .25em;
+    @include bp-lg {
+        @include font-size-heading(20px);
+    }
+}
+
+p {
+    margin-bottom: 1.5em;
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+// Buttons
+.btn {
+    @include font-size(16px);
+    background-color: $black;
+    border-radius: 5px;
+    color: $white;
+    cursor: pointer;
+    display: block;
+    filter: brightness(100%);
+    float: left;
+    margin-right: 1em;
+    padding: .65em 3.5em;
+    transition: filter .3s ease;
+    // -webkit-tap-highlight-color: $black;
+    @include bp-sm {
+        padding: .25em 2.07em;
+    }
+    &:hover,
+    &:active {
+        filter: brightness(90%);
+    }
+    &:last-of-type {
+        margin-right: 0;
+    }
+}
+
+// Links with expanding underline animation
+nav li,
+.animate-inline {
+    display: inline-block;
+    position: relative;
+    a {
+        &::after {
+            background: transparent;
+            content: '';
+            display: block;
+            height: 1px;
+            margin: auto;
+            transition: width .3s ease, background-color .3s ease;
+            width: 0;
+        }
+        &:hover::after {
+            background: $white;
+            width: 100%;
+        }
+    }
+    &.current-menu-item {
+        a:hover::after {
+            background-color: $black;
+        }
+    }
+}
+
+// Lazy loading animations
+.teaser.lazyload {
+    opacity: 0;
+    transform: scale(.75);
+}
+
+.teaser.lazyloaded {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 750ms;
+}
+
+// SVGs
+.social-icon {
+    display: block;
+    float: left;
+    margin: 10px 0 10px 10px;
+    svg {
+        display: block;
+        height: 30px;
+        max-width: 100%;
+        width: 30px;
+        path {
+            fill: $black;
+        }
+    }
+}
