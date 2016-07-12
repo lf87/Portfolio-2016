@@ -227,6 +227,7 @@
                     paused: true
                 });
                 tlLeaveSlow.to(circle, 1, {
+                    ease: Bounce.easeOut,
                     attr: {
                         r: 500
                     }
