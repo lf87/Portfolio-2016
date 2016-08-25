@@ -49,10 +49,6 @@ gulp.task('browser-sync', function() {
 gulp.task('bs-reload', function() {
     browserSync.reload();
     return gulp.src('*' + fileExt)
-        .pipe(notify({
-            message: 'Reload complete',
-            onLast: true
-        }));
 });
 
 // $ gulp sass
@@ -75,10 +71,6 @@ gulp.task('sass', function() {
         }))
         .pipe(sourcemaps.write('maps'))
         .pipe(gulp.dest(''))
-        .pipe(notify({
-            message: 'SASS task complete',
-            onLast: true
-        }));
 });
 
 // $ gulp scripts
@@ -101,10 +93,6 @@ gulp.task('scripts', function() {
         .pipe(reload({
             stream: true
         }))
-        .pipe(notify({
-            message: 'Scripts task complete',
-            onLast: true
-        }));
 });
 
 // $ gulp fileinclude (Also runs HTML CLean)
@@ -135,10 +123,6 @@ gulp.task('fileinclude', function() {
         .pipe(reload({
             stream: true
         }))
-        .pipe(notify({
-            message: 'Include files task complete',
-            onLast: true
-        }));
 });
 
 // $ gulp images - Image compression (Don't forget to use save for web in PS first!)
@@ -151,10 +135,6 @@ gulp.task('images', function() {
             interlaced: true
         }))
         .pipe(gulp.dest('dist/assets/img'))
-        .pipe(notify({
-            message: 'Images optimised',
-            onLast: true
-        }));
 });
 
 // $ gulp svgs - Optimise SVGs
@@ -162,10 +142,6 @@ gulp.task('svgs', function() {
     return gulp.src('src/images/svgs/**/*.svg')
         .pipe(svgmin())
         .pipe(gulp.dest('dist/assets/img/svg'))
-        .pipe(notify({
-            message: 'SVGs minified',
-            onLast: true
-        }));
 });
 
 // $ gulp fonts
@@ -173,10 +149,6 @@ gulp.task('fonts', function() {
     return gulp.src('src/fonts/**/*')
         .pipe(fontmin())
         .pipe(gulp.dest('dist/assets/fonts'))
-        .pipe(notify({
-            message: 'Fonts minified',
-            onLast: true
-        }))
         .pipe(reload({
             stream: true
         }));
@@ -186,10 +158,6 @@ gulp.task('fonts', function() {
 gulp.task('docs', function() {
     return gulp.src('src/docs/**/*')
         .pipe(gulp.dest('dist/assets/docs'))
-        .pipe(notify({
-            message: 'Documents task complete',
-            onLast: true
-        }))
         .pipe(reload({
             stream: true
         }));
@@ -199,15 +167,14 @@ gulp.task('docs', function() {
 gulp.task('favicons', function() {
     return gulp.src('src/favicons/**/*')
         .pipe(gulp.dest('dist/assets/favicons'))
-        .pipe(notify({
-            message: 'Favicons task complete',
-            onLast: true
-        }))
         .pipe(reload({
             stream: true
         }));
 });
-
+/*        .pipe(notify({
+            message: 'Favicons task complete',
+            onLast: true
+        }))*/
 // $ gulp watch - This is everything that's being watched when you run the default task
 gulp.task('watch', function() {
     gulp.watch('src/components/**/*' + fileExt, ['fileinclude']);
@@ -219,10 +186,10 @@ gulp.task('watch', function() {
     gulp.watch('src/favicons/**/*', ['favicons']);
     gulp.watch('src/docs/**/*', ['docs']);
     gulp.watch('*' + fileExt, ['bs-reload']);
-});
+})
 
 // $ gulp - Default task
-gulp.task('default', ['fileinclude', 'sass', 'scripts', 'images', 'fonts', 'docs', 'favicons', 'browser-sync', 'watch']);
+gulp.task('default', ['fileinclude', 'sass', 'scripts', 'images', 'svgs', 'fonts', 'docs', 'favicons', 'browser-sync', 'watch']);
 
 
 
