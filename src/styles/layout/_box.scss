@@ -1,26 +1,29 @@
-$mask-size: 2000px;
-$size: 225px;
-
+$reveal-height: 300px;
+$reveal-width: 450px;
+$skills-size: 280px;
 .boxes {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    text-align: left;
 }
 
-.layout-box {
+// Generic box
+.box {
     position: relative;
-    width: $size;
-    height: $size;
+    width: $reveal-width;
+    height: $reveal-height;
     overflow: hidden;
-    margin: 0 $gutter $gutter;
+    float: left;
+    margin: 0 1em 1em;
     .left {
         overflow: hidden;
         position: absolute;
         top: 10px;
         left: 0;
         width: 10px;
-        height: $size - 9px;
+        height: $reveal-height - 9px;
         background-color: $primary-color-shade-1;
         transform: skewY(-45deg);
         transform-origin: 0 0;
@@ -30,53 +33,167 @@ $size: 225px;
         position: absolute;
         bottom: 0;
         right: 0;
-        width: $size - 10px;
+        width: $reveal-width - 10px;
         height: 10px;
         background-color: $primary-color-shade-2;
         transform: skewX(-45deg);
         transform-origin: 0 0;
     }
+    .svg-container {
+        background-color: $primary-color-dark;
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        left: 10px;
+        overflow: hidden;
+        width: $reveal-width - 10px;
+        height: $reveal-height - 10px;
+        z-index: 1;
+        user-select: none;
+        padding: 0 1em;
+    }
 }
 
-.svg-container {
-    background-color: $primary-color-dark;
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    left: 10px;
-    overflow: hidden;
-    width: $size - 10px;
-    height: $size - 10px;
-    z-index: 1;
-}
-
-.mask {
-    width: $mask-size;
-    height: $mask-size;
+// Reveal Box
+.reveal-box {
+    p,
+    li {
+        color: $primary-color-text;
+        text-shadow: -1px 1px 0 $primary-color-text-shade-1, -2px 2px 0 $primary-color-text-shade-1;
+    }
+    ul {
+        list-style-type: none;
+        /* li:before {
+            content: '\25AA';
+            margin-right: 0.5em;
+        } */
+    }
+    .img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        filter: grayscale(100%);
+        width: $reveal-width;
+        height: $reveal-height;
+        display: block;
+        clip-path: circle(0 at 50% 50%);
+    }
+    .words {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: $reveal-height - 10px;
+        pointer-events: none;
+        visibility: hidden;
+    }
+    /* .text {
+    font-size: 60px;
+    color: $accent-color;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
     position: absolute;
     top: 50%;
-    left: 50%;
-    margin-left: ($mask-size / 2) - $mask-size - ($size /2) - 5px;
-    margin-top:  ($mask-size / 2) - $mask-size - ($size /2) + 5px;
-    display: block;
-    z-index: 1;
-}
-
-.reveal {
-    width: $size - 10px;
-    height: $size - 10px;
-    position: absolute;
-    top: 0;
     left: 0;
+    width: 100%;
+    padding: 0 .25em;
+    transform: translateY(-50%);
+    opacity: .85;
+    &.beneath {
+        //opacity: 0;
+        text-shadow: -2px 2px 2px rgba(0, 0, 0, .2);
+    }
+} */
+    h2,
+    h3 {
+        color: $accent-color;
+        font-weight: 700;
+        text-transform: uppercase;
+        width: 100%;
+        margin: 0 0 .1em;
+        text-shadow: -1px 1px 0 $accent-color-shade-1, -2px 2px 0 $accent-color-shade-1, -3px 3px 0 $accent-color-shade-1;
+        user-select: none;
+    }
+    h3 {
+        text-shadow: -1px 1px 0 $accent-color-shade-1, -2px 2px 0 $accent-color-shade-1;
+        margin: 1em 0 .1em;
+    }
 }
 
-.mask {
-    transform: translate(100px 0);
-}
-
-#log {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    color: #fff;
+// Skills Box
+.skills-box {
+    width: $skills-size;
+    height: $skills-size;
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    h2 {
+        font-size: 200px;
+        font-weight: 700;
+        color: $white;
+        opacity: .05;
+        transform: rotate(35deg);
+        text-align: center;
+        position: relative;
+        width: auto;
+        margin: 0;
+        text-shadow: none;
+    }
+    .left {
+        height: $skills-size - 9px;
+    }
+    .bottom {
+        width: $skills-size - 10px;
+    }
+    .svg-container {
+        width: $skills-size - 10px;
+        height: $skills-size - 10px;
+    }
+    svg {
+        display: block;
+        z-index: 1;
+        position: relative;
+        position: absolute;
+        left: 50%;
+        margin-left: -75px;
+        top: 50%;
+        margin-top: -65px;
+        padding-right: 5px;
+        path {
+            fill: $accent-color;
+        }
+    }
+    ul {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 8.9%;
+        width: 100%;
+        list-style: none;
+        overflow: hidden;
+        margin: 0;
+        padding: 2em 0 0;
+        z-index: 1;
+        li {
+            display: inline-block;
+            color: $primary-text-color;
+            font-size: 22px;
+            padding: .25em 0 0 0;
+            width: 100%;
+            opacity: 0;
+            transform: translateX(-150px);
+        }
+    }
+    .logo-to,
+    .skill-text li {
+        opacity: 0;
+    }
 }

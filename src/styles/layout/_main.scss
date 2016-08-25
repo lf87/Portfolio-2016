@@ -2,8 +2,9 @@
     float: left;
     width: 100%;
     text-align: center;
+    padding: $gutter 10px;
     @include bp-sm {
-        padding: 0 10px;
+        padding: $gutter 10px;
     }
 }
 

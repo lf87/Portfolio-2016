@@ -15,245 +15,331 @@
 (function() {
     'use strict';
     // this anonymous function is strict...;
+    // Store SVG container element as variable
+    var box = document.querySelectorAll(".box");
 
-    $(document).ready(function() {
-
-        // Fixed position navigation bar when user scrolls below #navbar
-        function fixnav() {
-            var $navBar = $('#navbar');
-            if ($(window).width() < 768) {
-                // Store the position of the element in position
-                var $position = $($navBar).offset();
-
-                // On scrolling of the document do something
-                $(document).scroll(function() {
-                    // The current height
-                    var $yPos = $(this).scrollTop();
-
-                    // If the current Y is bigger than the element. (you scrolled beyond the element)
-                    if ($yPos >= $position.top) {
-                        $navBar.addClass('fixed');
-                    } else {
-                        $navBar.removeClass('fixed');
-                    }
-                });
-                var $yPos = $(document).scrollTop();
-
-                // If the current Y is bigger than the element. (you scrolled beyond the element)
-                if ($yPos >= $position.top) {
-                    $navBar.addClass('fixed');
-                } else {
-                    $navBar.removeClass('fixed');
-                }
-            } else {
-                $navBar.removeClass('fixed');
+    // Text Effect
+    var split = document.querySelectorAll('.words h2, .words h3, .words p, .words li');
+    var tlSplitText = new TimelineMax({
+            onCompleteAll: function() {
+                mySplitText.revert()
             }
-        }
-        fixnav();
+        }),
+        mySplitText = new SplitText(split, {
+            type: "chars"
+        }),
+        chars = mySplitText.chars; // an array of all the divs that wrap each character
 
-        // Drop down menu fix for - double tap issue on touch devices
-        /* $('.site-header a').on('click touchend', function() {
-            var $el = $(this);
-            var link = $el.attr('href');
-            window.location = link;
-        }); */
+    TweenMax.set(split, {
+        perspective: 400
+    });
+    tlSplitText.staggerFrom(chars, 0.4, {
+        opacity: 0,
+        scale: 0,
+        y: 80,
+        rotationX: 180,
+        transformOrigin: "0% 50% -50",
+        ease: Back.easeOut
+    }, 0.01, "+=0");
+    tlSplitText.progress(1).progress(0);
 
-        // Detect touch device
-        var preliminaryTouch = false;
-        $('body').addClass('no-touch-device');
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            preliminaryTouch = true;
-        }
-        if (preliminaryTouch) {
-            $('body').addClass('is-touch-device');
-        }
+    // GSAP tweens/functions that require access to coordinates
+    function moveMask(el, valueX, valueY) {
+        var img = el.querySelectorAll('.img');
 
+        // Mask move animation
+        var tlMove = new TimelineMax({
+            paused: true
+        });
+        tlMove.set(img, {
+            webkitClipPath: '40px at ' + valueX + 'px ' + valueY + 'px'
+        });
+        el.animationMaskMove = tlMove;
+
+        // Mask click animation
+        var tlClick = tlLeave = new TimelineMax({
+            paused: true
+        });
+        tlClick.to(img, 0.8, {
+            webkitClipPath: '500px at ' + valueX + 'px ' + valueY + 'px',
+        });
+        tlClick.to(img, 0.4, {
+            '-webkit-filter': 'grayscale(0%)',
+             filter: 'grayscale(0%)'
+        }, '-=0.8');
+        el.animationMaskClick = tlClick;
+        tlClick.progress(1).progress(0); // Forces an initial render of this tween so that it's cached for its 2nd usage
+
+        // Mask leave animation
+        var tlLeave = new TimelineMax({
+            paused: true
+        });
+        tlLeave.to(img, 0.2, {
+            webkitClipPath: '0 at ' + valueX + 'px ' + valueY + 'px',
+            '-webkit-filter': 'grayscale(100%)',
+             filter: 'grayscale(100%)'
+        });
+        el.animationMaskLeave = tlLeave;
+        tlLeave.progress(1).progress(0);
+
+        // Mask slow leave animation
+        var tlLeaveSlow = new TimelineMax({
+            paused: true
+        });
+        tlLeaveSlow.to(img, 0.7, {
+            ease: Bounce.easeOut,
+            webkitClipPath: '0 at ' + valueX + 'px ' + valueY + 'px',
+            '-webkit-filter': 'grayscale(100%)',
+             filter: 'grayscale(100%)'
+        });
+        el.animationMaskSlowLeave = tlLeaveSlow;
+        tlLeaveSlow.progress(1).progress(0);
+
+    }
+
+    // Force initial run with temporary coordinates (so tweens can be cached)
+    [].forEach.call(box, function(el, i) {
+        moveMask(el, -100, -100)
+    });
+
+    // GSAP tweens/functions that don't access to coordinates
+    [].forEach.call(box, function(el, i) {
+        // .box
+        var svgContainer = el.querySelectorAll('.svg-container');
+        var svgContainerLeft = el.querySelectorAll('.box .left');
+        var svgContainerBottom = el.querySelectorAll('.box .bottom');
+        // .reveal
+        var img = el.querySelectorAll('.reveal-box .img');
+        var mask = el.querySelectorAll('.reveal-box .mask');
+        var text = el.querySelectorAll('.reveal-box .text');
+        var elSplit = el.querySelectorAll('.reveal-box .words');
+        // .skills
+        var logo = el.querySelectorAll('.skills-box .logo');
+        var svg = el.querySelectorAll('.skills-box svg');
+        var text = el.querySelectorAll('.skills-box h2');
+        var list = el.querySelectorAll('.skills-box ul li');
+
+        // .box
+        // Container 3d push effect 
+        var tlContainer3d = new TimelineMax({
+            paused: true
+        });
+        tlContainer3d.to(svgContainer, 0.3, {
+            x: "-=6px",
+            y: "+=6px"
+        });
+        el.animationContainer3d = tlContainer3d;
+        tlContainer3d.progress(1).progress(0);
+
+        // Container 3d push effect left
+        var tlContainer3dLeft = new TimelineMax({
+            paused: true
+        });
+        tlContainer3dLeft.to(svgContainerLeft, 0.3, {
+            width: "4px"
+        });
+        el.animationContainer3dLeft = tlContainer3dLeft;
+        tlContainer3dLeft.progress(1).progress(0);
+
+        // Container 3d push effect bottom
+        var tlContainer3dBottom = new TimelineMax({
+            paused: true
+        });
+        tlContainer3dBottom.to(svgContainerBottom, 0.3, {
+            height: "4px",
+            right: "+=6px"
+        });
+        el.animationContainer3dBottom = tlContainer3dBottom;
+        tlContainer3dBottom.progress(1).progress(0);
+
+        // .reveal
+        // Img move animation
+        var tlImgMove = new TimelineMax({
+            paused: true
+        });
+        tlImgMove.to(img, 0.3, {
+            scale: 1,
+            ease: Sine.easeOut,
+            '-webkit-filter': 'grayscale(0%)',
+             filter: 'grayscale(0%)'
+        }, 0.05);
+        el.animationImgMove = tlImgMove;
+        tlImgMove.progress(1).progress(0);
+
+        // Mask click text animation
+        var tlText = new TimelineMax({
+            paused: true
+        })
+        tlText.to(elSplit, .35, {
+            autoAlpha: 0
+        });
+        el.animationTextClick = tlText;
+        tlText.progress(1).progress(0);
+
+        // .skills
+        // Set initial state
+        TweenLite.set('.logo', {
+            transformOrigin: "50% 50%",
+        });
+        // Animate SVG path (logo)
+        var tlLogo = new TimelineMax({
+            paused: true
+        })
+        tlLogo.to(logo, .6, {
+            autoAlpha: 1,
+            fill: "#ffffff",
+            rotation: 360,
+            scale: 1,
+            autoAlpha: .7,
+            ease: Circ.easeInOut,
+            morphSVG: {
+                shape: ".logo-to",
+                shapeIndex: -1
+            }
+        });
+
+        // .skills
+        // Animate SVG (viewbox)
+        tlLogo.to(svg, .6, {
+            ease: Circ.easeInOut,
+            attr: {
+                width: 200,
+                height: 200
+            },
+            transformOrigin: "50% 50%",
+            css: {
+                marginLeft: -125,
+                marginTop: -125
+            },
+        }, 0)
+        tlLogo.progress(1).progress(0);
+        el.animationLogo = tlLogo;
+
+        // Animate Text
+        var tlText = new TimelineMax({
+            paused: true
+        })
+        tlText.to(text, .3, {
+            fontSize: '24px',
+            rotation: 0,
+            x: -55,
+            y: -100,
+            autoAlpha: .7,
+        }, .3);
+        tlText.progress(1).progress(0);
+        el.animationText = tlText;
+
+        // Animate list out
+        /* var tlListOut = new TimelineMax({
+            paused: true
+        })
+        tlListOut.to(list, .1, {
+            autoAlpha: 0,
+            x: -10,
+            ease: Sine.easeInOut,
+            overwrite: "all"
+        });
+        tlListOut.progress(1).progress(0);
+        el.animationListOut = tlListOut; */
+
+        // Animate list in
+        var tlListIn = new TimelineMax({
+            paused: true
+        })
+        tlListIn.staggerTo(list, .3, {
+            x: 0,
+            delay: .45,
+            autoAlpha: 1,
+            ease: Sine.easeInOut
+        }, 0.3);
+        tlListIn.progress(1).progress(0);
+        el.animationListIn = tlListIn;
+
+        // Assign event listeners
+        // Generic and applied to all instances of ".box"
+        el.addEventListener("mousedown", boxMouseDown);
+        el.addEventListener("mouseleave", boxMouseLeave);
+        // Only applied to ".reveal-box"
+        el.addEventListener("mousemove", revealMouseMove);
+        el.addEventListener("mousedown", revealMouseDown);
+        el.addEventListener("mouseleave", revealMouseLeave);
+        // Only applied to ".skills-box"
+        el.addEventListener("mousedown", skillsMouseDown);
+        el.addEventListener("mouseleave", skillsMouseLeave);
 
     });
 
-    // Do stuff on window load - Strict
-    $(window).load(function() {
-        FastClick.attach(document.body); // Warning can be ignored
+    var revealElOver = true,
+        revealClicked = false,
+        skillsClicked = false;
+    // Event listener functions
+    function revealMouseMove(e) {
+        if (revealElOver) { // Only run if mousedown hasn't been triggered
 
-        // Store SVG container element as variable
-        var layoutBox = document.querySelectorAll(".layout-box"),
-            xPos = 0,
-            yPos = 0,
-            elOver = true,
-            clicked = false,
-            rect,
-            coords;
+            // Get coordinates of container
+            var rect = this.getBoundingClientRect();
+            var xPos = e.pageX - rect.left;
+            var yPos = e.pageY - rect.top - window.scrollY;
 
-        CSSPlugin.useSVGTransformAttr = true;
+            // Add coordinates to array and pass in to moveMask function
+            moveMask(this, xPos, yPos);
 
-        function moveMask(valueX, valueY) {
-            [].slice.call(layoutBox).forEach(function(el, i) {
-
-                var svgContainer = el.querySelectorAll('.svg-container');
-                var svgContainerLeft = el.querySelectorAll('.left');
-                var svgContainerBottom = el.querySelectorAll('.bottom');
-                var mask = el.querySelectorAll('.mask');
-                var circle = el.querySelectorAll('.circle');
-
-                // Container 3d push effect 
-                var tlContainer3d = new TimelineMax({
-                    paused: true
-                });
-                tlContainer3d.to(svgContainer, 0.3, {
-                    x: "-=4px",
-                    y: "+=4px"
-                });
-                el.animationContainer3d = tlContainer3d;
-                tlContainer3d.progress(1).progress(0);
-
-                // Container 3d push effect left
-                var tlContainer3dLeft = new TimelineMax({
-                    paused: true
-                });
-                tlContainer3dLeft.to(svgContainerLeft, 0.3, {
-                    width: "6px"
-                });
-                el.animationContainer3dLeft = tlContainer3dLeft;
-                tlContainer3dLeft.progress(1).progress(0);
-
-                // Container 3d push effect bottom
-                var tlContainer3dBottom = new TimelineMax({
-                    paused: true
-                });
-                tlContainer3dBottom.to(svgContainerBottom, 0.3, {
-                    height: "6px",
-                    right: "+=4px"
-                });
-                el.animationContainer3dBottom = tlContainer3dBottom;
-                tlContainer3dBottom.progress(1).progress(0);
-
-                // Mask move animation
-                var tlMove = new TimelineMax({
-                    paused: true
-                });
-                tlMove.to(mask, 0.01, {
-                    ease: Linear.easeNone,
-                    x: valueX + "px",
-                    y: valueY + "px"
-                });
-                el.animationMaskMove = tlMove;
-                tlMove.progress(1).progress(0);
-
-                // Mask click animation
-                var tlClick = new TimelineMax({
-                    paused: true
-                });
-                tlClick.to(circle, 0.4, {
-                    z: 0.1,
-                    rotationZ: 0.01,
-                    ease: Linear.easeNone,
-                    force3D: true,
-                    attr: {
-                        r: 1000
-                    }
-                });
-                el.animationMaskClick = tlClick;
-                tlClick.progress(1).progress(0);
-
-                // Mask leave animation
-                var tlLeave = new TimelineMax({
-                    paused: true
-                });
-                tlLeave.to(circle, 0.2, {
-                    attr: {
-                        r: 500
-                    }
-                });
-                el.animationMaskLeave = tlLeave;
-                tlLeave.progress(1).progress(0);
-
-                // Mask slow leave animation
-                var tlLeaveSlow = new TimelineMax({
-                    paused: true
-                });
-                tlLeaveSlow.to(circle, 1, {
-                    ease: Bounce.easeOut,
-                    attr: {
-                        r: 500
-                    }
-                });
-                el.animationMaskSlowLeave = tlLeaveSlow;
-                tlLeaveSlow.progress(1).progress(0);
-
-                // Mask mouseover animation
-                var tlOver = new TimelineMax({
-                    paused: true
-                });
-                tlOver.to(circle, 0.15, {
-                    z: 0.1,
-                    rotationZ: 0.01,
-                    ease: Linear.easeNone,
-                    force3D: true,
-                    attr: {
-                        r: 450
-                    }
-                });
-                el.animationMaskOver = tlOver;
-                tlOver.progress(1).progress(0);
-
-            });
+            this.animationMaskMove.play();
         }
+    }
 
-        // Run function so that animation (progress trick) can be cached
-        moveMask();
+    // .box
+    function boxMouseDown(e) {
+        this.animationContainer3d.play();
+        this.animationContainer3dLeft.play();
+        this.animationContainer3dBottom.play();
 
-        function play() {
-            for (var x = 0; x < layoutBox.length; x++) {
-                // Add event listener to mouse over state
-                layoutBox[x].addEventListener("mousemove", function(e) {
-                    if (elOver) {
-                        // Get coordinates of container
-                        rect = this.getBoundingClientRect();
-                        xPos = e.pageX - rect.left;
-                        yPos = e.pageY - rect.top - window.scrollY;
+    };
 
-                        // Add coordinates to array and pass in to moveMask function
-                        coords = [xPos, yPos];
-                        moveMask.apply(null, coords);
-                        this.animationMaskMove.play();
-                    }
-                });
+    function boxMouseLeave(e) {
+        this.animationContainer3d.reverse();
+        this.animationContainer3dLeft.reverse();
+        this.animationContainer3dBottom.reverse();
 
-                // Add event listener to mouse down
-                layoutBox[x].addEventListener("mousedown", function(e) {
-                    this.animationContainer3d.play();
-                    this.animationContainer3dLeft.play();
-                    this.animationContainer3dBottom.play();
-                    this.animationMaskClick.play();
-                    clicked = true;
-                    elOver = false;
-                });
+    };
 
-                // Add event listener to mouse over
-                layoutBox[x].addEventListener("mouseover", function(e) {
-                    if (elOver) {
-                        this.animationMaskOver.play();
-                    }
-                });
+    // .reveal-box
+    function revealMouseDown(e) {
+        this.animationMaskClick.play();
+        this.animationTextClick.play();
+        revealClicked = true;
+        revealElOver = false;
+    };
 
-                // Add event listener to mouse leave - Slow animation is already clicked
-                layoutBox[x].addEventListener("mouseleave", function(e) {
-                    this.animationContainer3d.reverse();
-                    this.animationContainer3dLeft.reverse();
-                    this.animationContainer3dBottom.reverse();
-                    if (clicked) {
-                        this.animationMaskSlowLeave.play();
-                    } else {
-                        this.animationMaskLeave.play();
-                    }
-                    clicked = false;
-                    elOver = true;
-                });
-
-            }
+    function revealMouseLeave(e) {
+        this.animationTextClick.timeScale(1.25).reverse();
+        // If revealClicked then run slow animation
+        if (revealClicked) {
+            this.animationMaskSlowLeave.play();
+        } else {
+            this.animationMaskLeave.play();
         }
-        play();
-    });
+        revealClicked = false;
+        revealElOver = true;
+    };
+
+    // .skills-box
+    function skillsMouseDown(e) {
+        this.animationLogo.play();
+        this.animationText.play();
+        this.animationListIn.play(0);
+        skillsClicked = true;
+    };
+
+    function skillsMouseLeave(e) {
+        if (skillsClicked) {
+            this.animationLogo.reverse(0);
+            this.animationText.reverse(1);
+            this.animationListIn.progress(0).pause();
+        }
+        skillsClicked = false;
+    };
+
 
 }());
 
