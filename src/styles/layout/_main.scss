@@ -3,6 +3,9 @@
     width: 100%;
     text-align: center;
     padding: $gutter 10px;
+    @inlcude bp-md {
+        max-width: 100%;
+    }
     @include bp-sm {
         padding: $gutter 10px;
     }
