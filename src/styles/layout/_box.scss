@@ -39,7 +39,7 @@ $skills-size: 280px;
         transform: skewX(-45deg);
         transform-origin: 0 0;
     }
-    .svg-container {
+    .box-content {
         background-color: $primary-color-dark;
         cursor: pointer;
         position: absolute;
@@ -153,7 +153,7 @@ $skills-size: 280px;
     .bottom {
         width: $skills-size - 10px;
     }
-    .svg-container {
+    .box-content {
         width: $skills-size - 10px;
         height: $skills-size - 10px;
     }
