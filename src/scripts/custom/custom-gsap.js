@@ -1,28 +1,15 @@
-// Strict Mode is a new feature in ECMAScript 5 that allows you to place a program, or a function, in a "strict" operating context.
-// This strict context prevents certain actions from being taken and throws more exceptions.
-// And:
-
-// Strict mode helps out in a couple ways:
-
-// It catches some common coding bloopers, throwing exceptions.
-// It prevents, or throws errors, when relatively "unsafe" actions are taken (such as gaining access to the global object).
-// It disables features that are confusing or poorly thought out.
-
-// When the below is set to true, the comment below enables use strict globally
-
-/*jshint strict: false */
-
 (function() {
     'use strict';
-    // this anonymous function is strict...;
-    // Store SVG container element as variable
-    var box = document.querySelectorAll(".box");
 
-    // Text Effect
+    // Store Variables
+    var box = document.querySelectorAll(".box");
+        //depth = '5px'; // Must be half of CSS '$depth' variable
+
+    // Flying Text Effect
     var split = document.querySelectorAll('.words h2, .words h3, .words p, .words li');
-    var tlSplitText = new TimelineMax({
+    var tlSplitText = new TimelineLite({
             onCompleteAll: function() {
-                mySplitText.revert()
+                mySplitText.revert();
             }
         }),
         mySplitText = new SplitText(split, {
@@ -43,12 +30,12 @@
     }, 0.01, "+=0");
     tlSplitText.progress(1).progress(0);
 
-    // GSAP tweens/functions that require access to coordinates
+    // Tweens that require access to coordinates
     function moveMask(el, valueX, valueY) {
         var img = el.querySelectorAll('.img');
 
         // Mask move animation
-        var tlMove = new TimelineMax({
+        var tlMove = new TimelineLite({
             paused: true
         });
         tlMove.set(img, {
@@ -57,7 +44,7 @@
         el.animationMaskMove = tlMove;
 
         // Mask click animation
-        var tlClick = tlLeave = new TimelineMax({
+        var tlClick = tlLeave = new TimelineLite({
             paused: true
         });
         tlClick.to(img, 0.8, {
@@ -71,7 +58,7 @@
         tlClick.progress(1).progress(0); // Forces an initial render of this tween so that it's cached for its 2nd usage
 
         // Mask leave animation
-        var tlLeave = new TimelineMax({
+        var tlLeave = new TimelineLite({
             paused: true
         });
         tlLeave.to(img, 0.2, {
@@ -83,7 +70,7 @@
         tlLeave.progress(1).progress(0);
 
         // Mask slow leave animation
-        var tlLeaveSlow = new TimelineMax({
+        var tlLeaveSlow = new TimelineLite({
             paused: true
         });
         tlLeaveSlow.to(img, 0.7, {
@@ -97,64 +84,62 @@
 
     }
 
-    // Force initial run with temporary coordinates (so tweens can be cached)
-    [].forEach.call(box, function(el, i) {
+    // Force initial run with dummy coordinates (so tweens can be cached)
+    [].forEach.call(box, function(el) {
         moveMask(el, -100, -100)
     });
 
-    // GSAP tweens/functions that don't access to coordinates
-    [].forEach.call(box, function(el, i) {
-        // .box
+    // Tweens that don't require access to coordinates
+    [].forEach.call(box, function(el) {
+        // Box
         var svgContainer = el.querySelectorAll('.svg-container');
         var svgContainerLeft = el.querySelectorAll('.box .left');
         var svgContainerBottom = el.querySelectorAll('.box .bottom');
-        // .reveal
+        // Reveals Box
         var img = el.querySelectorAll('.reveal-box .img');
         var mask = el.querySelectorAll('.reveal-box .mask');
         var text = el.querySelectorAll('.reveal-box .text');
         var elSplit = el.querySelectorAll('.reveal-box .words');
-        // .skills
+        // Skills Box
         var logo = el.querySelectorAll('.skills-box .logo');
         var svg = el.querySelectorAll('.skills-box svg');
         var text = el.querySelectorAll('.skills-box h2');
         var list = el.querySelectorAll('.skills-box ul li');
 
-        // .box
-        // Container 3d push effect 
-        var tlContainer3d = new TimelineMax({
+        // Box - 3D depth animation
+        var tlContainer3d = new TimelineLite({
             paused: true
         });
         tlContainer3d.to(svgContainer, 0.3, {
-            x: "-=6px",
-            y: "+=6px"
+            x: "-=5px",
+            y: "+=5px"
         });
         el.animationContainer3d = tlContainer3d;
         tlContainer3d.progress(1).progress(0);
 
-        // Container 3d push effect left
-        var tlContainer3dLeft = new TimelineMax({
+        // Box - 3D depth animation Left
+        var tlContainer3dLeft = new TimelineLite({
             paused: true
         });
         tlContainer3dLeft.to(svgContainerLeft, 0.3, {
-            width: "4px"
+            width: "5px"
         });
         el.animationContainer3dLeft = tlContainer3dLeft;
         tlContainer3dLeft.progress(1).progress(0);
 
-        // Container 3d push effect bottom
-        var tlContainer3dBottom = new TimelineMax({
+        // Box - 3D depth animation Bottom
+        var tlContainer3dBottom = new TimelineLite({
             paused: true
         });
         tlContainer3dBottom.to(svgContainerBottom, 0.3, {
-            height: "4px",
-            right: "+=6px"
+            height: "5px",
+            right: "+=5px"
         });
         el.animationContainer3dBottom = tlContainer3dBottom;
         tlContainer3dBottom.progress(1).progress(0);
 
-        // .reveal
-        // Img move animation
-        var tlImgMove = new TimelineMax({
+        // Reveal Box - Image animation
+        var tlImgMove = new TimelineLite({
             paused: true
         });
         tlImgMove.to(img, 0.3, {
@@ -166,31 +151,29 @@
         el.animationImgMove = tlImgMove;
         tlImgMove.progress(1).progress(0);
 
-        // Mask click text animation
-        var tlText = new TimelineMax({
+        // Reveal Box - Mask click text animation
+        var tlText = new TimelineLite({
             paused: true
         })
-        tlText.to(elSplit, .35, {
+        tlText.to(elSplit, 0.35, {
             autoAlpha: 0
         });
         el.animationTextClick = tlText;
         tlText.progress(1).progress(0);
 
-        // .skills
-        // Set initial state
-        TweenLite.set('.logo', {
+        // Skills Box - Set initial state
+        TweenLite.set(logo, {
             transformOrigin: "50% 50%",
         });
-        // Animate SVG path (logo)
-        var tlLogo = new TimelineMax({
+        // Skills Box - Animate SVG path (logo)
+        var tlLogo = new TimelineLite({
             paused: true
         })
-        tlLogo.to(logo, .6, {
-            autoAlpha: 1,
+        tlLogo.to(logo, 0.6, {
             fill: "#ffffff",
             rotation: 360,
             scale: 1,
-            autoAlpha: .7,
+            autoAlpha: 0.7,
             ease: Circ.easeInOut,
             morphSVG: {
                 shape: ".logo-to",
@@ -198,9 +181,8 @@
             }
         });
 
-        // .skills
-        // Animate SVG (viewbox)
-        tlLogo.to(svg, .6, {
+        // Skills Box -  Animate SVG (viewbox)
+        tlLogo.to(svg, 0.6, {
             ease: Circ.easeInOut,
             attr: {
                 width: 200,
@@ -215,22 +197,22 @@
         tlLogo.progress(1).progress(0);
         el.animationLogo = tlLogo;
 
-        // Animate Text
-        var tlText = new TimelineMax({
+        // Skills Box - Animate Text
+        var tlText = new TimelineLite({
             paused: true
-        })
-        tlText.to(text, .3, {
+        });
+        tlText.to(text, 0.3, {
             fontSize: '24px',
             rotation: 0,
             x: -55,
             y: -100,
-            autoAlpha: .7,
-        }, .3);
+            autoAlpha: 0.7,
+        }, 0.3);
         tlText.progress(1).progress(0);
         el.animationText = tlText;
 
-        // Animate list out
-        /* var tlListOut = new TimelineMax({
+        // Skills Box - Animate list out
+        /* var tlListOut = new TimelineLite({
             paused: true
         })
         tlListOut.to(list, .1, {
@@ -243,12 +225,12 @@
         el.animationListOut = tlListOut; */
 
         // Animate list in
-        var tlListIn = new TimelineMax({
+        var tlListIn = new TimelineLite({
             paused: true
-        })
-        tlListIn.staggerTo(list, .3, {
+        });
+        tlListIn.staggerTo(list, 0.3, {
             x: 0,
-            delay: .45,
+            delay: 0.45,
             autoAlpha: 1,
             ease: Sine.easeInOut
         }, 0.3);
@@ -256,30 +238,29 @@
         el.animationListIn = tlListIn;
 
         // Assign event listeners
-        // Generic and applied to all instances of ".box"
         el.addEventListener("mousedown", boxMouseDown);
         el.addEventListener("mouseleave", boxMouseLeave);
-        // Only applied to ".reveal-box"
         el.addEventListener("mousemove", revealMouseMove);
         el.addEventListener("mousedown", revealMouseDown);
         el.addEventListener("mouseleave", revealMouseLeave);
-        // Only applied to ".skills-box"
         el.addEventListener("mousedown", skillsMouseDown);
         el.addEventListener("mouseleave", skillsMouseLeave);
 
     });
 
+    // Variables that will be used to check state of user interaction
     var revealElOver = true,
         revealClicked = false,
         skillsClicked = false;
+
     // Event listener functions
     function revealMouseMove(e) {
-        if (revealElOver) { // Only run if mousedown hasn't been triggered
+        if (revealElOver) {
 
-            // Get coordinates of container
-            var rect = this.getBoundingClientRect();
-            var xPos = e.pageX - rect.left;
-            var yPos = e.pageY - rect.top - window.scrollY;
+            // Get coordinates of box
+            var rect = this.getBoundingClientRect(),
+            xPos = e.pageX - rect.left,
+            yPos = e.pageY - rect.top - window.scrollY;
 
             // Add coordinates to array and pass in to moveMask function
             moveMask(this, xPos, yPos);
@@ -288,30 +269,30 @@
         }
     }
 
-    // .box
-    function boxMouseDown(e) {
+    // Box
+    function boxMouseDown() {
         this.animationContainer3d.play();
         this.animationContainer3dLeft.play();
         this.animationContainer3dBottom.play();
 
     };
 
-    function boxMouseLeave(e) {
+    function boxMouseLeave() {
         this.animationContainer3d.reverse();
         this.animationContainer3dLeft.reverse();
         this.animationContainer3dBottom.reverse();
 
     };
 
-    // .reveal-box
-    function revealMouseDown(e) {
+    // Box - Reveal
+    function revealMouseDown() {
         this.animationMaskClick.play();
         this.animationTextClick.play();
         revealClicked = true;
         revealElOver = false;
     };
 
-    function revealMouseLeave(e) {
+    function revealMouseLeave() {
         this.animationTextClick.timeScale(1.25).reverse();
         // If revealClicked then run slow animation
         if (revealClicked) {
@@ -323,15 +304,15 @@
         revealElOver = true;
     };
 
-    // .skills-box
-    function skillsMouseDown(e) {
+    // Box - Skills
+    function skillsMouseDown() {
         this.animationLogo.play();
         this.animationText.play();
         this.animationListIn.play(0);
         skillsClicked = true;
     };
 
-    function skillsMouseLeave(e) {
+    function skillsMouseLeave() {
         if (skillsClicked) {
             this.animationLogo.reverse(0);
             this.animationText.reverse(1);
