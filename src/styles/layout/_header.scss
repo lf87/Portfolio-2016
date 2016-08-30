@@ -8,7 +8,7 @@
     width: 100%;
     padding: $gutter;
     border-bottom: $depth solid $primary-color-shade-2;
-    //box-shadow: -2px 0 10px 0px rgba(0,0,0,0.5);
+    box-shadow: $box-shadow;
     nav {
         margin-left: auto;
         @include bp-md {

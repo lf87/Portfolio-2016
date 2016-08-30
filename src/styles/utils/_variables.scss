@@ -33,6 +33,15 @@ $primary-color-text-shade-1: darken($primary-color-text, 75%);
 $primary-color-shade-1: darken($primary-color-dark, 10%);
 $primary-color-shade-2: darken($primary-color-dark, 20%);
 $accent-color-shade-1: darken($accent-color, 20%);
-
-// Misc
+// Box module variables
+$reveal-height: 300px;
+$reveal-width: 450px;
+$skills-size: 280px;
+$text-shadow-alpha: .2;
+$text-shadow: -1px 1px 3px rgba(0, 0, 0, $text-shadow-alpha),
+-1px 1px 1px rgba(0, 0, 0, .5),
+0px 0px 0px rgba(0, 0, 0, .2);
+$box-shadow: -1px 1px 0 rgba(darken($primary-color-shade-1, 5%), .7),
+-2px 2px 2px rgba(darken($primary-color-shade-1, 5%), .5),
+-2px 2px 5px rgba(darken($primary-color-shade-1, 15%), $text-shadow-alpha);
 $depth: 10px;
