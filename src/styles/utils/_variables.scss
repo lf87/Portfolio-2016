@@ -19,8 +19,8 @@ $divider-color: #B6B6B6;
 $black: $primary-text-color;
 $white: $primary-color-text;
 $primary-color-text-shade-1: darken($primary-color-text, 75%);
-$primary-color-shade-1: darken($primary-color-dark, 10%);
-$primary-color-shade-2: darken($primary-color-dark, 20%);
+$primary-color-shade-1: darken($primary-color-dark, 8%);
+$primary-color-shade-2: darken($primary-color-dark, 16%);
 $accent-color-shade-1: darken($accent-color, 20%);
 // Box module variables
 $reveal-height: 280px;
@@ -33,7 +33,7 @@ $skills-width: 280px;
 $skills-height: 280px;
 $skills-width-xs: 280px;
 $skills-height-xs: 280px;
-$depth: 10px;
+$depth: 6px;
 // Shadows
 $text-shadow-alpha: .2;
 $text-shadow: -1px 1px 3px rgba(0, 0, 0, $text-shadow-alpha),

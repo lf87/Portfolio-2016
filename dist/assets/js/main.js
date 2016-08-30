@@ -142,16 +142,16 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         var list = el.querySelectorAll('.skills-box ul li');
 
         // Box - 3D depth animation
-        var depth = '10'; // Must match what it's set to in the CSS
-        var depthXy = (depthXy / 2).toString();
+        var depth = '6'; // Must match what it's set to in the CSS
+        var depthHalf = '3';
         var depthSpeed = 0.3;
 
         var tlBox3d = new TimelineLite({
             paused: true
         });
         tlBox3d.to(boxContent, depthSpeed, {
-            x: '-=' + depthXy + 'px',
-            y: '+=' + depthXy + 'px'
+            x: '-=' + depthHalf + 'px',
+            y: '+=' + depthHalf + 'px'
         });
         el.animationBox3d = tlBox3d;
         tlBox3d.progress(1).progress(0);
@@ -161,7 +161,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
             paused: true
         });
         tlBox3dLeft.to(box3dLeft, depthSpeed, {
-            width: depthXy + 'px'
+            width: depthHalf + 'px'
         });
         el.animationBox3dLeft = tlBox3dLeft;
         tlBox3dLeft.progress(1).progress(0);
@@ -171,8 +171,8 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
             paused: true
         });
         tlBox3dBottom.to(box3dRight, depthSpeed, {
-            height: depthXy + 'px',
-            right: '+=' + depthXy + 'px'
+            height: depthHalf + 'px',
+            right: '+=' + depthHalf + 'px'
         });
         el.animationBox3dBottom = tlBox3dBottom;
         tlBox3dBottom.progress(1).progress(0);
