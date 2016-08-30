@@ -2,6 +2,20 @@
 (function() {
     'use strict';
 
+    // Get document width
+    // var winX = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+    // winMd = 767;*/
+
+        // Detect touch device
+        var isTouchDevice = 'ontouchstart' in document.documentElement;
+        if (isTouchDevice) {
+            alert("other in");
+        }
+        else {
+            alert("else in");
+
+        }
+
     // Flying Text Effect
     var split = document.querySelectorAll('.words h2, .words h3, .words p, .words li'),
         tlSplitText = new TimelineLite({
@@ -318,9 +332,16 @@
     function skillsMouseLeave() {
         /*jshint validthis: true */
         if (skillsClicked) {
-            this.animationLogo.reverse(0);
-            this.animationText.reverse(1);
-            this.animationListIn.progress(0).pause();
+            if (isTouchDevice ) {
+                alert("in");
+                this.animationLogo.progress(0).pause();
+                this.animationText.progress(0).pause();
+                this.animationListIn.progress(0).pause();
+            } else {
+                this.animationLogo.reverse(0);
+                this.animationText.reverse(1);
+                this.animationListIn.progress(0).pause();
+            }
         }
         skillsClicked = false;
     }
