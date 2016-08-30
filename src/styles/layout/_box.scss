@@ -48,7 +48,6 @@
         left: $depth;
         overflow: hidden;
         z-index: 1;
-        user-select: none;
         padding: 0 1em;
     }
     .small-heading,
@@ -59,7 +58,6 @@
         text-transform: uppercase;
         width: 100%;
         margin: 0 0 .1em;
-        user-select: none;
         letter-spacing: 1px;
     }
     .small-heading {
@@ -79,7 +77,6 @@
         } */
     }
 }
-
 // Reveal Box
 .reveal-box {
     width: $reveal-width;

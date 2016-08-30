@@ -49,15 +49,8 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
     // var winX = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
     // winMd = 767;*/
 
-        // Detect touch device
-        var isTouchDevice = 'ontouchstart' in document.documentElement;
-        if (isTouchDevice) {
-            alert("other in");
-        }
-        else {
-            alert("else in");
-
-        }
+    // Detect touch device
+    var isTouchDevice = 'ontouchstart' in document.documentElement;
 
     // Flying Text Effect
     var split = document.querySelectorAll('.words h2, .words h3, .words p, .words li'),
@@ -225,13 +218,11 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         });
         tlSkillsLogo.to(logo, 0.6, {
             rotation: 360,
-            scale: 1,
-            autoAlpha: 0.9,
-            ease: Circ.easeInOut,
             morphSVG: {
                 shape: '.logo-to',
                 shapeIndex: -1
-            }
+            },
+            ease: Circ.easeInOut
         });
 
         // Skills Box -  Animate SVG (viewbox)
@@ -330,14 +321,19 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         this.animationBox3d.play();
         this.animationBox3dLeft.play();
         this.animationBox3dBottom.play();
-
     }
 
     function boxMouseLeave() {
         /*jshint validthis: true */
-        this.animationBox3d.reverse();
-        this.animationBox3dLeft.reverse();
-        this.animationBox3dBottom.reverse();
+        if (isTouchDevice) {
+            this.animationBox3d.progress(0).pause();
+            this.animationBox3dLeft.progress(0).pause();
+            this.animationBox3dBottom.progress(0).pause();
+        } else {
+            this.animationBox3d.reverse();
+            this.animationBox3dLeft.reverse();
+            this.animationBox3dBottom.reverse();
+        }
 
     }
 
@@ -366,8 +362,13 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
     // Box - Skills
     function skillsMouseDown() {
         /*jshint validthis: true */
-        this.animationLogo.play();
-        this.animationText.play();
+        if (isTouchDevice) {
+            this.animationLogo.progress(1);
+            this.animationText.progress(1);
+        } else {
+            this.animationLogo.play();
+            this.animationText.play();
+        }
         this.animationListIn.play(0);
         skillsClicked = true;
     }
@@ -375,8 +376,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
     function skillsMouseLeave() {
         /*jshint validthis: true */
         if (skillsClicked) {
-            if (isTouchDevice ) {
-                alert("in");
+            if (isTouchDevice) {
                 this.animationLogo.progress(0).pause();
                 this.animationText.progress(0).pause();
                 this.animationListIn.progress(0).pause();
