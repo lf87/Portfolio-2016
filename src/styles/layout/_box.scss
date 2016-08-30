@@ -160,7 +160,7 @@
         text-shadow: none;
     }
     .left {
-        height: $skills-size - 9px;
+        height: $skills-size - $depth;
     }
     .bottom {
         width: $skills-size - $depth;

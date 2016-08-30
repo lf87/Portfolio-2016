@@ -53,7 +53,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
             }
         }),
         mySplitText = new SplitText(split, {
-            type: "chars"
+            type: 'chars'
         }),
         chars = mySplitText.chars; // an array of all the divs that wrap each character
 
@@ -65,9 +65,9 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         scale: 0,
         y: 80,
         rotationX: 180,
-        transformOrigin: "0% 50% -50",
+        transformOrigin: '0% 50% -50',
         ease: Back.easeOut
-    }, 0.01, "+=0");
+    }, 0.01, '+=0');
     tlSplitText.progress(1).progress(0);
 
     // Tweens that require access to coordinates
@@ -123,7 +123,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         tlLeaveSlow.progress(1).progress(0);
     }
 
-    var box = document.querySelectorAll(".box");
+    var box = document.querySelectorAll('.box');
     // Tweens that don't require access to coordinates
     [].forEach.call(box, function(el) {
         // Force initial run with dummy coordinates (So tweens can be cached)
@@ -142,12 +142,16 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         var list = el.querySelectorAll('.skills-box ul li');
 
         // Box - 3D depth animation
+        var depth = '10'; // Must match what it's set to in the CSS
+        var depthXy = '5';
+        var depthSpeed = 0.3;
+
         var tlBox3d = new TimelineLite({
             paused: true
         });
-        tlBox3d.to(boxContent, 0.3, {
-            x: "-=5px",
-            y: "+=5px"
+        tlBox3d.to(boxContent, depthSpeed, {
+            x: '-=' + depthXy + 'px',
+            y: '+=' + depthXy + 'px'
         });
         el.animationBox3d = tlBox3d;
         tlBox3d.progress(1).progress(0);
@@ -156,8 +160,8 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         var tlBox3dLeft = new TimelineLite({
             paused: true
         });
-        tlBox3dLeft.to(box3dLeft, 0.3, {
-            width: "5px"
+        tlBox3dLeft.to(box3dLeft, depthSpeed, {
+            width: depthXy + 'px'
         });
         el.animationBox3dLeft = tlBox3dLeft;
         tlBox3dLeft.progress(1).progress(0);
@@ -166,9 +170,9 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         var tlBox3dBottom = new TimelineLite({
             paused: true
         });
-        tlBox3dBottom.to(box3dRight, 0.3, {
-            height: "5px",
-            right: "+=5px"
+        tlBox3dBottom.to(box3dRight, depthSpeed, {
+            height: depthXy + 'px',
+            right: '+=' + depthXy + 'px'
         });
         el.animationBox3dBottom = tlBox3dBottom;
         tlBox3dBottom.progress(1).progress(0);
@@ -177,7 +181,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         var tlRevealImgMove = new TimelineLite({
             paused: true
         });
-        tlRevealImgMove.to(img, 0.3, {
+        tlRevealImgMove.to(img, depthSpeed, {
             scale: 1,
             ease: Sine.easeOut,
             '-webkit-filter': 'grayscale(0%)',
@@ -198,7 +202,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
 
         // Skills Box - Set initial state
         TweenLite.set(logo, {
-            transformOrigin: "50% 50%",
+            transformOrigin: '50% 50%',
         });
 
         // Skills Box - Animate SVG path (logo)
@@ -206,13 +210,13 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
             paused: true
         });
         tlSkillsLogo.to(logo, 0.6, {
-            fill: "#ffffff",
+            fill: '#ffffff',
             rotation: 360,
             scale: 1,
             autoAlpha: 0.7,
             ease: Circ.easeInOut,
             morphSVG: {
-                shape: ".logo-to",
+                shape: '.logo-to',
                 shapeIndex: -1
             }
         });
@@ -224,7 +228,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
                 width: 200,
                 height: 200
             },
-            transformOrigin: "50% 50%",
+            transformOrigin: '50% 50%',
             css: {
                 marginLeft: -125,
                 marginTop: -125
@@ -255,7 +259,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
             autoAlpha: 0,
             x: -10,
             ease: Sine.easeInOut,
-            overwrite: "all"
+            overwrite: 'all'
         });
         tlListOut.progress(1).progress(0);
         el.animationListOut = tlListOut; */
@@ -274,13 +278,13 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         el.animationListIn = tlListIn;
 
         // Assign event listeners
-        el.addEventListener("mousedown", boxMouseDown);
-        el.addEventListener("mouseleave", boxMouseLeave);
-        el.addEventListener("mousemove", revealMouseMove);
-        el.addEventListener("mousedown", revealMouseDown);
-        el.addEventListener("mouseleave", revealMouseLeave);
-        el.addEventListener("mousedown", skillsMouseDown);
-        el.addEventListener("mouseleave", skillsMouseLeave);
+        el.addEventListener('mousedown', boxMouseDown);
+        el.addEventListener('mouseleave', boxMouseLeave);
+        el.addEventListener('mousemove', revealMouseMove);
+        el.addEventListener('mousedown', revealMouseDown);
+        el.addEventListener('mouseleave', revealMouseLeave);
+        el.addEventListener('mousedown', skillsMouseDown);
+        el.addEventListener('mouseleave', skillsMouseLeave);
 
     });
 
