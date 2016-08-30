@@ -10,6 +10,7 @@ body {
 .large-heading,
 .medium-heading,
 .small-heading {
+    text-shadow: $text-shadow;
     display: inline-block;
     font-weight: 700;
     margin-bottom: .5em;
@@ -42,6 +43,7 @@ body {
 }
 
 p {
+    text-shadow: $text-shadow;
     margin-bottom: 1.5em;
     &:last-child {
         margin-bottom: 0;

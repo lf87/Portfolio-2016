@@ -1,19 +1,21 @@
-.site-main {
+    .site-main {
     float: left;
     width: 100%;
     text-align: center;
-    padding: $gutter 10px;
-    @inlcude bp-md {
+    padding: 0 10px $gutter;
+    @include bp-md {
         max-width: 100%;
-    }
-    @include bp-sm {
-        padding: $gutter 10px;
     }
 }
 
-h1 {
-    padding: $gutter;
-    margin: 0;
+.main-heading {
+    margin: $gutter 0;
+    padding: 0 0 $gutter 0;
+    
+    border-bottom: 1px solid $divider-color;
+    @include bp-sm {
+        @include font-size(26px);
+    }
 }
 
 #skills {
@@ -22,4 +24,12 @@ h1 {
 
 #skill-switch {
     color: $accent-color;
+}
+
+.content {
+    margin-bottom: $gutter;
+    .large-heading {
+        text-transform: uppercase;
+        margin-bottom: .75em;
+    }
 }

@@ -1,6 +1,6 @@
 @@include('./partials/_header.html')
 <main class="site-main">
-    <h1>A meticulous web developer from Leeds with a passion for <br><span id="skill-switch">Automation</span></h1>
+    <h1 class="large-heading main-heading">A meticulous web developer from Leeds with a passion for <br><span id="skill-switch">Automation</span></h1>
     <ul id="skills">
         <li>HTML5</li>
         <li>CSS3</li>
@@ -9,19 +9,21 @@
         <li>Web Standards</li>
         <li>Automation</li>
     </ul>
-    <div class="svg-container">
-        <svg version="1.1" preserveAspectRatio="xMinYMin meet" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-            <path id="css3" d="m44.880343,-0.567423l255.014163,0l-45.072271,225.869687l-136.23348,45.241715l-118.272349,-45.241715l12.030568,-60.322287l50.325054,0l-4.913894,24.90836l71.505632,27.280585l82.350088,-27.280585l11.522235,-57.441728l-204.689109,0l9.827788,-50.325054l204.858553,0l6.438896,-32.363924l-204.689109,0l9.997233,-50.325054z" /> />
-            <path id="laptop" d="m65.003117,160.007675q-10.312994,0 -17.657096,-7.344103t-7.344103,-17.657096l0,-110.005277q0,-10.312994 7.344103,-17.657096t17.657096,-7.344103l170.008157,0q10.312994,0 17.657096,7.344103t7.344103,17.657096l0,110.005277q0,10.312994 -7.344103,17.657096t-17.657096,7.344103l-170.008157,0zm-5.000239,-135.006478l0,110.005277q0,2.031348 1.484447,3.515794t3.515794,1.484447l170.008157,0q2.031348,0 3.515794,-1.484447t1.484447,-3.515794l0,-110.005277q0,-2.031348 -1.484447,-3.515794t-3.515794,-1.484447l-170.008157,0q-2.031348,0 -3.515794,1.484447t-1.484447,3.515794zm215.010316,145.006958l25.001199,0l0,15.000719q0,6.250301 -7.344103,10.62551t-17.657096,4.375209l-250.011995,0q-10.312994,0 -17.657096,-4.375209t-7.344103,-10.62551l0,-15.000719l275.013196,0l-0.000002,0zm-112.505399,15.000719q2.500119,0 2.500119,-2.500119t-2.500119,-2.500119l-25.001199,0q-2.500119,0 -2.500119,2.500119t2.500119,2.500119l25.001199,0z" />
-            <ul id="css-tech">
-                <li>some text</li>
-                <li>some text</li>
-                <li>some text</li>
-                <li>some text</li>
-                <li>some text</li>
-                <li>some text</li>
-                <li>some text</li>
-            </ul>
-    </div>
+    <section class="content">
+        <h2 class="large-heading">Skills</h2>
+        <div class="boxes">
+            @@include('./partials/modules/_skills-box.html')
+            @@include('./partials/modules/_skills-box.html')
+            @@include('./partials/modules/_skills-box.html')
+        </div>
+    </section>
+    <section class="content">
+        <h2 class="large-heading">Portfolio</h2>
+        <div class="boxes">
+            @@include('./partials/modules/_reveal-box.html')
+            @@include('./partials/modules/_reveal-box.html')
+            @@include('./partials/modules/_reveal-box.html')
+        </div>
+    </section>
 </main>
 @@include('./partials/_footer.html')
