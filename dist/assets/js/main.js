@@ -143,7 +143,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
 
         // Box - 3D depth animation
         var depth = '10'; // Must match what it's set to in the CSS
-        var depthXy = '5';
+        var depthXy = (depthXy / 2).toString();
         var depthSpeed = 0.3;
 
         var tlBox3d = new TimelineLite({
@@ -181,7 +181,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         var tlRevealImgMove = new TimelineLite({
             paused: true
         });
-        tlRevealImgMove.to(img, depthSpeed, {
+        tlRevealImgMove.to(img, 0.3, {
             scale: 1,
             ease: Sine.easeOut,
             '-webkit-filter': 'grayscale(0%)',
@@ -210,10 +210,9 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
             paused: true
         });
         tlSkillsLogo.to(logo, 0.6, {
-            fill: '#ffffff',
             rotation: 360,
             scale: 1,
-            autoAlpha: 0.7,
+            autoAlpha: 0.9,
             ease: Circ.easeInOut,
             morphSVG: {
                 shape: '.logo-to',
@@ -243,10 +242,11 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         });
         tlSkillsText.to(h2, 0.3, {
             fontSize: '24px',
+            color: '#FF5722',
             rotation: 0,
             x: -55,
             y: -100,
-            autoAlpha: 0.7,
+            autoAlpha: 0.9,
         }, 0.3);
         tlSkillsText.progress(1).progress(0);
         el.animationText = tlSkillsText;

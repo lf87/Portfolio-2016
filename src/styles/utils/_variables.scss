@@ -1,23 +1,12 @@
+// Layout
+$gutterD2: $gutter / 2;
 // Z-index
 $zmobilemenu: 1;
 $zbodyoverlay: 2;
 $zaccordion: 2;
 $zmobilenavbar: 3;
 $z-logo-face: 1;
-// Vertical spacing
-$vspace: 2em;
-$vspace2: $vspace / 2;
 // Colours
-
-/* $primary-color-dark: #1976D2;
-$primary-color: #2196F3;
-$primary-color-light: #BBDEFB;
-$primary-color-text: #FFFFFF;
-$accent-color: #FFC107;
-$primary-text-color: #212121;
-$secondary-text-color: #727272;
-$divider-color: #B6B6B6; */
-
 $primary-color-dark: #455A64;
 $primary-color: #607D8B;
 $primary-color-light: #CFD8DC;
@@ -34,9 +23,18 @@ $primary-color-shade-1: darken($primary-color-dark, 10%);
 $primary-color-shade-2: darken($primary-color-dark, 20%);
 $accent-color-shade-1: darken($accent-color, 20%);
 // Box module variables
-$reveal-height: 300px;
-$reveal-width: 450px;
-$skills-size: 280px;
+$reveal-height: 280px;
+$reveal-width: 560px;
+$reveal-width-sm: 400px;
+$reveal-height-sm: 280px;
+$reveal-width-xs: 280px;
+$reveal-height-xs: 280px;
+$skills-width: 280px;
+$skills-height: 280px;
+$skills-width-xs: 280px;
+$skills-height-xs: 280px;
+$depth: 10px;
+// Shadows
 $text-shadow-alpha: .2;
 $text-shadow: -1px 1px 3px rgba(0, 0, 0, $text-shadow-alpha),
 -1px 1px 1px rgba(0, 0, 0, .5),
@@ -44,4 +42,3 @@ $text-shadow: -1px 1px 3px rgba(0, 0, 0, $text-shadow-alpha),
 $box-shadow: -1px 1px 0 rgba(darken($primary-color-shade-1, 5%), .7),
 -2px 2px 2px rgba(darken($primary-color-shade-1, 5%), .5),
 -2px 2px 5px rgba(darken($primary-color-shade-1, 15%), $text-shadow-alpha);
-$depth: 10px;

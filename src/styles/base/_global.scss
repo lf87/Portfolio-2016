@@ -7,16 +7,17 @@ body {
 }
 
 // Copy
-h1,
-h2,
-h3 {
+.large-heading,
+.medium-heading,
+.small-heading {
     display: inline-block;
     font-weight: 700;
     margin-bottom: .75em;
+    margin-top: 0;
     width: 100%;
 }
 
-h1 {
+.large-heading {
     @include font-size-heading(50px);
     @include bp-lg {
         @include font-size-heading(40px);
@@ -26,7 +27,7 @@ h1 {
     }
 }
 
-h2 {
+.medium-heading {
     @include font-size-heading(40px);
     margin-bottom: .25em;
     @include bp-lg {
@@ -34,7 +35,7 @@ h2 {
     }
 }
 
-h3 {
+.small-heading {
     @include font-size-heading(20px);
     margin-bottom: .25em;
 }
