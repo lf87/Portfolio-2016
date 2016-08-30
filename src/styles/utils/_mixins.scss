@@ -136,3 +136,12 @@
     clip: rect(0, 0, 0, 0);
     position: absolute;
 }
+
+// 3D text (shadow) effect
+@mixin text-shadow-large ($color: $accent-color-shade-1) {
+    text-shadow: -1px 1px 0 darken($color, 1%), -2px 2px 0 darken($color, 2%), -3px 3px 0 darken($color, 5%), -4px 4px 3px rgba(0, 0, 0, $text-shadow-alpha), -4px 4px 3px rgba(0, 0, 0, $text-shadow-alpha), 0px 0px 3px rgba(0, 0, 0, .2);
+}
+
+@mixin text-shadow-small ($color: $accent-color-shade-1) {
+    text-shadow: -1px 1px 0 darken($color, 1%), -2px 2px 0 darken($color, 2%), -3px 3px 2px rgba(0, 0, 0, $text-shadow-alpha), -3px 3px 3px rgba(0, 0, 0, $text-shadow-alpha), 0px 0px 2px rgba(0, 0, 0, .2);
+}

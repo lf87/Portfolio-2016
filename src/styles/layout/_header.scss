@@ -36,6 +36,10 @@
     .active a {
         //color: active-colour;
     }
+    h1 {
+        text-shadow: $text-shadow;
+        margin-bottom: 0;
+    }
 }
 
 .details {
