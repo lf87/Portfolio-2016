@@ -146,16 +146,14 @@
         left: 50%;
         transform: translate(-50%, -50%);
         filter: grayscale(100%);
-        width: $reveal-width;
+        width: 100%;
         height: $reveal-height;
         display: block;
         clip-path: circle(0 at 50% 50%);
         @include bp-sm {
-            width: $reveal-width-xs;
-            height: $reveal-height-xs;
+            height: $reveal-height-sm;
         }
         @include bp-xs {
-            width: $reveal-width-xs;
             height: $reveal-height-xs;
         }
     }
@@ -166,6 +164,12 @@
         height: $reveal-height - $depth;
         pointer-events: none;
         visibility: hidden;
+        @include bp-sm {
+            height: $reveal-height-sm - $depth;
+        }
+        @include bp-xs {
+            height: $reveal-height-xs - $depth;
+        }
     }
 }
 

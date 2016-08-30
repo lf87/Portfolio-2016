@@ -6,6 +6,7 @@ $zbodyoverlay: 2;
 $zaccordion: 2;
 $zmobilenavbar: 3;
 $z-logo-face: 1;
+
 // Colours
 $primary-color-dark: #455A64;
 $primary-color: #607D8B;
@@ -15,6 +16,7 @@ $accent-color: #FF5722;
 $primary-text-color: #212121;
 $secondary-text-color: #727272;
 $divider-color: #B6B6B6;
+
 // Custom colors
 $black: $primary-text-color;
 $white: $primary-color-text;
@@ -22,18 +24,31 @@ $primary-color-text-shade-1: darken($primary-color-text, 75%);
 $primary-color-shade-1: darken($primary-color-dark, 8%);
 $primary-color-shade-2: darken($primary-color-dark, 16%);
 $accent-color-shade-1: darken($accent-color, 20%);
+
 // Box module variables
-$reveal-height: 280px;
+// Reveal Box
 $reveal-width: 560px;
+$reveal-width-calc: $reveal-width / 16;
+$reveal-height: round($reveal-width-calc) * 9;
+
 $reveal-width-sm: 400px;
-$reveal-height-sm: 280px;
+//$reveal-width-calc-sm: $reveal-width-sm / 16;
+//$reveal-height-sm: round($reveal-width-calc-sm) * 9;
+$reveal-height-sm: $reveal-height * 1.075;
+
 $reveal-width-xs: 280px;
-$reveal-height-xs: 280px;
+//$reveal-width-calc-xs: $reveal-width-xs / 16;
+//$reveal-height-xs: round($reveal-width-calc-xs) * 9;
+$reveal-height-xs: $reveal-height * 1.15;
+
+// Skills Box
 $skills-width: 280px;
 $skills-height: 280px;
+
 $skills-width-xs: 280px;
 $skills-height-xs: 280px;
 $depth: 6px;
+
 // Shadows
 $text-shadow-alpha: .3;
 $text-shadow: -1px 1px 3px rgba(0, 0, 0, $text-shadow-alpha),
