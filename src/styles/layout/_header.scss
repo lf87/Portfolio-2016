@@ -1,14 +1,23 @@
 // Site Header
 .site-header {
-    background-color: $primary-color-dark;
+    background-color: rgba($primary-color-dark, 1);
     display: flex;
     align-items: flex-end;
     font-weight: 500;
     position: relative;
     width: 100%;
+    height: $header-height;
     padding: $gutter;
     border-bottom: $depth solid $primary-color-shade-2;
     box-shadow: $box-shadow;
+    overflow: hidden;
+    z-index: $z-header;
+    &::after {
+        @include main-bg;
+        top: 0;
+        background-position: ($depth - ($depth * 2)) 0;
+        opacity: .05;
+    }
     nav {
         margin-left: auto;
         @include bp-md {

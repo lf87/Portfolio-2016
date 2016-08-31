@@ -1,0 +1,9 @@
+// Section positioning (quickly discovered that this was useless :( but leaving here in case)
+@mixin number-of-sections($amount: 5) {
+    @for $i from 1 through $amount {
+        $height: 100 * $i;
+        :nth-of-type(#{$i}) {
+            top: $height + vh;
+        }
+    }
+}

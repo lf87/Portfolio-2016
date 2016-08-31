@@ -1,11 +1,7 @@
 // Layout
 $gutterD2: $gutter / 2;
 // Z-index
-$zmobilemenu: 1;
-$zbodyoverlay: 2;
-$zaccordion: 2;
-$zmobilenavbar: 3;
-$z-logo-face: 1;
+$z-header: 1;
 
 // Colours
 $primary-color-dark: #455A64;
@@ -57,3 +53,4 @@ $text-shadow: -1px 1px 3px rgba(0, 0, 0, $text-shadow-alpha),
 $box-shadow: -1px 1px 0 rgba(darken($primary-color-shade-1, 5%), .7),
 -2px 2px 2px rgba(darken($primary-color-shade-1, 5%), .5),
 -2px 2px 5px rgba(darken($primary-color-shade-1, 15%), $text-shadow-alpha);
+$header-height: 112px;

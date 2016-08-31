@@ -137,6 +137,7 @@
     position: absolute;
 }
 
+// Site specific mixins
 // 3D text (shadow) effect
 @mixin text-shadow-large ($color: $accent-color-shade-1) {
     text-shadow: -1px 1px 0 darken($color, 1%), -2px 2px 0 darken($color, 2%), -3px 3px 0 darken($color, 5%), -4px 4px 3px rgba(0, 0, 0, $text-shadow-alpha), -4px 4px 3px rgba(0, 0, 0, $text-shadow-alpha), 0px 0px 3px rgba(0, 0, 0, .2);
@@ -144,4 +145,29 @@
 
 @mixin text-shadow-small ($color: $accent-color-shade-1) {
     text-shadow: -1px 1px 0 darken($color, 1%), -2px 2px 0 darken($color, 2%), -3px 3px 2px rgba(0, 0, 0, $text-shadow-alpha), -3px 3px 3px rgba(0, 0, 0, $text-shadow-alpha), 0px 0px 2px rgba(0, 0, 0, .2);
+}
+
+@mixin main-bg {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 102%;
+    height: 100%;
+    background-image: url('http://i.imgur.com/2RRDidK.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 580px;
+    filter: grayscale(.9);
+    transition: filter 0.3s ease-out;
+    /* @include bp-lg {
+        background-size: 1200px 580px;
+    }
+    @include bp-md {
+        background-size: 992px 480px;
+    }
+    @include bp-sm {
+        background-size: 767px 400px;
+    }
+    @include bp-xs {
+        background-size: 479px 300px;
+    } */
 }

@@ -65,7 +65,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
     var isTouchDevice = 'ontouchstart' in document.documentElement;
 
     // Skill Switch
-    /*var switchWrap = document.getElementById('skill-switch'),
+    var switchWrap = document.getElementById('skill-switch'),
         skillEl = document.querySelectorAll('#skills li'),
         switchDelay = 1.5,
         switchArray = [];
@@ -87,7 +87,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         .to(switchWrap, 1, { text: switchArray[2], delay: switchDelay, ease: Linear.easeNone })
         .to(switchWrap, 1.5, { text: switchArray[3], delay: switchDelay, ease: Linear.easeNone })
         .to(switchWrap, 1, { text: switchArray[4], delay: switchDelay, ease: Linear.easeNone })
-        .to(switchWrap, 1, { text: switchArray[5], delay: switchDelay, ease: Linear.easeNone })*/
+        .to(switchWrap, 1, { text: switchArray[5], delay: switchDelay, ease: Linear.easeNone })
 
     // Flying Text Effect
     var split = document.querySelectorAll('.words h2, .words h3, .words p, .words li'),
