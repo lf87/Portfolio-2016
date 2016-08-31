@@ -2,6 +2,63 @@
 (function() {
     'use strict';
 
+    // Get document width
+    var winX = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        winMd = 767;
+
+    // Detect touch device
+    var isTouchDevice = 'ontouchstart' in document.documentElement;
+
+    // Skill Switch
+    /*var switchWrap = document.getElementById('skill-switch'),
+        skillEl = document.querySelectorAll('#skills li'),
+        switchDelay = 1.5,
+        switchArray = [];
+
+    // Push each iteration to array
+    [].forEach.call(skillEl, function(el) {
+        var skill = switchArray.push(el.innerHTML);
+    });
+
+    // Create timeline and do tweens
+    var tlSwitch = new TimelineMax({
+        onComplete: function() {
+            this.restart();
+        }
+    });
+
+    tlSwitch.to(switchWrap, .75, { text: switchArray[0], delay: switchDelay, ease: Linear.easeNone })
+        .to(switchWrap, .5, { text: switchArray[1], delay: switchDelay, ease: Linear.easeNone })
+        .to(switchWrap, 1, { text: switchArray[2], delay: switchDelay, ease: Linear.easeNone })
+        .to(switchWrap, 1.5, { text: switchArray[3], delay: switchDelay, ease: Linear.easeNone })
+        .to(switchWrap, 1, { text: switchArray[4], delay: switchDelay, ease: Linear.easeNone })
+        .to(switchWrap, 1, { text: switchArray[5], delay: switchDelay, ease: Linear.easeNone })*/
+
+    // Flying Text Effect
+    var split = document.querySelectorAll('.words h2, .words h3, .words p, .words li'),
+        tlSplitText = new TimelineLite({
+            onCompleteAll: function() {
+                mySplitText.revert();
+            }
+        }),
+        mySplitText = new SplitText(split, {
+            type: 'chars'
+        }),
+        chars = mySplitText.chars; // an array of all the divs that wrap each character
+
+    TweenMax.set(split, {
+        perspective: 400
+    });
+    tlSplitText.staggerFrom(chars, 0.4, {
+        opacity: 0,
+        scale: 0,
+        y: 80,
+        rotationX: 180,
+        transformOrigin: '0% 50% -50',
+        ease: Back.easeOut
+    }, 0.01, '+=0');
+    tlSplitText.progress(1).progress(0);
+
     // Tweens that require access to coordinates
     function moveMask(el, valueX, valueY) {
         var img = el.querySelectorAll('.img');
