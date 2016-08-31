@@ -2,63 +2,6 @@
 (function() {
     'use strict';
 
-    // Get document width
-    // var winX = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
-    // winMd = 767;*/
-
-    // Skill Switch
-    var switchWrap = document.getElementById('skill-switch'),
-        skillEl = document.querySelectorAll('#skills li'),
-        switchDelay = 1.5,
-        switchArray = [];
-
-    // Push each iteration to array
-    [].forEach.call(skillEl, function(el) {
-        var skill = switchArray.push(el.innerHTML);
-    });
-
-    // Create timeline and do tweens
-    var tlSwitch = new TimelineMax({
-        onComplete: function() {
-            this.restart();
-        }
-    });
-
-    tlSwitch.to(switchWrap, .75, { text: switchArray[0], delay: switchDelay, ease: Linear.easeNone })
-        .to(switchWrap, .5, { text: switchArray[1], delay: switchDelay, ease: Linear.easeNone })
-        .to(switchWrap, 1, { text: switchArray[2], delay: switchDelay, ease: Linear.easeNone })
-        .to(switchWrap, 1.5, { text: switchArray[3], delay: switchDelay, ease: Linear.easeNone })
-        .to(switchWrap, 1, { text: switchArray[4], delay: switchDelay, ease: Linear.easeNone })
-        .to(switchWrap, 1, { text: switchArray[5], delay: switchDelay, ease: Linear.easeNone })
-
-    // Detect touch device
-    var isTouchDevice = 'ontouchstart' in document.documentElement;
-
-    // Flying Text Effect
-    var split = document.querySelectorAll('.words h2, .words h3, .words p, .words li'),
-        tlSplitText = new TimelineLite({
-            onCompleteAll: function() {
-                mySplitText.revert();
-            }
-        }),
-        mySplitText = new SplitText(split, {
-            type: 'chars'
-        }),
-        chars = mySplitText.chars; // an array of all the divs that wrap each character
-
-    TweenMax.set(split, {
-        perspective: 400
-    });
-    tlSplitText.staggerFrom(chars, 0.4, {
-        opacity: 0,
-        scale: 0,
-        y: 80,
-        rotationX: 180,
-        transformOrigin: '0% 50% -50',
-        ease: Back.easeOut
-    }, 0.01, '+=0');
-    tlSplitText.progress(1).progress(0);
-
     // Tweens that require access to coordinates
     function moveMask(el, valueX, valueY) {
         var img = el.querySelectorAll('.img');
@@ -117,14 +60,11 @@
     [].forEach.call(box, function(el) {
         // Force initial run with dummy coordinates (So tweens can be cached)
         moveMask(el, -100, -100);
-        // Box
         var boxContent = el.querySelectorAll('.box-content');
         var box3dLeft = el.querySelectorAll('.box .left');
         var box3dRight = el.querySelectorAll('.box .bottom');
-        // Reveals Box
         var img = el.querySelectorAll('.reveal-box .img');
         var elSplit = el.querySelectorAll('.reveal-box .words');
-        // Skills Box
         var logo = el.querySelectorAll('.skills-box .logo');
         var svg = el.querySelectorAll('.skills-box svg');
         var h2 = el.querySelectorAll('.skills-box h2');
@@ -237,19 +177,6 @@
         }, 0.3);
         tlSkillsText.progress(1).progress(0);
         el.animationText = tlSkillsText;
-
-        // Skills Box - Animate list out
-        /* var tlListOut = new TimelineLite({
-            paused: true
-        })
-        tlListOut.to(list, .1, {
-            autoAlpha: 0,
-            x: -10,
-            ease: Sine.easeInOut,
-            overwrite: 'all'
-        });
-        tlListOut.progress(1).progress(0);
-        el.animationListOut = tlListOut; */
 
         // Animate list in
         var tlListIn = new TimelineLite({
@@ -370,11 +297,4 @@
         }
         skillsClicked = false;
     }
-    window.onload = function() {}
-
-}());
-
-// Do stuff instantly
-(function() {
-    // this anonymous function is sloppy...
 }());
