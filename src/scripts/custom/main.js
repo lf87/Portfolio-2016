@@ -117,6 +117,8 @@
     [].forEach.call(box, function(el) {
         // Force initial run with dummy coordinates (So tweens can be cached)
         moveMask(el, -100, -100);
+
+        // DOM variables to be tweened
         var boxContent = el.querySelectorAll('.box-content');
         var box3dLeft = el.querySelectorAll('.box .left');
         var box3dRight = el.querySelectorAll('.box .bottom');
@@ -127,126 +129,63 @@
         var h2 = el.querySelectorAll('.skills-box h2');
         var list = el.querySelectorAll('.skills-box ul li');
 
-        // Box - 3D depth animation
+
+        // Set up Timelines
+        var tlBox3d = new TimelineLite({ paused: true });
+        var tlBox3dLeft = new TimelineLite({ paused: true });
+        var tlBox3dBottom = new TimelineLite({ paused: true });
+        var tlRevealImgMove = new TimelineLite({ paused: true });
+        var tlRevealText = new TimelineLite({ paused: true });
+        var tlSkillsLogo = new TimelineLite({ paused: true });
+        var tlSkillsText = new TimelineLite({ paused: true });
+        var tlListIn = new TimelineLite({ paused: true });
+
+        // Box - Set up 3D depth animation variables
         var depth = '6'; // Must match what it's set to in the CSS
         var depthHalf = '3';
         var depthSpeed = 0.3;
 
-        var tlBox3d = new TimelineLite({
-            paused: true
-        });
-        tlBox3d.to(boxContent, depthSpeed, {
-            x: '-=' + depthHalf + 'px',
-            y: '+=' + depthHalf + 'px'
-        });
-        el.animationBox3d = tlBox3d;
-        tlBox3d.progress(1).progress(0);
-
+        // Tweens
+        // Box - 3D depth
+        tlBox3d.to(boxContent, depthSpeed, { x: '-=' + depthHalf + 'px', y: '+=' + depthHalf + 'px' });
         // Box - 3D depth animation Left
-        var tlBox3dLeft = new TimelineLite({
-            paused: true
-        });
-        tlBox3dLeft.to(box3dLeft, depthSpeed, {
-            width: depthHalf + 'px'
-        });
-        el.animationBox3dLeft = tlBox3dLeft;
-        tlBox3dLeft.progress(1).progress(0);
-
+        tlBox3dLeft.to(box3dLeft, depthSpeed, { width: depthHalf + 'px' });
         // Box - 3D depth animation Bottom
-        var tlBox3dBottom = new TimelineLite({
-            paused: true
-        });
-        tlBox3dBottom.to(box3dRight, depthSpeed, {
-            height: depthHalf + 'px',
-            right: '+=' + depthHalf + 'px'
-        });
-        el.animationBox3dBottom = tlBox3dBottom;
-        tlBox3dBottom.progress(1).progress(0);
-
+        tlBox3dBottom.to(box3dRight, depthSpeed, { height: depthHalf + 'px', right: '+=' + depthHalf + 'px' });
         // Reveal Box - Image animation
-        var tlRevealImgMove = new TimelineLite({
-            paused: true
-        });
-        tlRevealImgMove.to(img, 0.3, {
-            scale: 1,
-            ease: Sine.easeOut,
-            '-webkit-filter': 'grayscale(0%)',
-            filter: 'grayscale(0%)'
-        }, 0.05);
-        el.animationImgMove = tlRevealImgMove;
-        tlRevealImgMove.progress(1).progress(0);
-
+        tlRevealImgMove.to(img, 0.3, { scale: 1, ease: Sine.easeOut, '-webkit-filter': 'grayscale(0%)', filter: 'grayscale(0%)' }, 0.05);
         // Reveal Box - Mask click text animation
-        var tlRevealText = new TimelineLite({
-            paused: true
-        });
-        tlRevealText.to(elSplit, 0.35, {
-            autoAlpha: 0
-        });
-        el.animationTextClick = tlRevealText;
-        tlRevealText.progress(1).progress(0);
-
+        tlRevealText.to(elSplit, 0.35, { autoAlpha: 0 });
         // Skills Box - Set initial state
-        TweenLite.set(logo, {
-            transformOrigin: '50% 50%',
-        });
-
+        TweenLite.set(logo, { transformOrigin: '50% 50%', });
         // Skills Box - Animate SVG path (logo)
-        var tlSkillsLogo = new TimelineLite({
-            paused: true
-        });
-        tlSkillsLogo.to(logo, 0.6, {
-            rotation: 360,
-            morphSVG: {
-                shape: '.logo-to',
-                shapeIndex: -1
-            },
-            ease: Circ.easeInOut
-        });
-
+        tlSkillsLogo.to(logo, 0.6, { rotation: 360, morphSVG: { shape: '.logo-to', shapeIndex: -1 }, ease: Circ.easeInOut });
         // Skills Box -  Animate SVG (viewbox)
-        tlSkillsLogo.to(svg, 0.6, {
-            ease: Circ.easeInOut,
-            attr: {
-                width: 200,
-                height: 200
-            },
-            transformOrigin: '50% 50%',
-            css: {
-                marginLeft: -125,
-                marginTop: -125
-            },
-        }, 0);
-        tlSkillsLogo.progress(1).progress(0);
-        el.animationLogo = tlSkillsLogo;
-
+        tlSkillsLogo.to(svg, 0.6, { ease: Circ.easeInOut, attr: { width: 200, height: 200 }, transformOrigin: '50% 50%', css: { marginLeft: -125, marginTop: -125 }, }, 0);
         // Skills Box - Animate Text
-        var tlSkillsText = new TimelineLite({
-            paused: true
-        });
-        tlSkillsText.to(h2, 0.3, {
-            fontSize: '24px',
-            color: '#FF5722',
-            rotation: 0,
-            x: -55,
-            y: -100,
-            autoAlpha: 0.9,
-        }, 0.3);
-        tlSkillsText.progress(1).progress(0);
-        el.animationText = tlSkillsText;
-
+        tlSkillsText.to(h2, 0.3, { fontSize: '24px', color: '#FF5722', rotation: 0, x: -55, y: -100, autoAlpha: 0.9, }, 0.3);
         // Animate list in
-        var tlListIn = new TimelineLite({
-            paused: true
-        });
-        tlListIn.staggerTo(list, 0.3, {
-            x: 0,
-            delay: 0.45,
-            autoAlpha: 1,
-            ease: Sine.easeInOut
-        }, 0.3);
-        tlListIn.progress(1).progress(0);
+        tlListIn.staggerTo(list, 0.3, { x: 0, delay: 0.45, autoAlpha: 1, ease: Sine.easeInOut }, 0.3);
+
+        // Function calls from event handlers
+        el.animationBox3d = tlBox3d;
+        el.animationBox3dLeft = tlBox3dLeft;
+        el.animationBox3dBottom = tlBox3dBottom;
+        el.animationImgMove = tlRevealImgMove;
+        el.animationTextClick = tlRevealText;
+        el.animationLogo = tlSkillsLogo;
+        el.animationText = tlSkillsText;
         el.animationListIn = tlListIn;
+
+        // Cache tween trick
+        tlBox3d.progress(1).progress(0);
+        tlBox3dLeft.progress(1).progress(0);
+        tlBox3dBottom.progress(1).progress(0);
+        tlRevealImgMove.progress(1).progress(0);
+        tlRevealText.progress(1).progress(0);
+        tlSkillsLogo.progress(1).progress(0);
+        tlSkillsText.progress(1).progress(0);
+        tlListIn.progress(1).progress(0);
 
         // Assign event listeners
         el.addEventListener('mousedown', boxMouseDown);
