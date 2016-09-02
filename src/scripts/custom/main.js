@@ -129,7 +129,6 @@
         var h2 = el.querySelectorAll('.skills-box h2');
         var list = el.querySelectorAll('.skills-box ul li');
 
-
         // Set up Timelines
         var tlBox3d = new TimelineLite({ paused: true });
         var tlBox3dLeft = new TimelineLite({ paused: true });
@@ -146,11 +145,11 @@
         var depthSpeed = 0.3;
 
         // Tweens
-        // Box - 3D depth
+        // Box (all) - 3D depth
         tlBox3d.to(boxContent, depthSpeed, { x: '-=' + depthHalf + 'px', y: '+=' + depthHalf + 'px' });
-        // Box - 3D depth animation Left
+        // Box (all) - 3D depth animation Left
         tlBox3dLeft.to(box3dLeft, depthSpeed, { width: depthHalf + 'px' });
-        // Box - 3D depth animation Bottom
+        // Box (all) - 3D depth animation Bottom
         tlBox3dBottom.to(box3dRight, depthSpeed, { height: depthHalf + 'px', right: '+=' + depthHalf + 'px' });
         // Reveal Box - Image animation
         tlRevealImgMove.to(img, 0.3, { scale: 1, ease: Sine.easeOut, '-webkit-filter': 'grayscale(0%)', filter: 'grayscale(0%)' }, 0.05);
@@ -164,10 +163,10 @@
         tlSkillsLogo.to(svg, 0.6, { ease: Circ.easeInOut, attr: { width: 200, height: 200 }, transformOrigin: '50% 50%', css: { marginLeft: -125, marginTop: -125 }, }, 0);
         // Skills Box - Animate Text
         tlSkillsText.to(h2, 0.3, { fontSize: '24px', color: '#FF5722', rotation: 0, x: -55, y: -100, autoAlpha: 0.9, }, 0.3);
-        // Animate list in
+        // Skills Box - Animate list in
         tlListIn.staggerTo(list, 0.3, { x: 0, delay: 0.45, autoAlpha: 1, ease: Sine.easeInOut }, 0.3);
 
-        // Function calls from event handlers
+        // Function calls from event handlers that trigger the animations
         el.animationBox3d = tlBox3d;
         el.animationBox3dLeft = tlBox3dLeft;
         el.animationBox3dBottom = tlBox3dBottom;
