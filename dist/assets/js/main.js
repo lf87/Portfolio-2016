@@ -64,18 +64,28 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
     // Detect touch device
     var isTouchDevice = 'ontouchstart' in document.documentElement;
 
+    // Background image parallax effect
+    var parallax = document.querySelectorAll(".parallax"),
+        speed = 0.5;
+
+    window.onscroll = function() {
+        [].slice.call(parallax).forEach(function(el, i) {
+            var windowYOffset = window.pageYOffset,
+                elBackgrounPos = "center -" + (windowYOffset * speed) + "px";
+            el.style.backgroundPosition = elBackgrounPos;
+        });
+    };
+
     // Skill Switch
     var switchWrap = document.getElementById('skill-switch'),
         skillEl = document.querySelectorAll('#skills li'),
         switchDelay = 1.5,
         switchArray = [];
 
-    // Push each iteration to array
     [].forEach.call(skillEl, function(el) {
-        var skill = switchArray.push(el.innerHTML);
+        var skill = switchArray.push(el.innerHTML); // Each iteration is pushed to an array
     });
 
-    // Create timeline and do tweens
     var tlSwitch = new TimelineMax({
         onComplete: function() {
             this.restart();
@@ -347,16 +357,12 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         }
         skillsClicked = false;
     }
-
-    // Background iamge scroll functionality
-    var parallax = document.querySelectorAll(".parallax"),
-        speed = 0.5;
-
-    window.onscroll = function() {
-        [].slice.call(parallax).forEach(function(el, i) {
-            var windowYOffset = window.pageYOffset,
-                elBackgrounPos = "center -" + (windowYOffset * speed) + "px";
-            el.style.backgroundPosition = elBackgrounPos;
+    // Do stuff on window load
+    /*window.onload = function() {
+        TweenMax.set(parallax,{opacity:0});
+        TweenMax.to(parallax, 2.5, {
+            opacity: 0.15,
+            ease: Back.easeOut
         });
-    };
+    };*/
 }());
