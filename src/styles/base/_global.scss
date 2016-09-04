@@ -19,26 +19,23 @@ body {
 }
 
 .large-heading {
-    @include font-size-heading(50px);
-    @include bp-lg {
-        @include font-size-heading(40px);
-    }
+    @include font-size(50px);
     @include bp-sm {
-        @include font-size-heading(34px);
+        @include font-size(34px);
     }
 }
 
 .medium-heading {
-    @include font-size-heading(40px);
+    @include font-size(40px);
     margin-bottom: .25em;
     @include bp-lg {
-        @include font-size-heading(40px);
+        @include font-size(40px);
     }
 }
 
 .small-heading {
     @include text-shadow-small;
-    @include font-size-heading(20px);
+    @include font-size(20px);
     margin-bottom: .25em;
 }
 
