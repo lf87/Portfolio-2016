@@ -12,10 +12,9 @@
     box-shadow: $box-shadow;
     overflow: hidden;
     z-index: $z-header;
-    &::after {
+    &::before {
         @include main-bg;
-        top: 0;
-        background-position: ($depth - ($depth * 2)) 0;
+        background-position: center top;
         opacity: .05;
     }
     nav {

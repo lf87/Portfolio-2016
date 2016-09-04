@@ -347,4 +347,16 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         }
         skillsClicked = false;
     }
+
+    // Background iamge scroll functionality
+    var parallax = document.querySelectorAll(".parallax"),
+        speed = 0.5;
+
+    window.onscroll = function() {
+        [].slice.call(parallax).forEach(function(el, i) {
+            var windowYOffset = window.pageYOffset,
+                elBackgrounPos = "center -" + (windowYOffset * speed) + "px";
+            el.style.backgroundPosition = elBackgrounPos;
+        });
+    };
 }());
