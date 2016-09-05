@@ -302,6 +302,14 @@
         }
         skillsClicked = false;
     }
+    // Scroll to position
+
+    document.querySelector('.scroll-btn').addEventListener('mousedown', scrollMe);
+
+    function scrollMe() {
+        TweenLite.to(window, 1.5, {scrollTo:"#skills-section", ease: Power2.easeInOut});
+    };
+
     // Do stuff on window load
     /*window.onload = function() {
         TweenMax.set(parallax,{opacity:0});

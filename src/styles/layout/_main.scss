@@ -16,18 +16,18 @@ section:first-of-type {
 
 // Top main heading area featuring large background image
 .main-heading {
+    @extend .divider;
     position: relative;
     float: left;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: $gutterM2;
-    border-bottom: 10px solid $divider-color;
+    flex-direction: column;
     background: linear-gradient(to bottom, rgba($primary-color, 1) 0%, rgba($primary-color-dark, 1) 100%);
     overflow: hidden;
     margin-top: $header-height - ($header-height*2);
     .parallax {
-        @include main-bg;
+        @extend .main-bg;
         background-position: center center;
         top: 0;
         opacity: .1;
@@ -40,12 +40,11 @@ section:first-of-type {
             padding: ($header-height / 2) 0 0;
         }
         @include bp-sm {
-
             padding: ($header-height / 2) $gutterD2 0;
+            width: auto;
         }
         @include bp-xs {
             @include font-size(26px);
-            width: auto;
         }
     }
 }
@@ -61,11 +60,52 @@ section:first-of-type {
 
 // Main content areas
 .content {
+    @extend .divider;
     margin-bottom: $gutter;
+    float: left;
+    position: relative;
+    width: 100%;
+    &:last-of-type {
+        border-bottom: 0;
+    }
     .large-heading {
         text-transform: uppercase;
-        margin-bottom: .75em;
+        margin-top: $gutterD2;
     }
 }
 
-.parallax {}
+.scroll-btn {
+    width: 50px;
+    height: 50px;
+    border: 0;
+    cursor: pointer;
+    box-shadow: $text-shadow;
+    border-radius: 50%;
+    border: 3px solid $divider-color;
+    position: relative;
+    opacity: 0.8;
+    transition: opacity .3s ease-in;
+    &::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 55%;
+        transform: translate(-50%, -50%);
+        width: 0;
+        height: 0;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-top: 20px solid $primary-color-light;
+        transition: transform .3s ease-in;
+    }
+    &:hover {
+        opacity: 1;
+        &::before {
+            transform: translate(-50%, -40%);
+        }
+    }
+}
+
+.parallax {
+    pointer-events: none;
+}

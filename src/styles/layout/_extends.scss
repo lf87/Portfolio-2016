@@ -1,0 +1,17 @@
+.main-bg {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('dist/assets/img/sunset.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    @include bp-sm {}
+}
+
+.divider {
+    border-bottom: 10px solid $divider-color;
+}

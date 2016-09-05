@@ -13,7 +13,7 @@
     overflow: hidden;
     z-index: $z-header;
     &::before {
-        @include main-bg;
+        @extend .main-bg;
         background-position: center top;
         opacity: .05;
     }
