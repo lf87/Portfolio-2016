@@ -98,11 +98,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         var skill = switchArray.push(el.innerHTML); // Each iteration is pushed to an array
     });
 
-    var tlSwitch = new TimelineMax({
-        onComplete: function() {
-            this.restart();
-        }
-    });
+    var tlSwitch = new TimelineMax({ onComplete: function() { this.restart(); } });
 
     tlSwitch.to(switchWrap, .75, { text: switchArray[0], delay: switchDelay, ease: Linear.easeNone })
         .to(switchWrap, .5, { text: switchArray[1], delay: switchDelay, ease: Linear.easeNone })
@@ -113,79 +109,43 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
 
     // Flying Text Effect
     var split = document.querySelectorAll('.words h2, .words h3, .words p, .words li'),
-        tlSplitText = new TimelineLite({
-            onCompleteAll: function() {
-                mySplitText.revert();
-            }
-        }),
-        mySplitText = new SplitText(split, {
-            type: 'chars'
-        }),
+        tlSplitText = new TimelineLite({ onCompleteAll: function() { mySplitText.revert(); } }),
+        mySplitText = new SplitText(split, { type: 'chars' }),
         chars = mySplitText.chars; // an array of all the divs that wrap each character
 
-    TweenMax.set(split, {
-        perspective: 400
-    });
-    tlSplitText.staggerFrom(chars, 0.4, {
-        opacity: 0,
-        scale: 0,
-        y: 80,
-        rotationX: 180,
-        transformOrigin: '0% 50% -50',
-        ease: Back.easeOut
-    }, 0.01, '+=0');
-    tlSplitText.progress(1).progress(0);
+    TweenMax.set(split, { perspective: 400 });
+    tlSplitText.staggerFrom(chars, 0.4, { opacity: 0, scale: 0, y: 80, rotationX: 180, transformOrigin: '0% 50% -50', ease: Back.easeOut }, 0.01, '+=0');
 
     // Tweens that require access to coordinates
     function moveMask(el, valueX, valueY) {
-        var img = el.querySelectorAll('.img');
+        // DOM elements to be tweened
+        var img = el.querySelectorAll('.img'),
+            tlMove = new TimelineLite({ paused: true }),
+            tlClick = new TimelineLite({ paused: true }),
+            tlLeave = new TimelineLite({ paused: true }),
+            tlLeaveSlow = new TimelineLite({ paused: true });
 
+        // Tweens
         // Mask move animation
-        var tlMove = new TimelineLite({
-            paused: true
-        });
-        tlMove.set(img, {
-            webkitClipPath: '40px at ' + valueX + 'px ' + valueY + 'px'
-        });
-        el.animationMaskMove = tlMove;
-
+        tlMove.set(img, { webkitClipPath: '40px at ' + valueX + 'px ' + valueY + 'px' });
         // Mask click animation
-        var tlClick = new TimelineLite({
-            paused: true
-        });
-        tlClick.to(img, 0.8, {
-            webkitClipPath: '500px at ' + valueX + 'px ' + valueY + 'px',
-        });
-        tlClick.to(img, 0.4, {
-            '-webkit-filter': 'grayscale(0%)',
-            filter: 'grayscale(0%)'
-        }, '-=0.8');
-        el.animationMaskClick = tlClick;
-        tlClick.progress(1).progress(0); // Forces an initial render of this tween so that it's cached for its 2nd usage
-
+        tlClick.to(img, 0.8, { webkitClipPath: '500px at ' + valueX + 'px ' + valueY + 'px', });
+        tlClick.to(img, 0.4, { '-webkit-filter': 'grayscale(0%)', filter: 'grayscale(0%)' }, '-=0.8');
         // Mask leave animation
-        var tlLeave = new TimelineLite({
-            paused: true
-        });
-        tlLeave.to(img, 0.2, {
-            webkitClipPath: '0 at ' + valueX + 'px ' + valueY + 'px',
-            '-webkit-filter': 'grayscale(100%)',
-            filter: 'grayscale(100%)'
-        });
-        el.animationMaskLeave = tlLeave;
-        tlLeave.progress(1).progress(0);
-
+        tlLeave.to(img, 0.2, { webkitClipPath: '0 at ' + valueX + 'px ' + valueY + 'px', '-webkit-filter': 'grayscale(100%)', filter: 'grayscale(100%)' });
         // Mask slow leave animation
-        var tlLeaveSlow = new TimelineLite({
-            paused: true
-        });
-        tlLeaveSlow.to(img, 0.7, {
-            ease: Bounce.easeOut,
-            webkitClipPath: '0 at ' + valueX + 'px ' + valueY + 'px',
-            '-webkit-filter': 'grayscale(100%)',
-            filter: 'grayscale(100%)'
-        });
+        tlLeaveSlow.to(img, 0.7, { ease: Bounce.easeOut, webkitClipPath: '0 at ' + valueX + 'px ' + valueY + 'px', '-webkit-filter': 'grayscale(100%)', filter: 'grayscale(100%)' });
+
+        // Function calls from event handlers that trigger the animations
+        el.animationMaskMove = tlMove;
+        el.animationMaskClick = tlClick;
+        el.animationMaskLeave = tlLeave;
         el.animationMaskSlowLeave = tlLeaveSlow;
+
+        // Cache tween trick
+        tlSplitText.progress(1).progress(0);
+        tlClick.progress(1).progress(0); // Forces an initial render of this tween so that it's cached for its 2nd usage
+        tlLeave.progress(1).progress(0);
         tlLeaveSlow.progress(1).progress(0);
     }
 
@@ -195,31 +155,31 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         // Force initial run with dummy coordinates (So tweens can be cached)
         moveMask(el, -100, -100);
 
-        // DOM variables to be tweened
-        var boxContent = el.querySelectorAll('.box-content');
-        var box3dLeft = el.querySelectorAll('.box .left');
-        var box3dRight = el.querySelectorAll('.box .bottom');
-        var img = el.querySelectorAll('.reveal-box .img');
-        var elSplit = el.querySelectorAll('.reveal-box .words');
-        var logo = el.querySelectorAll('.skills-box .logo');
-        var svg = el.querySelectorAll('.skills-box svg');
-        var h2 = el.querySelectorAll('.skills-box h2');
-        var list = el.querySelectorAll('.skills-box ul li');
+        // DOM elements to be tweened
+        var boxContent = el.querySelectorAll('.box-content'),
+            box3dLeft = el.querySelectorAll('.box .left'),
+            box3dRight = el.querySelectorAll('.box .bottom'),
+            img = el.querySelectorAll('.reveal-box .img'),
+            elSplit = el.querySelectorAll('.reveal-box .words'),
+            logo = el.querySelectorAll('.skills-box .logo'),
+            svg = el.querySelectorAll('.skills-box svg'),
+            h2 = el.querySelectorAll('.skills-box h2'),
+            list = el.querySelectorAll('.skills-box ul li');
 
         // Set up Timelines
-        var tlBox3d = new TimelineLite({ paused: true });
-        var tlBox3dLeft = new TimelineLite({ paused: true });
-        var tlBox3dBottom = new TimelineLite({ paused: true });
-        var tlRevealImgMove = new TimelineLite({ paused: true });
-        var tlRevealText = new TimelineLite({ paused: true });
-        var tlSkillsLogo = new TimelineLite({ paused: true });
-        var tlSkillsText = new TimelineLite({ paused: true });
-        var tlListIn = new TimelineLite({ paused: true });
+        var tlBox3d = new TimelineLite({ paused: true }),
+            tlBox3dLeft = new TimelineLite({ paused: true }),
+            tlBox3dBottom = new TimelineLite({ paused: true }),
+            tlRevealImgMove = new TimelineLite({ paused: true }),
+            tlRevealText = new TimelineLite({ paused: true }),
+            tlSkillsLogo = new TimelineLite({ paused: true }),
+            tlSkillsText = new TimelineLite({ paused: true }),
+            tlListIn = new TimelineLite({ paused: true });
 
-        // Box - Set up 3D depth animation variables
-        var depth = '6'; // Must match what it's set to in the CSS
-        var depthHalf = '3';
-        var depthSpeed = 0.3;
+            // Box - Set up 3D depth animation variables
+            var depth = '6', // Must match what it's set to in the CSS
+                depthHalf = '3',
+                depthSpeed = 0.3;
 
         // Tweens
         // Box (all) - 3D depth
@@ -370,11 +330,10 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         skillsClicked = false;
     }
     // Scroll to position
-
     document.querySelector('.scroll-btn').addEventListener('mousedown', scrollMe);
 
     function scrollMe() {
-        TweenLite.to(window, 1.5, {scrollTo:"#skills-section", ease: Power2.easeInOut});
+        TweenLite.to(window, 1.5, { scrollTo: "#skills-section", ease: Power2.easeInOut });
     };
 
     // Do stuff on window load
