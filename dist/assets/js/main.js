@@ -116,7 +116,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
     TweenMax.set(split, { perspective: 400 });
     tlSplitText.staggerFrom(chars, 0.4, { opacity: 0, scale: 0, y: 80, rotationX: 180, transformOrigin: '0% 50% -50', ease: Back.easeOut }, 0.01, '+=0');
 
-    // Tweens that require access to coordinates
+    // Tweens that require use of the masks X and Y coordinates
     function moveMask(el, valueX, valueY) {
         // DOM elements to be tweened
         var img = el.querySelectorAll('.img'),
