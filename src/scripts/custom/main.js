@@ -266,7 +266,7 @@
     document.querySelector('.scroll-btn').addEventListener('mousedown', scrollMe);
 
     function scrollMe() {
-        TweenLite.to(window, 1.5, { scrollTo: "#skills-section", ease: Power2.easeInOut });
+        TweenLite.to(window, 2, { scrollTo: "#skills-section", ease: Sine.easeOut });
     };
 
     // Do stuff on window load
