@@ -1,6 +1,7 @@
 // Site Header
 .site-header {
-    background-color: rgba($primary-color-dark, 1);
+    background-color: rgba($primary-color-dark, .75);
+    background-image: url('dist/assets/img/bg.png');
     display: flex;
     align-items: flex-end;
     font-weight: 500;
