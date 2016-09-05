@@ -14,7 +14,7 @@
         speed = 0.5;
 
     window.onscroll = function() {
-        [].slice.call(parallax).forEach(function(el, i) {
+        [].slice.call(parallax).forEach(function(el) {
             var windowYOffset = window.pageYOffset,
                 elBackgrounPos = "center -" + (windowYOffset * speed) + "px";
             el.style.backgroundPosition = elBackgrounPos;
@@ -28,17 +28,17 @@
         switchArray = [];
 
     [].forEach.call(skillEl, function(el) {
-        var skill = switchArray.push(el.innerHTML); // Each iteration is pushed to an array
+        switchArray.push(el.innerHTML); // Each iteration is pushed to an array
     });
 
     var tlSwitch = new TimelineMax({ onComplete: function() { this.restart(); } });
 
-    tlSwitch.to(switchWrap, .75, { text: switchArray[0], delay: switchDelay, ease: Linear.easeNone })
-        .to(switchWrap, .5, { text: switchArray[1], delay: switchDelay, ease: Linear.easeNone })
+    tlSwitch.to(switchWrap, 0.75, { text: switchArray[0], delay: switchDelay, ease: Linear.easeNone })
+        .to(switchWrap, 0.5, { text: switchArray[1], delay: switchDelay, ease: Linear.easeNone })
         .to(switchWrap, 1, { text: switchArray[2], delay: switchDelay, ease: Linear.easeNone })
         .to(switchWrap, 1.5, { text: switchArray[3], delay: switchDelay, ease: Linear.easeNone })
         .to(switchWrap, 1, { text: switchArray[4], delay: switchDelay, ease: Linear.easeNone })
-        .to(switchWrap, 1, { text: switchArray[5], delay: switchDelay, ease: Linear.easeNone })
+        .to(switchWrap, 1, { text: switchArray[5], delay: switchDelay, ease: Linear.easeNone });
 
     // Flying Text Effect
     var split = document.querySelectorAll('.words h2, .words h3, .words p, .words li'),
@@ -48,6 +48,7 @@
 
     TweenMax.set(split, { perspective: 400 });
     tlSplitText.staggerFrom(chars, 0.4, { opacity: 0, scale: 0, y: 80, rotationX: 180, transformOrigin: '0% 50% -50', ease: Back.easeOut }, 0.01, '+=0');
+    tlSplitText.progress(1).progress(0);
 
     // Tweens that require use of the masks X and Y coordinates
     function moveMask(el, valueX, valueY) {
@@ -60,9 +61,9 @@
 
         // Tweens
         // Mask move animation
-        tlMove.set(img, { webkitClipPath: '40px at ' + valueX + 'px ' + valueY + 'px' });
+        tlMove.set(img, { webkitClipPath: '66px at ' + valueX + 'px ' + valueY + 'px' });
         // Mask click animation
-        tlClick.to(img, 0.8, { webkitClipPath: '500px at ' + valueX + 'px ' + valueY + 'px', });
+        tlClick.to(img, 0.8, { webkitClipPath: '540px at ' + valueX + 'px ' + valueY + 'px', });
         tlClick.to(img, 0.4, { '-webkit-filter': 'grayscale(0%)', filter: 'grayscale(0%)' }, '-=0.8');
         // Mask leave animation
         tlLeave.to(img, 0.2, { webkitClipPath: '0 at ' + valueX + 'px ' + valueY + 'px', '-webkit-filter': 'grayscale(100%)', filter: 'grayscale(100%)' });
@@ -76,7 +77,6 @@
         el.animationMaskSlowLeave = tlLeaveSlow;
 
         // Cache tween trick
-        tlSplitText.progress(1).progress(0);
         tlClick.progress(1).progress(0); // Forces an initial render of this tween so that it's cached for its 2nd usage
         tlLeave.progress(1).progress(0);
         tlLeaveSlow.progress(1).progress(0);
@@ -109,10 +109,9 @@
             tlSkillsText = new TimelineLite({ paused: true }),
             tlListIn = new TimelineLite({ paused: true });
 
-            // Box - Set up 3D depth animation variables
-            var depth = '6', // Must match what it's set to in the CSS
-                depthHalf = '3',
-                depthSpeed = 0.3;
+        // Box - Set up 3D depth animation variables
+        var depthHalf = '3', // Must match half of what it's set to in the CSS
+            depthSpeed = 0.3;
 
         // Tweens
         // Box (all) - 3D depth
@@ -173,21 +172,6 @@
         skillsClicked = false;
 
     // Event listener functions
-    function revealMouseMove(e) {
-        /*jshint validthis: true */
-        if (revealElOver) {
-
-            // Get coordinates of box
-            var rect = this.getBoundingClientRect(),
-                xPos = e.pageX - rect.left,
-                yPos = e.pageY - rect.top - window.scrollY;
-
-            // Add coordinates to array and pass in to moveMask function
-            moveMask(this, xPos, yPos);
-
-            this.animationMaskMove.play();
-        }
-    }
 
     // Box
     function boxMouseDown() {
@@ -262,12 +246,29 @@
         }
         skillsClicked = false;
     }
+
+    function revealMouseMove(e) {
+        /*jshint validthis: true */
+        if (revealElOver) {
+
+            // Get coordinates of box
+            var rect = this.getBoundingClientRect(),
+                xPos = e.pageX - rect.left,
+                yPos = e.pageY - rect.top - window.scrollY;
+
+            // Add coordinates to array and pass in to moveMask function
+            moveMask(this, xPos, yPos);
+
+            this.animationMaskMove.play();
+        }
+    }
+
     // Scroll to position
     document.querySelector('.scroll-btn').addEventListener('mousedown', scrollMe);
 
     function scrollMe() {
         TweenLite.to(window, 2, { scrollTo: "#skills-section", ease: Sine.easeOut });
-    };
+    }
 
     // Do stuff on window load
     /*window.onload = function() {
