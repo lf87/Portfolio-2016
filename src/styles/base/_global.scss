@@ -6,7 +6,7 @@ body {
     @include font-smoothing;
     @include roboto(400);
     background-color: $primary-color;
-    background-image: url('dist/assets/img/bg.png');
+    background-image: url('dist/assets/img/grid-3.png');
     background-repeat: repeat;
     color: $white;
     height: 100%;
@@ -19,8 +19,6 @@ body {
     text-shadow: $text-shadow;
     display: inline-block;
     font-weight: 700;
-    margin-bottom: .5em;
-    margin-top: 0;
     width: 100%;
 }
 

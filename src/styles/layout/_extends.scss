@@ -13,5 +13,6 @@
 }
 
 .divider {
-    border-bottom: 10px solid $divider-color;
+    border-bottom: $depth solid $divider-color;
+    box-shadow: $box-shadow;
 }
