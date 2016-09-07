@@ -280,7 +280,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
     // Reveal box event listener functions
     function revealMouseDown() {
         /*jshint validthis: true */
-        this.animationTextClick.play();
+        this.animationTextClick.play(0);
         this.animationMaskClick.play();
         this.animationBox3d.play();
         this.animationBox3dLeft.play();

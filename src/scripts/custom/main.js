@@ -225,7 +225,7 @@
     // Reveal box event listener functions
     function revealMouseDown() {
         /*jshint validthis: true */
-        this.animationTextClick.play();
+        this.animationTextClick.play(0);
         this.animationMaskClick.play();
         this.animationBox3d.play();
         this.animationBox3dLeft.play();
