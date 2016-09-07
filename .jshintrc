@@ -124,5 +124,7 @@
         "CSSPlugin" : false,
         "ThrowPropsPlugin" : false, 
         "BezierPlugin" : false
+        //Custom
+        
     }
 }

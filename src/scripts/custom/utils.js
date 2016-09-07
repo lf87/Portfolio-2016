@@ -15,10 +15,8 @@
 
     window.onscroll = function() {
         [].slice.call(parallax).forEach(function(el, i) {
-            // Get window (Y) offset
             var windowYOffset = window.pageYOffset,
                 elBackgrounPos = "center -" + (windowYOffset * speed) + "px";
-            // Update style property
             el.style.backgroundPosition = elBackgrounPos;
         });
     };
