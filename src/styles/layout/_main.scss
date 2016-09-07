@@ -92,7 +92,10 @@ section:first-of-type {
     box-shadow: $text-shadow;
     border-radius: 50%;
     border: 3px solid $divider-color;
-    position: relative;
+    position: absolute;
+    bottom: $gutterM2;
+    left: 50%;
+    margin-left: -25px;
     opacity: 1;
     transition: opacity .3s ease-in;
     background-color: $primary-color-dark;
