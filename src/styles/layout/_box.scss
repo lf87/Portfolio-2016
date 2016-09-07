@@ -166,10 +166,20 @@
         position: absolute;
         top: 0;
         left: 0;
-            height: 100%;
-            width: 100%;
-        @include bp-sm {
+        height: 100%;
+        width: 100%;
+        transition: opacity .3s ease-in-out;
+    }
+}
+
+.from-small-viewport {
+    .reveal-box {
+        .words {
             background-color: $primary-color-dark;
+            opacity: 1;
+        }
+        &:hover .words {
+            opacity: 0 !important; // overwrites inline style
         }
     }
 }

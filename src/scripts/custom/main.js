@@ -24,7 +24,7 @@
     };
 
     // Get document width
-    var winX = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+    var winX = window.innerWidth && document.documentElement.clientWidth && document.body.clientWidth,
         winMd = 767;
 
     // Detect if touch device
@@ -39,13 +39,18 @@
 
     // Reset some of the tween states when window resized to over WinMD value 
     var tweenResets = debounce(function() {
-        if (winX <= winMd || isTouchDevice) {
-            console.log("within");
-            TweenLite.set('.words', { backgroundColor: boxColour });
-        }
+        console.log("within");
+        TweenLite.set('.words', { backgroundColor: boxColour });
     }, 100);
-    if (winX <= winMd || isTouchDevice) {
-        window.addEventListener('resize', tweenResets);
+
+    // Only run resize detection if already below winMd or equal to value
+    if (winX <= winMd) {
+        //window.addEventListener('resize', tweenResets);
+    }
+
+    // Users browsing at asmaller viewport will be served with an optimised version (CSS transitions rather than multiple JS transitions)
+    if (winX < winMd) {
+        document.body.classList.add('from-small-viewport');
     }
 
 
@@ -138,7 +143,7 @@
             box3dLeft = el.querySelectorAll('.box .left'),
             box3dRight = el.querySelectorAll('.box .bottom'),
             img = el.querySelectorAll('.reveal-box .img'),
-            elSplit = el.querySelectorAll('.reveal-box .words'),
+            revealWords = el.querySelectorAll('.reveal-box .words'),
             logo = el.querySelectorAll('.skills-box .logo'),
             svg = el.querySelectorAll('.skills-box svg'),
             h2 = el.querySelectorAll('.skills-box h2'),
@@ -165,9 +170,9 @@
         // Box (all) - 3D depth animation Bottom
         tlBox3dBottom.to(box3dRight, depthSpeed, { height: boxDepthHalved, right: '+=' + boxDepthHalved });
         // Reveal Box - Image animation
-        tlRevealImgMove.to(img, 0.3, { scale: 1, ease: Sine.easeOut, '-webkit-filter': 'grayscale(0%)', filter: 'grayscale(0%)' }, 0.05);
+        tlRevealImgMove.to(img, 0.3, { scale: 1, ease: Sine.easeOut }, 0.05);
         // Reveal Box - Mask click text animation
-        tlRevealText.to(elSplit, 0.35, { autoAlpha: 0 });
+        tlRevealText.to(revealWords, 0.35, { autoAlpha: 0 });
         // Skills Box - Set initial state
         TweenLite.set(logo, { transformOrigin: '50% 50%', });
         // Skills Box - Animate SVG path (logo)
@@ -218,7 +223,7 @@
     // Box - Reveal
     function revealMouseDown() {
         /*jshint validthis: true */
-        if (winX > winMd || !isTouchDevice) {
+        if (winX > winMd) {
             this.animationTextClick.play();
             this.animationMaskClick.play();
             this.animationBox3d.play();
@@ -231,8 +236,8 @@
 
     function revealMouseLeave() {
         /*jshint validthis: true */
-        this.animationTextClick.timeScale(1.25).reverse();
-        if (winX > winMd || !isTouchDevice) {
+        if (winX > winMd) {
+            this.animationTextClick.timeScale(1.25).reverse();
             // If revealClicked then run slow animation
             if (revealClicked) {
                 this.animationMaskSlowLeave.play();
@@ -243,11 +248,12 @@
         revealClicked = false;
         revealElOver = true;
     }
+    console.log(!(isTouchDevice));
 
     // Box - Skills
     function skillsMouseDown() {
         /*jshint validthis: true */
-        if (winX > winMd || !isTouchDevice) {
+        if (winX > winMd) {
             this.animationBox3d.play();
             this.animationBox3dLeft.play();
             this.animationBox3dBottom.play();
@@ -264,7 +270,7 @@
     function skillsMouseLeave() {
         /*jshint validthis: true */
         if (skillsClicked) {
-            if (winX > winMd || !isTouchDevice) {
+            if (winX > winMd) {
                 this.animationLogo.progress(0).pause();
                 this.animationText.progress(0).pause();
                 this.animationListIn.progress(0).pause();
@@ -282,7 +288,7 @@
 
     function revealMouseMove(e) {
         /*jshint validthis: true */
-        if (winX > winMd || !isTouchDevice) {
+        if (winX > winMd) {
             if (revealElOver) {
 
                 // Get coordinates of box
