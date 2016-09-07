@@ -26,27 +26,26 @@ section:first-of-type {
     background: linear-gradient(to bottom, rgba($primary-color, 1) 0%, rgba($primary-color-dark, 1) 100%);
     overflow: hidden;
     margin-top: $header-height - ($header-height*2);
+    .large-heading {
+        margin: $gutter 0;
+        padding: ($header-height / 2) 0 0;
+        width: 730px;
+        @include bp-lg {
+            padding: ($header-height / 2) 0 0;
+        }
+        @include bp-sm {
+            padding: ($header-height / 2) $gutterD2 0;
+            width: auto;
+        }
+        @include bp-xs {
+            @include font-size(26px);
+        }
+    }
     .parallax {
         @extend .main-bg;
         background-position: center center;
         top: 0;
         opacity: .1;
-    }
-}
-
-h1 {
-    margin: $gutter 0;
-    padding: ($header-height / 2) 0 0;
-    width: 730px;
-    @include bp-lg {
-        padding: ($header-height / 2) 0 0;
-    }
-    @include bp-sm {
-        padding: ($header-height / 2) $gutterD2 0;
-        width: auto;
-    }
-    @include bp-xs {
-        @include font-size(26px);
     }
 }
 

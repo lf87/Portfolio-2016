@@ -214,11 +214,11 @@
         font-weight: 700;
         color: $white;
         opacity: .035;
-        transform: rotate(35deg);
-        text-align: center;
-        position: relative;
-        width: auto;
-        margin: 0;
+        transform: rotate(30deg);
+        width: 100%;
+        text-indent: 0;
+        white-space: nowrap;
+        margin: -60px 0 0 -80px;
     }
     .left {
         width: $depth;
@@ -260,8 +260,7 @@
     }
     ul {
         position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
+        top: 35px;
         left: $gutterD2;
         width: 100%;
         list-style: none;
@@ -269,7 +268,7 @@
         margin-top: $gutter;
         z-index: 1;
         li {
-            @include font-size(19px);
+            @include font-size(18px);
             display: inline-block;
             color: $primary-color-text;
             padding: 0 0 0 0;

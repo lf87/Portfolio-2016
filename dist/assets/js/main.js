@@ -79,7 +79,8 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
     };*/
     // Object for generic tween timings
     var t = {
-        depth: 0.3
+        depth: 0.3,
+        accentColor: '#FF5722'
     };
 
     // Get document width
@@ -205,6 +206,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
             img = el.querySelectorAll('.reveal-box .img'),
             revealWords = el.querySelectorAll('.reveal-box .words'),
             logo = el.querySelectorAll('.skills-box .logo'),
+            logoTo = el.querySelectorAll('.skills-box .logo-to'),
             svg = el.querySelectorAll('.skills-box svg'),
             h2 = el.querySelectorAll('.skills-box h2'),
             list = el.querySelectorAll('.skills-box ul li');
@@ -233,11 +235,11 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         // Skills Box - Set initial state
         TweenLite.set(logo, { transformOrigin: '50% 50%', });
         // Skills Box - Animate SVG path (logo)
-        tlSkillsLogo.to(logo, 0.6, { rotation: 360, morphSVG: { shape: '.logo-to', shapeIndex: -1 }, ease: Circ.easeInOut });
-        // Skills Box -  Animate SVG (viewbox)
-        tlSkillsLogo.to(svg, 0.6, { ease: Circ.easeInOut, attr: { width: 200, height: 200 }, transformOrigin: '50% 50%', css: { marginLeft: -125, marginTop: -125 }, }, 0);
+        tlSkillsLogo.to(logo, 0.6, { rotation: 360, morphSVG: { shape: logoTo, shapeIndex: -1 }, ease: Circ.easeInOut });
+        // Skills Box - Animate SVG (viewbox)
+        tlSkillsLogo.to(svg, 0.6, { ease: Circ.easeInOut, attr: { width: 200, height: 200 }, transformOrigin: '50% 50%', css: { marginLeft: -125, marginTop: -165 }, }, 0);
         // Skills Box - Animate Text
-        tlSkillsText.to(h2, 0.3, { fontSize: '24px', color: '#FF5722', rotation: 0, x: -55, y: -100, autoAlpha: 0.9, }, 0.3);
+        tlSkillsText.to(h2, 0.3, { fontSize: '24px', color: t.accentColor, rotation: 0, x: 105, y: -110, autoAlpha: 0.9, }, 0.3);
         // Skills Box - Animate list in
         tlListIn.staggerTo(list, 0.3, { x: 0, delay: 0.45, autoAlpha: 1, ease: Sine.easeInOut }, 0.3);
 
@@ -280,7 +282,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
     // Reveal box event listener functions
     function revealMouseDown() {
         /*jshint validthis: true */
-        this.animationTextClick.play(0);
+        this.animationTextClick.play();
         this.animationMaskClick.play();
         this.animationBox3d.play();
         this.animationBox3dLeft.play();
@@ -309,11 +311,11 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
             this.animationBox3d.play();
             this.animationBox3dLeft.play();
             this.animationBox3dBottom.play();
-            this.animationLogo.progress(1);
-            this.animationText.progress(1);
-        } else {
             this.animationLogo.play();
             this.animationText.play();
+        } else {
+            this.animationLogo.progress(1);
+            this.animationText.progress(1);
         }
         this.animationListIn.play(0);
         skillsClicked = true;
@@ -323,15 +325,15 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         /*jshint validthis: true */
         if (skillsClicked) {
             if (winX > winMd) {
-                this.animationLogo.progress(0).pause();
-                this.animationText.progress(0).pause();
+                this.animationLogo.reverse(0);
+                this.animationText.reverse(1);
                 this.animationListIn.progress(0).pause();
                 this.animationBox3d.reverse();
                 this.animationBox3dLeft.reverse();
                 this.animationBox3dBottom.reverse();
             } else {
-                this.animationLogo.reverse(0);
-                this.animationText.reverse(1);
+                this.animationLogo.progress(0).pause();
+                this.animationText.progress(0).pause();
                 this.animationListIn.progress(0).pause();
             }
         }
