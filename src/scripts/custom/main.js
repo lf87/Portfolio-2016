@@ -22,6 +22,10 @@
             if (callNow) func.apply(context, args);
         };
     };*/
+    // Object for generic tween timings
+    var t = {
+        depth: 0.3
+    };
 
     // Get document width
     var winX = window.innerWidth && document.documentElement.clientWidth && document.body.clientWidth,
@@ -30,16 +34,16 @@
     // Detect if touch device
     var isTouchDevice = 'ontouchstart' in document.documentElement;
 
-    // Get computed styles for later usage
+    //boxColour = window.getComputedStyle(getBox, null).getPropertyValue('background-color'), // Used to reset reveal box state on resize
+    // Get computed styles of box, to calculate depth value
     var getBox = document.querySelector('.box-content'),
-        boxColour = window.getComputedStyle(getBox, null).getPropertyValue('background-color'), // Used to reset reveal box state on resize
         boxDepth = window.getComputedStyle(getBox, null).getPropertyValue('left'),
         boxDepthTrim = boxDepth.substring(0, boxDepth.length - 2),
-        boxDepthHalved = (boxDepthTrim / 2) + 'px'; // This is required for the tweens later on
+        boxDepthHalved = (boxDepthTrim / 2) + 'px';
 
     // Reset some of the tween states when window resized to over WinMD value 
     /*var tweenResets = debounce(function() {
-        console.log("within");
+        console.log('within');
         TweenLite.set('.words', { backgroundColor: boxColour });
     }, 100);*/
 
@@ -160,16 +164,13 @@
             tlSkillsText = new TimelineLite({ paused: true }),
             tlListIn = new TimelineLite({ paused: true });
 
-        // Box - Set up 3D depth animation variables
-        var depthSpeed = 0.3;
-
         // Tweens
         // Box (all) - 3D depth
-        tlBox3d.to(boxContent, depthSpeed, { x: '-=' + boxDepthHalved, y: '+=' + boxDepthHalved });
+        tlBox3d.to(boxContent, t.depth, { x: '-=' + boxDepthHalved, y: '+=' + boxDepthHalved });
         // Box (all) - 3D depth animation Left
-        tlBox3dLeft.to(box3dLeft, depthSpeed, { width: boxDepthHalved });
+        tlBox3dLeft.to(box3dLeft, t.depth, { width: boxDepthHalved });
         // Box (all) - 3D depth animation Bottom
-        tlBox3dBottom.to(box3dRight, depthSpeed, { height: boxDepthHalved, right: '+=' + boxDepthHalved });
+        tlBox3dBottom.to(box3dRight, t.depth, { height: boxDepthHalved, right: '+=' + boxDepthHalved });
         // Reveal Box - Image animation
         tlRevealImgMove.to(img, 0.3, { scale: 1, ease: Sine.easeOut }, 0.05);
         // Reveal Box - Mask click text animation
@@ -209,8 +210,8 @@
         if (winX > winMd) {
             el.addEventListener('mousemove', revealMouseMove);
             el.addEventListener('mousedown', revealMouseDown);
+            el.addEventListener('mouseleave', revealMouseLeave);
         }
-        el.addEventListener('mouseleave', revealMouseLeave);
         el.addEventListener('mousedown', skillsMouseDown);
         el.addEventListener('mouseleave', skillsMouseLeave);
 
@@ -221,9 +222,7 @@
         revealClicked = false,
         skillsClicked = false;
 
-    // Event listener functions
-
-    // Box - Reveal
+    // Reveal box event listener functions
     function revealMouseDown() {
         /*jshint validthis: true */
         this.animationTextClick.play();
@@ -238,7 +237,6 @@
     function revealMouseLeave() {
         /*jshint validthis: true */
         this.animationTextClick.timeScale(1.25).reverse();
-        // If revealClicked then run slow animation
         if (revealClicked) {
             this.animationMaskSlowLeave.play();
         } else {
@@ -249,7 +247,7 @@
     }
     console.log(!(isTouchDevice));
 
-    // Box - Skills
+    // Skills box event listener functions
     function skillsMouseDown() {
         /*jshint validthis: true */
         if (winX > winMd) {
@@ -287,19 +285,17 @@
 
     function revealMouseMove(e) {
         /*jshint validthis: true */
-        if (winX > winMd) {
-            if (revealElOver) {
+        if (revealElOver) {
 
-                // Get coordinates of box
-                var rect = this.getBoundingClientRect(),
-                    xPos = e.pageX - rect.left,
-                    yPos = e.pageY - rect.top - window.scrollY;
+            // Get coordinates of box
+            var rect = this.getBoundingClientRect(),
+                xPos = e.pageX - rect.left,
+                yPos = e.pageY - rect.top - window.scrollY;
 
-                // Add coordinates to array and pass in to moveMask function
-                moveMask(this, xPos, yPos);
+            // Add coordinates to array and pass in to moveMask function
+            moveMask(this, xPos, yPos);
 
-                this.animationMaskMove.play();
-            }
+            this.animationMaskMove.play();
         }
     }
 

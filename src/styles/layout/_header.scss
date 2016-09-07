@@ -14,7 +14,6 @@
     overflow: hidden;
     z-index: $z-header;
     &::before {
-        @extend .main-bg;
         background-position: center top;
         opacity: .05;
     }
