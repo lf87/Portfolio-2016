@@ -2,21 +2,62 @@
 (function() {
     'use strict';
 
+    // The below is taken from underscore.js
+    // Returns a function, that, as long as it continues to be invoked, will not
+    // be triggered. The function will be called after it stops being called for
+    // N milliseconds. If `immediate` is passed, trigger the function on the
+    // leading edge, instead of the trailing.
+    function debounce(func, wait, immediate) {
+        var timeout;
+        return function() {
+            var context = this,
+                args = arguments;
+            var later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    };
+
     // Get document width
     var winX = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
         winMd = 767;
 
-    // Detect touch device
+    // Detect if touch device
     var isTouchDevice = 'ontouchstart' in document.documentElement;
 
+    // Get computed styles for later usage
+    var getBox = document.querySelector('.box-content'),
+        boxColour = window.getComputedStyle(getBox, null).getPropertyValue('background-color'), // Used to reset reveal box state on resize
+        boxDepth = window.getComputedStyle(getBox, null).getPropertyValue('left'),
+        boxDepthTrim = boxDepth.substring(0, boxDepth.length - 2),
+        boxDepthHalved = (boxDepthTrim / 2) + 'px'; // This is required for the tweens later on
+
+    // Reset some of the tween states when window resized to over WinMD value 
+    var tweenResets = debounce(function() {
+        if (winX <= winMd || isTouchDevice) {
+            console.log("within");
+            TweenLite.set('.words', { backgroundColor: boxColour });
+        }
+    }, 100);
+    if (winX <= winMd || isTouchDevice) {
+        window.addEventListener('resize', tweenResets);
+    }
+
+
+
     // Background image parallax effect
-    var parallax = document.querySelectorAll(".parallax"),
+    var parallax = document.querySelectorAll('.parallax'),
         speed = 0.5;
 
     window.onscroll = function() {
         [].slice.call(parallax).forEach(function(el, i) {
             var windowYOffset = window.pageYOffset,
-                elBackgrounPos = "center -" + (windowYOffset * speed) + "px";
+                elBackgrounPos = 'center -' + (windowYOffset * speed) + 'px';
             // Update style property
             el.style.backgroundPosition = elBackgrounPos;
         });
@@ -114,16 +155,15 @@
             tlListIn = new TimelineLite({ paused: true });
 
         // Box - Set up 3D depth animation variables
-        var depthHalf = '3', // Must match half of what it's set to in the CSS
-            depthSpeed = 0.3;
+        var depthSpeed = 0.3;
 
         // Tweens
         // Box (all) - 3D depth
-        tlBox3d.to(boxContent, depthSpeed, { x: '-=' + depthHalf + 'px', y: '+=' + depthHalf + 'px' });
+        tlBox3d.to(boxContent, depthSpeed, { x: '-=' + boxDepthHalved, y: '+=' + boxDepthHalved });
         // Box (all) - 3D depth animation Left
-        tlBox3dLeft.to(box3dLeft, depthSpeed, { width: depthHalf + 'px' });
+        tlBox3dLeft.to(box3dLeft, depthSpeed, { width: boxDepthHalved });
         // Box (all) - 3D depth animation Bottom
-        tlBox3dBottom.to(box3dRight, depthSpeed, { height: depthHalf + 'px', right: '+=' + depthHalf + 'px' });
+        tlBox3dBottom.to(box3dRight, depthSpeed, { height: boxDepthHalved, right: '+=' + boxDepthHalved });
         // Reveal Box - Image animation
         tlRevealImgMove.to(img, 0.3, { scale: 1, ease: Sine.easeOut, '-webkit-filter': 'grayscale(0%)', filter: 'grayscale(0%)' }, 0.05);
         // Reveal Box - Mask click text animation
@@ -160,8 +200,6 @@
         tlListIn.progress(1).progress(0);
 
         // Assign event listeners
-        el.addEventListener('mousedown', boxMouseDown);
-        el.addEventListener('mouseleave', boxMouseLeave);
         el.addEventListener('mousemove', revealMouseMove);
         el.addEventListener('mousedown', revealMouseDown);
         el.addEventListener('mouseleave', revealMouseLeave);
@@ -177,45 +215,24 @@
 
     // Event listener functions
 
-    // Box
-    function boxMouseDown() {
-        /*jshint validthis: true */
-        this.animationBox3d.play();
-        this.animationBox3dLeft.play();
-        this.animationBox3dBottom.play();
-    }
-
-    function boxMouseLeave() {
-        /*jshint validthis: true */
-        if (isTouchDevice) {
-            this.animationBox3d.progress(0).pause();
-            this.animationBox3dLeft.progress(0).pause();
-            this.animationBox3dBottom.progress(0).pause();
-        } else {
-            this.animationBox3d.reverse();
-            this.animationBox3dLeft.reverse();
-            this.animationBox3dBottom.reverse();
-        }
-
-    }
-
-    function on_resize(c,t){onresize=function(){clearTimeout(t);t=setTimeout(c,100)};return c};
     // Box - Reveal
     function revealMouseDown() {
         /*jshint validthis: true */
-        this.animationTextClick.play();
-        if (winX > winMd) {
+        if (winX > winMd || !isTouchDevice) {
+            this.animationTextClick.play();
             this.animationMaskClick.play();
+            this.animationBox3d.play();
+            this.animationBox3dLeft.play();
+            this.animationBox3dBottom.play();
         }
         revealClicked = true;
         revealElOver = false;
     }
 
-
     function revealMouseLeave() {
         /*jshint validthis: true */
         this.animationTextClick.timeScale(1.25).reverse();
-        if (winX > winMd) {
+        if (winX > winMd || !isTouchDevice) {
             // If revealClicked then run slow animation
             if (revealClicked) {
                 this.animationMaskSlowLeave.play();
@@ -226,16 +243,14 @@
         revealClicked = false;
         revealElOver = true;
     }
-    on_resize(function() {
-        revealMouseLeave();
-        revealMouseDown();
-        console.log("in");
-    });
 
     // Box - Skills
     function skillsMouseDown() {
         /*jshint validthis: true */
-        if (isTouchDevice) {
+        if (winX > winMd || !isTouchDevice) {
+            this.animationBox3d.play();
+            this.animationBox3dLeft.play();
+            this.animationBox3dBottom.play();
             this.animationLogo.progress(1);
             this.animationText.progress(1);
         } else {
@@ -249,10 +264,13 @@
     function skillsMouseLeave() {
         /*jshint validthis: true */
         if (skillsClicked) {
-            if (isTouchDevice) {
+            if (winX > winMd || !isTouchDevice) {
                 this.animationLogo.progress(0).pause();
                 this.animationText.progress(0).pause();
                 this.animationListIn.progress(0).pause();
+                this.animationBox3d.reverse();
+                this.animationBox3dLeft.reverse();
+                this.animationBox3dBottom.reverse();
             } else {
                 this.animationLogo.reverse(0);
                 this.animationText.reverse(1);
@@ -264,7 +282,7 @@
 
     function revealMouseMove(e) {
         /*jshint validthis: true */
-        if (winX > winMd) {
+        if (winX > winMd || !isTouchDevice) {
             if (revealElOver) {
 
                 // Get coordinates of box
@@ -284,7 +302,7 @@
     document.querySelector('.scroll-btn').addEventListener('mousedown', scrollMe);
 
     function scrollMe() {
-        TweenLite.to(window, 2, { scrollTo: "#skills-section", ease: Sine.easeOut });
+        TweenLite.to(window, 2, { scrollTo: '#skills-section', ease: Sine.easeOut });
     }
 
     // Do stuff on window load
