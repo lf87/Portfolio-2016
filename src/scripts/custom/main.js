@@ -7,7 +7,7 @@
     // be triggered. The function will be called after it stops being called for
     // N milliseconds. If `immediate` is passed, trigger the function on the
     // leading edge, instead of the trailing.
-    function debounce(func, wait, immediate) {
+    /*function debounce(func, wait, immediate) {
         var timeout;
         return function() {
             var context = this,
@@ -21,7 +21,7 @@
             timeout = setTimeout(later, wait);
             if (callNow) func.apply(context, args);
         };
-    };
+    };*/
 
     // Get document width
     var winX = window.innerWidth && document.documentElement.clientWidth && document.body.clientWidth,
@@ -38,15 +38,15 @@
         boxDepthHalved = (boxDepthTrim / 2) + 'px'; // This is required for the tweens later on
 
     // Reset some of the tween states when window resized to over WinMD value 
-    var tweenResets = debounce(function() {
+    /*var tweenResets = debounce(function() {
         console.log("within");
         TweenLite.set('.words', { backgroundColor: boxColour });
-    }, 100);
+    }, 100);*/
 
     // Only run resize detection if already below winMd or equal to value
-    if (winX <= winMd) {
-        //window.addEventListener('resize', tweenResets);
-    }
+    /*if (winX <= winMd) {
+        window.addEventListener('resize', tweenResets);
+    }*/
 
     // Users browsing at asmaller viewport will be served with an optimised version (CSS transitions rather than multiple JS transitions)
     if (winX < winMd) {
@@ -56,17 +56,18 @@
 
 
     // Background image parallax effect
-    var parallax = document.querySelectorAll('.parallax'),
-        speed = 0.5;
-
-    window.onscroll = function() {
-        [].slice.call(parallax).forEach(function(el, i) {
-            var windowYOffset = window.pageYOffset,
-                elBackgrounPos = 'center -' + (windowYOffset * speed) + 'px';
-            // Update style property
-            el.style.backgroundPosition = elBackgrounPos;
-        });
-    };
+    if (winX > winMd) {
+        var parallax = document.querySelectorAll('.parallax'),
+            speed = 0.5;
+        window.onscroll = function() {
+            [].slice.call(parallax).forEach(function(el, i) {
+                var windowYOffset = window.pageYOffset,
+                    elBackgrounPos = 'center -' + (windowYOffset * speed) + 'px';
+                // Update style property
+                el.style.backgroundPosition = elBackgrounPos;
+            });
+        };
+    }
 
     // Skill Switch
     var switchWrap = document.getElementById('skill-switch'),
@@ -205,8 +206,10 @@
         tlListIn.progress(1).progress(0);
 
         // Assign event listeners
-        el.addEventListener('mousemove', revealMouseMove);
-        el.addEventListener('mousedown', revealMouseDown);
+        if (winX > winMd) {
+            el.addEventListener('mousemove', revealMouseMove);
+            el.addEventListener('mousedown', revealMouseDown);
+        }
         el.addEventListener('mouseleave', revealMouseLeave);
         el.addEventListener('mousedown', skillsMouseDown);
         el.addEventListener('mouseleave', skillsMouseLeave);
@@ -223,27 +226,23 @@
     // Box - Reveal
     function revealMouseDown() {
         /*jshint validthis: true */
-        if (winX > winMd) {
-            this.animationTextClick.play();
-            this.animationMaskClick.play();
-            this.animationBox3d.play();
-            this.animationBox3dLeft.play();
-            this.animationBox3dBottom.play();
-        }
+        this.animationTextClick.play();
+        this.animationMaskClick.play();
+        this.animationBox3d.play();
+        this.animationBox3dLeft.play();
+        this.animationBox3dBottom.play();
         revealClicked = true;
         revealElOver = false;
     }
 
     function revealMouseLeave() {
         /*jshint validthis: true */
-        if (winX > winMd) {
-            this.animationTextClick.timeScale(1.25).reverse();
-            // If revealClicked then run slow animation
-            if (revealClicked) {
-                this.animationMaskSlowLeave.play();
-            } else {
-                this.animationMaskLeave.play();
-            }
+        this.animationTextClick.timeScale(1.25).reverse();
+        // If revealClicked then run slow animation
+        if (revealClicked) {
+            this.animationMaskSlowLeave.play();
+        } else {
+            this.animationMaskLeave.play();
         }
         revealClicked = false;
         revealElOver = true;
@@ -302,13 +301,6 @@
                 this.animationMaskMove.play();
             }
         }
-    }
-
-    // Scroll to position
-    document.querySelector('.scroll-btn').addEventListener('mousedown', scrollMe);
-
-    function scrollMe() {
-        TweenLite.to(window, 2, { scrollTo: '#skills-section', ease: Sine.easeOut });
     }
 
     // Do stuff on window load

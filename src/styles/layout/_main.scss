@@ -101,6 +101,7 @@ h1 {
     &::before {
         @include font-size(50px);
         text-shadow: $text-shadow;
+        color: $white;
         content: '';
         position: absolute;
         left: 50%;
