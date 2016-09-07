@@ -1,9 +1,15 @@
+html {
+    height: 100%
+}
 body {
     @include font-size(16px);
     @include font-smoothing;
     @include roboto(400);
     background-color: $primary-color;
+    background-image: url('dist/assets/img/grid-3.png');
+    background-repeat: repeat;
     color: $white;
+    height: 100%;
 }
 
 // Copy
@@ -13,8 +19,6 @@ body {
     text-shadow: $text-shadow;
     display: inline-block;
     font-weight: 700;
-    margin-bottom: .5em;
-    margin-top: 0;
     width: 100%;
 }
 
@@ -98,18 +102,6 @@ nav li,
             background-color: $black;
         }
     }
-}
-
-// Lazy loading animations
-.teaser.lazyload {
-    opacity: 0;
-    transform: scale(.75);
-}
-
-.teaser.lazyloaded {
-    opacity: 1;
-    transform: scale(1);
-    transition: all 750ms;
 }
 
 // SVGs
