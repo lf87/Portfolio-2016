@@ -77,46 +77,60 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
             if (callNow) func.apply(context, args);
         };
     };*/
-    // Properties object
+
+    // Properties object (p.property)
+    // DepthTiming       - The speed at which the box will animate
+    // Depth             - Half the pixel width of the 3d area surrounding the boxes
+    // accentColor       - Literally the accent colour, taken from the variables.scss
+    // largeNorTouch     - Returns true if window width is greater than 768px, and no touch device is detected
+    // listDelay         - Specify a delay time based upon the window width
     var p = {
-        depth: 0.3,
-        accentColor: '#FF5722'
+        depthTiming: 0.3,
+        accentColor: '#FF5722',
+        largeNorTouchFunc: function() {
+            var winX = window.innerWidth && document.documentElement.clientWidth && document.body.clientWidth,
+                winMd = 767,
+                isTouchDevice = 'ontouchstart' in document.documentElement,
+                a;
+            if (winX > winMd && !isTouchDevice) {
+                a = true;
+            } else {
+                a = false;
+            }
+            return a;
+        },
+        listDelay: function() {
+            var b;
+            if (p.largeNorTouchFunc()) {
+                b = 0.45;
+            } else {
+                b = 0;
+            }
+            return b;
+        }
     };
+    // Store returned boolean seperately, because we don't
+    // want to be checking this every time the function is called
+    var largeNorTouch = p.largeNorTouchFunc();
+    console.log(p.largeNorTouchFunc());
 
-    // Get document width
-    var winX = window.innerWidth && document.documentElement.clientWidth && document.body.clientWidth,
-        winMd = 767;
+    // The depth change when the box animates (based
+    // on half the computed style of the box edge)
+    if (largeNorTouch) {
+        var getBox = document.querySelector('.box-content'),
+            boxDepthProp = window.getComputedStyle(getBox, null).getPropertyValue('left'),
+            boxDepthTrim = boxDepthProp.substring(0, boxDepthProp.length - 2),
+            boxDepth = (boxDepthTrim / 2) + 'px';
+    }
 
-    // Detect if touch device
-    var isTouchDevice = 'ontouchstart' in document.documentElement;
-
-    //boxColour = window.getComputedStyle(getBox, null).getPropertyValue('background-color'), // Used to reset reveal box state on resize
-    // Get computed styles of box, to calculate depth value
-    var getBox = document.querySelector('.box-content'),
-        boxDepth = window.getComputedStyle(getBox, null).getPropertyValue('left'),
-        boxDepthTrim = boxDepth.substring(0, boxDepth.length - 2),
-        boxDepthHalved = (boxDepthTrim / 2) + 'px';
-
-    // Reset some of the tween states when window resized to over WinMD value 
-    /*var tweenResets = debounce(function() {
-        console.log('within');
-        TweenLite.set('.words', { backgroundColor: boxColour });
-    }, 100);*/
-
-    // Only run resize detection if already below winMd or equal to value
-    /*if (winX <= winMd) {
-        window.addEventListener('resize', tweenResets);
-    }*/
-
-    // Users browsing at asmaller viewport will be served with an optimised version (CSS transitions rather than multiple JS transitions)
-    if (winX < winMd) {
+    // Users browsing at a smaller viewport will be served with an optimised
+    // version, replacing some JS animations with CSS animations
+    if (!largeNorTouch) {
         document.body.classList.add('from-small-viewport');
     }
 
-
-
     // Background image parallax effect
-    if (winX > winMd) {
+    if (largeNorTouch) {
         var parallax = document.querySelectorAll('.parallax'),
             speed = 0.5;
         window.onscroll = function() {
@@ -149,14 +163,16 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         .to(switchWrap, 1, { text: switchArray[5], delay: switchDelay, ease: Linear.easeNone });
 
     // Flying Text Effect
-    var split = document.querySelectorAll('.words h2, .words h3, .words p, .words li'),
-        tlSplitText = new TimelineLite({ onCompleteAll: function() { mySplitText.revert(); } }),
-        mySplitText = new SplitText(split, { type: 'chars' }),
-        chars = mySplitText.chars; // an array of all the divs that wrap each character
+    if (largeNorTouch) {
+        var split = document.querySelectorAll('.words h2, .words h3, .words p, .words li'),
+            tlSplitText = new TimelineLite({ onCompleteAll: function() { mySplitText.revert(); } }),
+            mySplitText = new SplitText(split, { type: 'chars' }),
+            chars = mySplitText.chars; // an array of all the divs that wrap each character
 
-    TweenMax.set(split, { perspective: 400 });
-    tlSplitText.staggerFrom(chars, 0.4, { opacity: 0, scale: 0, y: 80, rotationX: 180, transformOrigin: '0% 50% -50', ease: Back.easeOut }, 0.01, '+=0');
-    tlSplitText.progress(1).progress(0);
+        TweenMax.set(split, { perspective: 400 });
+        tlSplitText.staggerFrom(chars, 0.4, { opacity: 0, scale: 0, y: 80, rotationX: 180, transformOrigin: '0% 50% -50', ease: Back.easeOut }, 0.01, '+=0');
+        tlSplitText.progress(1).progress(0);
+    }
 
     // Tweens that require use of the masks X and Y coordinates
     function moveMask(el, valueX, valueY) {
@@ -165,8 +181,6 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
             tlMove = new TimelineLite({ paused: true }),
             tlClick = new TimelineLite({ paused: true }),
             tlLeave = new TimelineLite({ paused: true }),
-            tlClickMob = new TimelineLite({ paused: true }),
-            tlLeaveMob = new TimelineLite({ paused: true }),
             tlLeaveSlow = new TimelineLite({ paused: true });
 
         // Tweens
@@ -188,8 +202,6 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         // Cache tween trick
         tlClick.progress(1).progress(0); // Forces an initial render of this tween so that it's cached for its 2nd usage
         tlLeave.progress(1).progress(0);
-        tlClickMob.progress(1).progress(0);
-        tlLeaveMob.progress(1).progress(0);
         tlLeaveSlow.progress(1).progress(0);
     }
 
@@ -219,36 +231,31 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
             tlRevealText = new TimelineLite({ paused: true }),
             tlListIn = new TimelineLite({ paused: true }),
             tlSkillsLogo = new TimelineLite({ paused: true }),
-            tlSkillsText = new TimelineLite({ paused: true }),
-            tlSkillsLogoMob = new TimelineLite({ paused: true }),
-            tlSkillsTextMob = new TimelineLite({ paused: true });
-
+            tlSkillsText = new TimelineLite({ paused: true });
 
         // Tweens
-        // Box (all) - 3D depth
-        tlBox3d.to(boxContent, p.depth, { x: '-=' + boxDepthHalved, y: '+=' + boxDepthHalved });
-        // Box (all) - 3D depth animation Left
-        tlBox3dLeft.to(box3dLeft, p.depth, { width: boxDepthHalved });
-        // Box (all) - 3D depth animation Bottom
-        tlBox3dBottom.to(box3dRight, p.depth, { height: boxDepthHalved, right: '+=' + boxDepthHalved });
-        // Reveal Box - Image animation
-        tlRevealImgMove.to(img, 0.3, { scale: 1, ease: Sine.easeOut }, 0.05);
-        // Reveal Box - Mask click text animation
-        tlRevealText.to(revealWords, 0.35, { autoAlpha: 0 });
-        // Skills Box - Set initial state
-        TweenLite.set(logo, { transformOrigin: '50% 50%', });
+        if (largeNorTouch) {
+            // Box (all) - 3D depth
+            tlBox3d.to(boxContent, p.depthTiming, { x: '-=' + boxDepth, y: '+=' + boxDepth });
+            // Box (all) - 3D depth animation Left
+            tlBox3dLeft.to(box3dLeft, p.depthTiming, { width: boxDepth });
+            // Box (all) - 3D depth animation Bottom
+            tlBox3dBottom.to(box3dRight, p.depthTiming, { height: boxDepth, right: '+=' + boxDepth });
+            // Reveal Box - Image animation
+            tlRevealImgMove.to(img, 0.3, { scale: 1, ease: Sine.easeOut }, 0.05);
+            // Reveal Box - Mask click text animation
+            tlRevealText.to(revealWords, 0.35, { autoAlpha: 0 });
+        }
+        // Skills Box - Set initial state for SVG path (logo)
+        TweenLite.set(logo, { transformOrigin: '50% 50%' });
         // Skills Box - Animate SVG path (logo)
         tlSkillsLogo.to(logo, 0.6, { rotation: 360, morphSVG: { shape: logoTo, shapeIndex: -1 }, ease: Circ.easeInOut });
         // Skills Box - Animate SVG (viewbox)
-        tlSkillsLogo.to(svg, 0.6, { ease: Circ.easeInOut, attr: { width: 200, height: 200 }, transformOrigin: '50% 50%', css: { marginLeft: -125, marginTop: -165 }, }, 0);
+        tlSkillsLogo.to(svg, 0.6, { ease: Circ.easeInOut, attr: { width: 200, height: 200 }, transformOrigin: '50% 50%', css: { marginLeft: -125, marginTop: -165 } }, 0);
         // Skills Box - Animate Text
         tlSkillsText.to(h2, 0.3, { fontSize: '24px', color: p.accentColor, rotation: 0, x: 105, y: -110, autoAlpha: 0.9, }, 0.3);
-        // Skills Box Mobile - Animate SVG path (logo)
-        tlSkillsLogoMob.fromTo(logo, 0.3, { y: -93, x: -36, autoAlpha: 1, rotation: 360, morphSVG: { shape: logoTo, shapeIndex: -1 }, ease: Circ.easeInOut }, { autoAlpha: 1 });
-        // Skills Box Mobile mate Text
-        tlSkillsTextMob.fromTo(h2, 0.3, { autoAlpha: 0, fontSize: '24px', color: p.accentColor, rotation: 0, x: 105, y: -110 }, { autoAlpha: 0.9 }, 0.3);
         // Skills Box - Animate list in
-        tlListIn.staggerTo(list, 0.3, { x: 0, delay: 0.45, autoAlpha: 1, ease: Sine.easeInOut }, 0.3);
+        tlListIn.staggerTo(list, 0.3, { x: 0, delay: p.listDelay(), autoAlpha: 1, ease: Sine.easeInOut }, 0.3);
 
 
         // Function calls from event handlers that trigger the animations
@@ -260,8 +267,6 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         el.animationLogo = tlSkillsLogo;
         el.animationText = tlSkillsText;
         el.animationListIn = tlListIn;
-        el.animationLogoMob = tlSkillsLogoMob;
-        el.animationTextMob = tlSkillsTextMob;
 
         // Cache tween trick
         tlBox3d.progress(1).progress(0);
@@ -270,16 +275,11 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         tlRevealImgMove.progress(1).progress(0);
         tlRevealText.progress(1).progress(0);
         tlListIn.progress(1).progress(0);
-        if (winX > winMd) {
-            tlSkillsLogo.progress(1).progress(0);
-            tlSkillsText.progress(1).progress(0);
-        } else {
-            //tlSkillsLogoMob.progress(1).progress(0);
-            //tlSkillsTextMob.progress(1).progress(0);
-        }
+        tlSkillsLogo.progress(1).progress(0);
+        tlSkillsText.progress(1).progress(0);
 
         // Assign event listeners
-        if (winX > winMd) {
+        if (largeNorTouch) {
             el.addEventListener('mousemove', revealMouseMove);
             el.addEventListener('mousedown', revealMouseDown);
             el.addEventListener('mouseleave', revealMouseLeave);
@@ -294,7 +294,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         revealClicked = false,
         skillsClicked = false;
 
-    // Reveal box event listener functions
+    // Reveal box event listener functions - Doesn't get called for large viewport/touch devices
     function revealMouseDown() {
         /*jshint validthis: true */
         this.animationTextClick.play();
@@ -317,20 +317,20 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         revealClicked = false;
         revealElOver = true;
     }
-    console.log(!(isTouchDevice));
 
     // Skills box event listener functions
     function skillsMouseDown() {
         /*jshint validthis: true */
-        if (winX > winMd) {
+        if (largeNorTouch) {
             this.animationBox3d.play();
             this.animationBox3dLeft.play();
             this.animationBox3dBottom.play();
             this.animationLogo.play();
             this.animationText.play();
+            console.log("in");
         } else {
-            this.animationLogoMob.play();
-            this.animationTextMob.play();
+            this.animationLogo.progress(1);
+            this.animationText.progress(1);
         }
         this.animationListIn.play(0);
         skillsClicked = true;
@@ -339,15 +339,15 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
     function skillsMouseLeave() {
         /*jshint validthis: true */
         if (skillsClicked) {
-            if (winX > winMd) {
+            if (largeNorTouch) {
                 this.animationLogo.reverse(0);
                 this.animationText.reverse(1);
                 this.animationBox3d.reverse();
                 this.animationBox3dLeft.reverse();
                 this.animationBox3dBottom.reverse();
             } else {
-                this.animationLogoMob.reverse();
-                this.animationLogoMob.reverse();
+                this.animationLogo.progress(0);
+                this.animationText.progress(0);
             }
             this.animationListIn.progress(0).pause();
         }
@@ -369,6 +369,16 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
             this.animationMaskMove.play();
         }
     }
+
+    // Reset some of the tween states when window resized to over WinMD value
+    /*var tweenResets = debounce(function() {
+        [].forEach.call(box, function(el) {
+            var reset = myTween.time(0)
+        })
+    }, 100);
+
+    // Only run resize detection if already below winMd or equal to value
+    window.addEventListener('resize', tweenResets);*/
 
     // Do stuff on window load
     /*window.onload = function() {
