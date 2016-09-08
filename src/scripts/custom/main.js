@@ -22,8 +22,8 @@
             if (callNow) func.apply(context, args);
         };
     };*/
-    // Object for generic tween timings
-    var t = {
+    // Properties object
+    var p = {
         depth: 0.3,
         accentColor: '#FF5722'
     };
@@ -162,17 +162,20 @@
             tlBox3dBottom = new TimelineLite({ paused: true }),
             tlRevealImgMove = new TimelineLite({ paused: true }),
             tlRevealText = new TimelineLite({ paused: true }),
+            tlListIn = new TimelineLite({ paused: true }),
             tlSkillsLogo = new TimelineLite({ paused: true }),
             tlSkillsText = new TimelineLite({ paused: true }),
-            tlListIn = new TimelineLite({ paused: true });
+            tlSkillsLogoMob = new TimelineLite({ paused: true }),
+            tlSkillsTextMob = new TimelineLite({ paused: true });
+
 
         // Tweens
         // Box (all) - 3D depth
-        tlBox3d.to(boxContent, t.depth, { x: '-=' + boxDepthHalved, y: '+=' + boxDepthHalved });
+        tlBox3d.to(boxContent, p.depth, { x: '-=' + boxDepthHalved, y: '+=' + boxDepthHalved });
         // Box (all) - 3D depth animation Left
-        tlBox3dLeft.to(box3dLeft, t.depth, { width: boxDepthHalved });
+        tlBox3dLeft.to(box3dLeft, p.depth, { width: boxDepthHalved });
         // Box (all) - 3D depth animation Bottom
-        tlBox3dBottom.to(box3dRight, t.depth, { height: boxDepthHalved, right: '+=' + boxDepthHalved });
+        tlBox3dBottom.to(box3dRight, p.depth, { height: boxDepthHalved, right: '+=' + boxDepthHalved });
         // Reveal Box - Image animation
         tlRevealImgMove.to(img, 0.3, { scale: 1, ease: Sine.easeOut }, 0.05);
         // Reveal Box - Mask click text animation
@@ -184,9 +187,14 @@
         // Skills Box - Animate SVG (viewbox)
         tlSkillsLogo.to(svg, 0.6, { ease: Circ.easeInOut, attr: { width: 200, height: 200 }, transformOrigin: '50% 50%', css: { marginLeft: -125, marginTop: -165 }, }, 0);
         // Skills Box - Animate Text
-        tlSkillsText.to(h2, 0.3, { fontSize: '24px', color: t.accentColor, rotation: 0, x: 105, y: -110, autoAlpha: 0.9, }, 0.3);
+        tlSkillsText.to(h2, 0.3, { fontSize: '24px', color: p.accentColor, rotation: 0, x: 105, y: -110, autoAlpha: 0.9, }, 0.3);
+        // Skills Box Mobile - Animate SVG path (logo)
+        tlSkillsLogoMob.fromTo(logo, 0.3, { y: -93, x: -36, autoAlpha: 1, rotation: 360, morphSVG: { shape: logoTo, shapeIndex: -1 }, ease: Circ.easeInOut }, { autoAlpha: 1 });
+        // Skills Box Mobile mate Text
+        tlSkillsTextMob.fromTo(h2, 0.3, { autoAlpha: 0, fontSize: '24px', color: p.accentColor, rotation: 0, x: 105, y: -110 }, { autoAlpha: 0.9 }, 0.3);
         // Skills Box - Animate list in
         tlListIn.staggerTo(list, 0.3, { x: 0, delay: 0.45, autoAlpha: 1, ease: Sine.easeInOut }, 0.3);
+
 
         // Function calls from event handlers that trigger the animations
         el.animationBox3d = tlBox3d;
@@ -197,6 +205,8 @@
         el.animationLogo = tlSkillsLogo;
         el.animationText = tlSkillsText;
         el.animationListIn = tlListIn;
+        el.animationLogoMob = tlSkillsLogoMob;
+        el.animationTextMob = tlSkillsTextMob;
 
         // Cache tween trick
         tlBox3d.progress(1).progress(0);
@@ -204,9 +214,14 @@
         tlBox3dBottom.progress(1).progress(0);
         tlRevealImgMove.progress(1).progress(0);
         tlRevealText.progress(1).progress(0);
-        tlSkillsLogo.progress(1).progress(0);
-        tlSkillsText.progress(1).progress(0);
         tlListIn.progress(1).progress(0);
+        if (winX > winMd) {
+            tlSkillsLogo.progress(1).progress(0);
+            tlSkillsText.progress(1).progress(0);
+        } else {
+            //tlSkillsLogoMob.progress(1).progress(0);
+            //tlSkillsTextMob.progress(1).progress(0);
+        }
 
         // Assign event listeners
         if (winX > winMd) {
@@ -259,8 +274,8 @@
             this.animationLogo.play();
             this.animationText.play();
         } else {
-            this.animationLogo.progress(1);
-            this.animationText.progress(1);
+            this.animationLogoMob.play();
+            this.animationTextMob.play();
         }
         this.animationListIn.play(0);
         skillsClicked = true;
@@ -272,15 +287,14 @@
             if (winX > winMd) {
                 this.animationLogo.reverse(0);
                 this.animationText.reverse(1);
-                this.animationListIn.progress(0).pause();
                 this.animationBox3d.reverse();
                 this.animationBox3dLeft.reverse();
                 this.animationBox3dBottom.reverse();
             } else {
-                this.animationLogo.progress(0).pause();
-                this.animationText.progress(0).pause();
-                this.animationListIn.progress(0).pause();
+                this.animationLogoMob.reverse();
+                this.animationLogoMob.reverse();
             }
+            this.animationListIn.progress(0).pause();
         }
         skillsClicked = false;
     }
