@@ -23,13 +23,14 @@ section:first-of-type {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background: linear-gradient(to bottom, rgba($primary-color, 1) 0%, rgba($primary-color-dark, 1) 100%);
+    background: linear-gradient(to bottom, rgba($primary-color, 1) 0, rgba($primary-color-dark, 1) 100%);
     overflow: hidden;
     margin-top: $header-height - ($header-height*2);
     .large-heading {
         margin: $gutter 0;
         padding: ($header-height / 2) 0 0;
         width: 730px;
+        z-index: $z-large-heading;
         @include bp-lg {
             padding: ($header-height / 2) 0 0;
         }
@@ -45,7 +46,7 @@ section:first-of-type {
         @extend .main-bg;
         background-position: center center;
         top: 0;
-        opacity: .1;
+        opacity: .5;
     }
 }
 
