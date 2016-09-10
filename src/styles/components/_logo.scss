@@ -1,4 +1,10 @@
-$z-logo-letters: 1;
+.site-header img {
+    display: block;
+    width: 80px;
+    margin-right: 1em;
+}
+
+/* $z-logo-letters: 1;
 $logo-size: 72px;
 $line-thickness: 4px;
 $line-colour: $primary-text-color;
@@ -83,4 +89,4 @@ $text-size: $logo-size / 2;
             left: 45%;
         }
     }
-}
+} */
