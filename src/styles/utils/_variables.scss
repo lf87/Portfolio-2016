@@ -23,6 +23,9 @@ $primary-color-text-shade-1: darken($primary-color-text, 75%);
 $primary-color-shade-1: darken($primary-color-dark, 8%);
 $primary-color-shade-2: darken($primary-color-dark, 16%);
 $accent-color-shade-1: darken($accent-color, 20%);
+$accent-color-shade-2: darken($accent-color, 30%);
+$white-shade-1: darken($white, 10%);
+$white-shade-2: darken($white, 30%);
 
 // Box module variables
 // Reveal Box
@@ -56,4 +59,4 @@ $text-shadow: -1px 1px 3px rgba(0, 0, 0, $text-shadow-alpha),
 $box-shadow: -1px 1px 0 rgba(darken($primary-color-shade-1, 5%), .7),
 -2px 2px 2px rgba(darken($primary-color-shade-1, 5%), .5),
 -2px 2px 5px rgba(darken($primary-color-shade-1, 15%), $text-shadow-alpha);
-$header-height: 112px;
+$header-height: 130px;

@@ -1,7 +1,7 @@
 // Site Header
 .site-header {
-    background-color: rgba($primary-color-dark, .5);
     background-image: url('dist/assets/img/grid-3.png');
+    background-color: rgba($primary-color-dark, .5);
     display: flex;
     align-items: flex-end;
     font-weight: 500;
@@ -51,6 +51,28 @@
     }
 }
 
+// SVG Logo
+header svg {
+    display: block;
+    width: 75px;
+    margin-right: 1em;
+    filter: blur(.1px);
+}
+.st0 {
+    fill: $accent-color;
+}
+.st1 {
+    fill: rgba($white, 0.2);
+}
+.st3 {
+    fill: $accent-color;
+}
+.st2 {
+    
+    fill: rgba($white, 0.2);
+}
+
+// Name and Job title
 .details {
     @include font-size(18px);
     float: left;
