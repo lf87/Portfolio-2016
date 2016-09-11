@@ -68,6 +68,12 @@
             boxDepth = (boxDepthTrim / 2) + 'px';
     }
 
+    // Get height of header
+    if (largeNorTouch) {
+        var headerHeight = document.querySelector('.site-header').clientHeight;
+            alert(headerHeight);
+    }
+
     // Users browsing at a smaller viewport will be served with an optimised
     // version, replacing some JS animations with CSS animations
     if (!largeNorTouch) {
@@ -79,7 +85,7 @@
         var parallax = document.querySelectorAll('.parallax'),
             speed = 0.5;
         window.onscroll = function() {
-            [].slice.call(parallax).forEach(function(el, i) {
+            [].slice.call(parallax).forEach(function(el) {
                 var windowYOffset = window.pageYOffset,
                     elBackgrounPos = 'center -' + (windowYOffset * speed) + 'px';
                 // Update style property
