@@ -51,24 +51,21 @@
     }
 }
 
-// SVG Logo
+//  Logo
 header svg {
     display: block;
     width: 75px;
     margin-right: 1em;
     filter: blur(.1px);
 }
-.st0 {
-    fill: $accent-color;
-}
-.st1 {
-    fill: rgba($white, 0.2);
-}
+
+.st0,
 .st3 {
     fill: $accent-color;
 }
+
+.st1,
 .st2 {
-    
     fill: rgba($white, 0.2);
 }
 
