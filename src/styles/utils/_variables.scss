@@ -59,4 +59,8 @@ $text-shadow: -1px 1px 3px rgba(0, 0, 0, $text-shadow-alpha),
 $box-shadow: -1px 1px 0 rgba(darken($primary-color-shade-1, 5%), .7),
 -2px 2px 2px rgba(darken($primary-color-shade-1, 5%), .5),
 -2px 2px 5px rgba(darken($primary-color-shade-1, 15%), $text-shadow-alpha);
+$box-shadow-sm: -1px 1px 0 rgba(darken($primary-color-shade-1, 5%), .4),
+-2px 2px 2px rgba(darken($primary-color-shade-1, 5%), .2),
+-2px 2px 5px rgba(darken($primary-color-shade-1, 15%), $text-shadow-alpha);
 $header-height: 130px;
+$header-height-sm: 70px;

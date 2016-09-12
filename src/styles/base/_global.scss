@@ -4,7 +4,7 @@ html {
 }
 
 body {
-    @include font-size(16px);
+    @include font-size(18px);
     @include font-smoothing;
     @include roboto(400);
     background-color: $primary-color;
@@ -12,6 +12,9 @@ body {
     background-repeat: repeat;
     color: $white;
     height: 100%;
+    @include bp-sm {
+        @include font-size(16px);
+    }
 }
 
 // Copy
@@ -55,7 +58,6 @@ p {
 
 // Buttons
 .btn {
-    @include font-size(16px);
     background-color: $black;
     border-radius: 5px;
     color: $white;

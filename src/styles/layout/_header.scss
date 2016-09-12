@@ -9,37 +9,71 @@
     width: 100%;
     height: $header-height;
     padding: $gutter;
-    border-bottom: $depth solid $primary-color-shade-2;
+    border-bottom: $depth solid rgba($black, 0.6);
     box-shadow: $box-shadow;
-    overflow: hidden;
     z-index: $z-header;
+    @include bp-sm {
+        align-items: center;
+        justify-content: space-between;
+        height: $header-height-sm;
+        padding: 0 $gutterD2;
+        border-bottom: none;
+    }
     &::before {
         background-position: center top;
         opacity: .05;
     }
     nav {
         margin-left: auto;
-        @include bp-md {
-            @include font-size(14px);
-            @include bp-sm {
-                display: none;
-            }
+        @include bp-sm {
+            position: absolute;
+            top: $header-height-sm;
+            left: 0;
+            background-color: rgba($black, .4);
+            width: 100%;
+            box-shadow: $box-shadow-sm;
         }
         ul {
-            @include font-size(18px);
             align-items: bottom;
             display: flex;
             justify-content: flex-end;
+            @include bp-sm {
+                justify-content: center;
+            }
+            @include bp-sm {
+                padding-right: 10%;
+            }
+            @include bp-xs {
+                padding-right: 15%;
+            }
         }
         li {
             padding: 0 $gutter 0 0;
+            @include bp-sm {
+                padding: 0;
+                &::after {
+                    content: '';
+                    float: left;
+                    margin: 0 $gutter;
+                }
+            }
             &:last-child {
+                @include bp-sm {
+                    &::after {
+                        display: none
+                    }
+                }
                 padding: 0;
             }
         }
         a {
+            float: left;
             color: $white;
             text-shadow: $text-shadow;
+            @include bp-sm {
+                padding: .35em $gutterD2;
+                height: 100%;
+            }
         }
     }
     .active a {
@@ -49,6 +83,24 @@
         text-shadow: $text-shadow;
         margin-bottom: 0;
     }
+    .scroll-btn {
+        display: none;
+        position: absolute;
+        top: 7px;
+        right: $gutterD2;
+        left: initial;
+        transform: rotate(180deg);
+        width: 22px;
+        height: 22px;
+        margin-left: 0;
+        padding: 9px;
+        &::before {
+            @include font-size(20px);
+        }
+        @include bp-sm {
+            display: block;
+        }
+    }
 }
 
 //  Logo
@@ -57,6 +109,9 @@ header svg {
     width: 75px;
     margin-right: 1em;
     filter: blur(.1px);
+    @include bp-sm {
+        width: 50px;
+    }
 }
 
 .st0,
@@ -71,13 +126,15 @@ header svg {
 
 // Name and Job title
 .details {
-    @include font-size(18px);
-    float: left;
     margin-left: $gutter;
+    @include bp-sm {}
     span {
         float: left;
         clear: both;
         text-shadow: $text-shadow;
+        @include bp-sm {
+            float: right;
+        }
         &:last-child {
             color: $primary-color-light;
         }
