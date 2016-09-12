@@ -7,7 +7,7 @@
     // be triggered. The function will be called after it stops being called for
     // N milliseconds. If `immediate` is passed, trigger the function on the
     // leading edge, instead of the trailing.
-    /*function debounce(func, wait, immediate) {
+    function debounce(func, wait, immediate) {
         var timeout;
         return function() {
             var context = this,
@@ -21,7 +21,7 @@
             timeout = setTimeout(later, wait);
             if (callNow) func.apply(context, args);
         };
-    };*/
+    };
 
     // Properties object (p.property)
     // DepthTiming       - The speed at which the box will animate
@@ -69,11 +69,26 @@
     }
 
     // Get height of header
-    if (largeNorTouch) {
-        var headerHeight = document.querySelector('.site-header').clientHeight;
-            alert(headerHeight);
-    }
+    var header = document.querySelector('.site-header');
+    var headerHeight = header.clientHeight;
+    console.log(headerHeight);
 
+    // Detect when user has scrolled below the top header and apply sticky header
+    if (!largeNorTouch) {
+        function stickyHeader() {
+            var windowYOffset = window.pageYOffset,
+                nav = document.querySelector('.site-header nav');
+            if (windowYOffset > headerHeight) {
+                nav.classList.add('sticky');
+            }
+            else {
+                nav.classList.remove('sticky');
+
+            }
+        }
+        window.addEventListener('scroll', stickyHeader);
+        window.addEventListener('mousewheel', stickyHeader);
+    }
     // Users browsing at a smaller viewport will be served with an optimised
     // version, replacing some JS animations with CSS animations
     if (!largeNorTouch) {
@@ -82,16 +97,19 @@
 
     // Background image parallax effect
     if (largeNorTouch) {
-        var parallax = document.querySelectorAll('.parallax'),
-            speed = 0.5;
-        window.onscroll = function() {
-            [].slice.call(parallax).forEach(function(el) {
-                var windowYOffset = window.pageYOffset,
-                    elBackgrounPos = 'center -' + (windowYOffset * speed) + 'px';
-                // Update style property
-                el.style.backgroundPosition = elBackgrounPos;
-            });
+        var parallax = document.querySelector('.parallax'),
+            speed = 0.5,
+            windowYOffset,
+            elBackgrounPos;
+
+        function bgScroll() {
+            windowYOffset = window.pageYOffset;
+            elBackgrounPos = 'center -' + (windowYOffset * speed) + 'px';
+            // Update style property
+            parallax.style.backgroundPosition = elBackgrounPos;
         };
+        window.addEventListener('mousewheel', bgScroll);
+        window.addEventListener('scroll', bgScroll);
     }
 
     // Skill Switch
