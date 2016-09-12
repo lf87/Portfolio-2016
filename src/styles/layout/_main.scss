@@ -23,7 +23,7 @@ section:first-of-type {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background: linear-gradient(to bottom, rgba($primary-color, 1) 0, rgba($primary-color-dark, 1) 100%);
+    background: linear-gradient(to top, rgba($primary-color-dark, 1) 0, rgba($divider-color, .5) 100%);
     overflow: hidden;
     margin-top: $header-height - ($header-height*2);
     .large-heading {
@@ -49,6 +49,7 @@ section:first-of-type {
         left: 0;
         width: 100%;
         height: 100%;
+        pointer-events: none;
         background-image: url('dist/assets/img/sunset.jpg');
         background-repeat: no-repeat;
         background-size: cover;
@@ -57,6 +58,7 @@ section:first-of-type {
         top: 0;
         opacity: .5;
         @include bp-sm {
+            background-position: 0 0 !important; // Disable effect
             background-attachment: initial;
         }
     }
@@ -130,12 +132,5 @@ section:first-of-type {
         &::before {
             transform: translate3d(-50%, -46.5%, 0);
         }
-    }
-}
-
-.parallax {
-    pointer-events: none;
-    @include bp-sm {
-        background-position: 0 0 !important; // Disable effect
     }
 }
