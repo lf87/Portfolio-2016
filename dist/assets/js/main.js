@@ -86,7 +86,11 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
     // listDelay         - Specify a delay time based upon the window width
     var p = {
         depthTiming: 0.3,
-        accentColor: '#FF5722',
+        accentColor: function() {
+            var getAccentColor = document.getElementById('skill-switch'),
+            boxDepthProp = window.getComputedStyle(getAccentColor, null).getPropertyValue('color');
+            return boxDepthProp;
+        },
         largeNorTouchFunc: function() {
             var winX = window.innerWidth && document.documentElement.clientWidth && document.body.clientWidth,
                 winMd = 767,
@@ -130,9 +134,10 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
 
     // Detect when user has scrolled below the top header and apply sticky header
     if (!largeNorTouch) {
+                var nav = document.querySelector('.site-header nav');
+                //var scrollBtn = document.querySelector('.site-header .scroll-btn');
         function stickyHeader() {
-            var windowYOffset = window.pageYOffset,
-                nav = document.querySelector('.site-header nav');
+            var windowYOffset = window.pageYOffset;
             if (windowYOffset > headerHeight) {
                 nav.classList.add('sticky');
             }
@@ -305,10 +310,10 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         // Assign event listeners
         if (largeNorTouch) {
             el.addEventListener('mousemove', revealMouseMove);
-            el.addEventListener('mousedown', revealMouseDown);
+            el.addEventListener('mouseup', revealMouseDown);
             el.addEventListener('mouseleave', revealMouseLeave);
         }
-        el.addEventListener('mousedown', skillsMouseDown);
+        el.addEventListener('mouseup', skillsMouseDown);
         el.addEventListener('mouseleave', skillsMouseLeave);
 
     });

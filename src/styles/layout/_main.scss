@@ -113,7 +113,7 @@ section:first-of-type {
     margin-left: -25px;
     opacity: 1;
     transition: opacity .3s ease-in;
-    background-color: $primary-color-dark;
+    background-color: rgba($primary-color-dark, .5);
     &::before {
         @include font-size(50px);
         text-shadow: $text-shadow;
@@ -121,7 +121,7 @@ section:first-of-type {
         content: '';
         position: absolute;
         left: 50%;
-        top: 53%;
+        top: 55%;
         transform: translate3d(-50%, -50%, 0);
         content: '\25be';
         line-height: 1;
