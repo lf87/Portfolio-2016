@@ -14,14 +14,18 @@
                 args = arguments;
             var later = function() {
                 timeout = null;
-                if (!immediate) func.apply(context, args);
+                if (!immediate) {
+                    func.apply(context, args);
+                }
             };
             var callNow = immediate && !timeout;
             clearTimeout(timeout);
             timeout = setTimeout(later, wait);
-            if (callNow) func.apply(context, args);
+            if (callNow) {
+                func.apply(context, args);
+            }
         };
-    };
+    }
 
     // Properties object (p.property)
     // DepthTiming       - The speed at which the box will animate
@@ -33,7 +37,7 @@
         depthTiming: 0.3,
         accentColor: function() {
             var getAccentColor = document.getElementById('skill-switch'),
-            boxDepthProp = window.getComputedStyle(getAccentColor, null).getPropertyValue('color');
+                boxDepthProp = window.getComputedStyle(getAccentColor, null).getPropertyValue('color');
             return boxDepthProp;
         },
         largeNorTouchFunc: function() {
@@ -61,7 +65,6 @@
     // Store returned boolean seperately, because we don't
     // want to be checking this every time the function is called
     var largeNorTouch = p.largeNorTouchFunc();
-    console.log(p.largeNorTouchFunc());
 
     // The depth change when the box animates (based
     // on half the computed style of the box edge)
@@ -75,25 +78,32 @@
     // Get height of header
     var header = document.querySelector('.site-header');
     var headerHeight = header.clientHeight;
-    console.log(headerHeight);
+
+    // Scroll page animation
+    var scrollBtn = document.querySelector('.site-header .scroll-btn');
+    scrollBtn.addEventListener('mousedown', scrollPage);
+
+    function scrollPage() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
 
     // Detect when user has scrolled below the top header and apply sticky header
     if (!largeNorTouch) {
-                var nav = document.querySelector('.site-header nav');
-                //var scrollBtn = document.querySelector('.site-header .scroll-btn');
-        function stickyHeader() {
-            var windowYOffset = window.pageYOffset;
-            if (windowYOffset > headerHeight) {
-                nav.classList.add('sticky');
-            }
-            else {
-                nav.classList.remove('sticky');
-
-            }
-        }
+        var nav = document.querySelector('.site-header nav');
         window.addEventListener('scroll', stickyHeader);
         window.addEventListener('mousewheel', stickyHeader);
     }
+
+    function stickyHeader() {
+        var windowYOffset = window.pageYOffset;
+        if (windowYOffset > headerHeight) {
+            nav.classList.add('sticky');
+        } else {
+            nav.classList.remove('sticky');
+
+        }
+    }
+
     // Users browsing at a smaller viewport will be served with an optimised
     // version, replacing some JS animations with CSS animations
     if (!largeNorTouch) {
@@ -107,14 +117,15 @@
             windowYOffset,
             elBackgrounPos;
 
-        function bgScroll() {
-            windowYOffset = window.pageYOffset;
-            elBackgrounPos = 'center -' + (windowYOffset * speed) + 'px';
-            // Update style property
-            parallax.style.backgroundPosition = elBackgrounPos;
-        };
         window.addEventListener('mousewheel', bgScroll);
         window.addEventListener('scroll', bgScroll);
+    }
+
+    function bgScroll() {
+        windowYOffset = window.pageYOffset;
+        elBackgrounPos = 'center -' + (windowYOffset * speed) + 'px';
+        // Update style property
+        parallax.style.backgroundPosition = elBackgrounPos;
     }
 
     // Skill Switch
@@ -301,7 +312,6 @@
             this.animationBox3dBottom.play();
             this.animationLogo.play();
             this.animationText.play();
-            console.log("in");
         } else {
             this.animationLogo.progress(1);
             this.animationText.progress(1);

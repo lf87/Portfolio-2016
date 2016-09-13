@@ -17,8 +17,9 @@ $secondary-text-color: #727272;
 $divider-color: #B6B6B6; */
 
 // Custom
-$primary-color-dark: #325276;
-$primary-color: lighten($primary-color-dark, 13%);
+//$primary-color-dark: #325276;
+$primary-color-dark: #2e4763;
+$primary-color: lighten($primary-color-dark, 10%);
 $primary-color-light: lighten($primary-color, 45%);
 $primary-color-text: #FFFFFF;
 $accent-color: #FF5722;
