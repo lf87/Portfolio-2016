@@ -26,8 +26,6 @@
     }
     nav {
         margin-left: auto;
-        transition: background-color .2s ease-out, background-image .2s ease-out;
-            background-color: rgba($primary-color-dark, .75);
         @include bp-sm {
             position: absolute;
             top: $header-height-sm;
@@ -36,6 +34,8 @@
             box-shadow: $box-shadow-sm;
         }
         &.sticky {
+            transition: background-color .2s ease-out, background-image .2s ease-out;
+            background-color: rgba($primary-color-dark, .75);
             background-image: url('dist/assets/img/grid-3.png');
             background-color: rgba($primary-color-dark, 1);
             position: fixed;

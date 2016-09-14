@@ -40,6 +40,7 @@ section:first-of-type {
         }
         @include bp-xs {
             @include font-size(26px);
+            min-height: 263px; 
         }
     }
     .parallax {

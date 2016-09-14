@@ -259,7 +259,7 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
             revealWords = el.querySelectorAll('.reveal-box .words'),
             logo = el.querySelectorAll('.skills-box .logo'),
             logoTo = el.querySelectorAll('.skills-box .logo-to'),
-            svg = el.querySelectorAll('.skills-box svg'),
+            svg = el.querySelectorAll('.skills-box .svg-from'),
             h2 = el.querySelectorAll('.skills-box h2'),
             list = el.querySelectorAll('.skills-box ul li');
 

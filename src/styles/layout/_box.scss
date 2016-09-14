@@ -4,6 +4,7 @@
     align-items: center;
     flex-wrap: wrap;
     text-align: left;
+    position: relative;
 }
 
 // Generic box
@@ -243,7 +244,7 @@
             height: $skills-height-xs - $depth;
         }
     }
-    svg {
+    .svg-from {
         display: block;
         z-index: 1;
         position: relative;
@@ -283,4 +284,15 @@
     .skill-text li {
         opacity: 0;
     }
+}
+
+.tap-icon {
+    display: block;
+    width: 110px;
+    z-index: 9999;
+    position: absolute;
+    height: auto;
+    top: 5px;
+    right: -71px;
+    transform: rotate(-35deg);
 }
