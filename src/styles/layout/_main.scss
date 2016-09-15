@@ -59,7 +59,6 @@ section:first-of-type {
         top: 0;
         opacity: .5;
         @include bp-sm {
-            background-position: 0 0 !important; // Disable effect
             background-attachment: initial;
         }
     }

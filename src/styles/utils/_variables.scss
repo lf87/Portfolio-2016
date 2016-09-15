@@ -18,9 +18,9 @@ $divider-color: #B6B6B6; */
 
 // Custom
 //$primary-color-dark: #325276;
-$primary-color-dark: #2e4763;
-$primary-color: lighten($primary-color-dark, 10%);
-$primary-color-light: lighten($primary-color, 45%);
+$primary-color-dark: #345b80;
+$primary-color: #4779a7;
+$primary-color-light: lighten($primary-color, 55%);
 $primary-color-text: #FFFFFF;
 $accent-color: #FF5722;
 $primary-text-color: #212121;
@@ -80,8 +80,8 @@ $text-shadow: -1px 1px 3px rgba(0, 0, 0, $text-shadow-alpha),
 $box-shadow: -1px 1px 0 rgba(darken($primary-color-shade-1, 5%), .7),
 -2px 2px 2px rgba(darken($primary-color-shade-1, 5%), .5),
 -2px 2px 5px rgba(darken($primary-color-shade-1, 15%), $text-shadow-alpha);
-$box-shadow-sm: -1px 1px 0 rgba(darken($primary-color-shade-1, 5%), .1),
--2px 2px 2px rgba(darken($primary-color-shade-1, 5%), .025),
--2px 2px 5px rgba(darken($primary-color-shade-1, 15%), .1);
+$box-shadow-sm: -1px 2px 0 rgba(darken($primary-color-shade-1, 5%), .15),
+-2px 3px 2px rgba(darken($primary-color-shade-1, 5%), .05),
+-2px 2px 5px rgba(darken($primary-color-shade-1, 15%), .15);
 $header-height: 130px;
 $header-height-sm: 70px;
