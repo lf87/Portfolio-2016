@@ -358,8 +358,6 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
                 this.animationMaskMove.play();
             }
         }
-
-        // Do stuff is small viewport OR touch device
     }
 
     function runSmallOrTouch() {
@@ -372,11 +370,42 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         var headerHeight = header.clientHeight;
 
         // Scroll page animation
-        var scrollBtn = document.querySelector('.site-header .scroll-btn');
+        /*var scrollBtn = document.querySelector('.site-header .scroll-btn');
         scrollBtn.addEventListener('mousedown', scrollPage);
 
         function scrollPage() {
             window.scrollTo(0, document.body.scrollHeight);
+        }*/
+
+        var scrollBtn = document.querySelector('.site-header .scroll-btn');
+        scrollBtn.addEventListener('mousedown', scrollPage);
+
+        function scrollPage() {
+            /* From Modernizr */
+            function whichTransitionEvent() {
+                var t;
+                var el = document.createElement('fakeelement');
+                var transitions = {
+                    'transition': 'transitionend',
+                    'OTransition': 'oTransitionEnd',
+                    'MozTransition': 'transitionend',
+                    'WebkitTransition': 'webkitTransitionEnd'
+                }
+
+                for (t in transitions) {
+                    if (el.style[t] !== undefined) {
+                        return transitions[t];
+                    }
+                }
+            }
+            /* Listen for a transition! */
+            document.body.classList.add('scroll');
+
+            var transitionEvent = whichTransitionEvent();
+            transitionEvent && document.body.addEventListener(transitionEvent, function() {
+                window.scrollTo(0, this.scrollHeight);
+                console.log('Transition complete!  This is the callback, no library needed!');
+            });
         }
 
         function stickyHeader() {

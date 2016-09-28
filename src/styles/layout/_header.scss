@@ -43,7 +43,7 @@
             left: 0;
             transition: transform .3s ease-out;
             width: 100%;
-            transform: translate3d(0, -100%, 0);
+                transform: translate3d(0, -100%, 0);
             @include bp-sm {
                 transform: translate3d(0, 0, 0);
             }
@@ -52,9 +52,11 @@
             }
             ul {
                 visibility: hidden;
+                
                 @include bp-sm {
                     padding-right: 10%;
                     visibility: visible;
+                    
                 }
                 @include bp-xs {
                     padding-right: 12%;
