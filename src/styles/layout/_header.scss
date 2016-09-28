@@ -40,12 +40,21 @@
             background-color: rgba($primary-color-dark, 1);
             position: fixed;
             top: 0;
+            left: 0;
+            transition: transform .3s ease-out;
+            width: 100%;
+            transform: translate3d(0, -100%, 0);
+            @include bp-sm {
+                transform: translate3d(0, 0, 0);
+            }
             .scroll-btn {
                 opacity: 1;
             }
             ul {
+                visibility: hidden;
                 @include bp-sm {
                     padding-right: 10%;
+                    visibility: visible;
                 }
                 @include bp-xs {
                     padding-right: 12%;
@@ -99,21 +108,23 @@
     }
     .scroll-btn {
         position: absolute;
-        top: 10px;
-        right: $gutterD2;
+        top: 3px;
+        right: 3px;
         left: initial;
         transform: rotate(180deg);
-        width: 22px;
-        height: 22px;
+        width: 32px;
+        border-radius: 0;
+        height: 32px;
         margin-left: 0;
         padding: 9px;
-        border: 2px solid $divider-color;
-        background-color: rgba($primary-color-dark, 0.2);
+        border: none;
+        background-color: transparent;
+        box-shadow: none;
         opacity: 0;
         transition: none;
         &::before {
-            @include font-size(20px);
-            top: 55%;
+            @include font-size(34px);
+            top: 50%;
         }
     }
 }

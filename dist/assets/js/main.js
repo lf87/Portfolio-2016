@@ -124,12 +124,19 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         .to(switchWrap, 1, { text: switchArray[4], delay: switchDelay, ease: Linear.easeNone })
         .to(switchWrap, 1, { text: switchArray[5], delay: switchDelay, ease: Linear.easeNone });
 
-    // Store returned boolean seperately, because we don't
-    // want to be checking this every time the function is called
+    // Store returned boolean in variable
     var largeNorTouch = p.largeNorTouchFunc();
 
-    // Do stuff if large screen and NOT a touch device
+    // Do stuff if large screen and NOT touch device
     if (largeNorTouch) {
+        runLargeNorTouch();
+    }
+    // Do stuff if small screen or touch device
+    else {
+        runSmallOrTouch();
+    }
+
+    function runLargeNorTouch() {
         // The depth change when the box animates (based
         // on half the computed style of the box edge)
         var getBox = document.querySelector('.box-content'),
@@ -223,18 +230,16 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
                 tlSkillsText = new TimelineLite({ paused: true });
 
             // Tweens
-            if (largeNorTouch) {
-                // Box (all) - 3D depth
-                tlBox3d.to(boxContent, 0.3, { x: '-=' + boxDepth, y: '+=' + boxDepth });
-                // Box (all) - 3D depth animation Left
-                tlBox3dLeft.to(box3dLeft, 0.3, { width: boxDepth });
-                // Box (all) - 3D depth animation Bottom
-                tlBox3dBottom.to(box3dRight, 0.3, { height: boxDepth, right: '+=' + boxDepth });
-                // Reveal Box - Image animation
-                tlRevealImgMove.to(img, 0.3, { scale: 1, ease: Sine.easeOut }, 0.05);
-                // Reveal Box - Mask click text animation
-                tlRevealText.to(revealWords, 0.35, { autoAlpha: 0 });
-            }
+            // Box (all) - 3D depth
+            tlBox3d.to(boxContent, 0.3, { x: '-=' + boxDepth, y: '+=' + boxDepth });
+            // Box (all) - 3D depth animation Left
+            tlBox3dLeft.to(box3dLeft, 0.3, { width: boxDepth });
+            // Box (all) - 3D depth animation Bottom
+            tlBox3dBottom.to(box3dRight, 0.3, { height: boxDepth, right: '+=' + boxDepth });
+            // Reveal Box - Image animation
+            tlRevealImgMove.to(img, 0.3, { scale: 1, ease: Sine.easeOut }, 0.05);
+            // Reveal Box - Mask click text animation
+            tlRevealText.to(revealWords, 0.35, { autoAlpha: 0 });
             // Skills Box - Set initial state for SVG path (logo)
             TweenLite.set(logo, { transformOrigin: '50% 50%' });
             // Skills Box - Animate SVG path (logo)
@@ -268,11 +273,9 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
             tlSkillsText.progress(1).progress(0);
 
             // Assign event listeners
-            if (largeNorTouch) {
-                el.addEventListener('mousemove', revealMouseMove);
-                el.addEventListener('mouseup', revealMouseDown);
-                el.addEventListener('mouseleave', revealMouseLeave);
-            }
+            el.addEventListener('mousemove', revealMouseMove);
+            el.addEventListener('mouseup', revealMouseDown);
+            el.addEventListener('mouseleave', revealMouseLeave);
             el.addEventListener('mouseup', skillsMouseDown);
             el.addEventListener('mouseleave', skillsMouseLeave);
 
@@ -357,7 +360,9 @@ f=new sa(C,u,C[u],D,f),u in A&&(f.e=A[u]),f.xs0=0,f.plugin=h,d._overwriteProps.p
         }
 
         // Do stuff is small viewport OR touch device
-    } else {
+    }
+
+    function runSmallOrTouch() {
         // Adds class, for users browsing at a smaller viewport
         // will be served with an optimised version
         document.body.classList.add('from-small-viewport');
